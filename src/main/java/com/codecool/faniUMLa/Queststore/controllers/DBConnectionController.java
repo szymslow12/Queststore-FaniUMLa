@@ -3,7 +3,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-class DBConnection {
+class DBConnectionController {
 
     public Connection connect() {
         Connection c = null;
