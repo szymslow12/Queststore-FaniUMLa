@@ -6,10 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public interface QuerryInterface extends DBConnectionInterface {
+public interface QueryInterface {
 
-    default ResultSet executeQuery(String query) {
-        Connection c = connect();
+    default ResultSet executeQuery(String query, Connection c) {
         Statement stmt;
         ResultSet rs = null;
 
@@ -22,8 +21,7 @@ public interface QuerryInterface extends DBConnectionInterface {
 
         return rs;
     }
-    default void updateQuery(String query) {
-        Connection c = connect();
+    default void updateQuery(String query, Connection c) {
         Statement stmt;
         try {
             c.setAutoCommit(false);
@@ -35,7 +33,6 @@ public interface QuerryInterface extends DBConnectionInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }
 
