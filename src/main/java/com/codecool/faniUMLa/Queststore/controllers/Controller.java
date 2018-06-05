@@ -1,6 +1,7 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.users.User;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import java.sql.Connection;
