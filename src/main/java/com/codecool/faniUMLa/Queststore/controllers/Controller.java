@@ -1,32 +1,31 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
+import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
+import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
 import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.users.User;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
-public class Controller implements QueryInterface, DBConnectionInterface{
-    Connection conection = connect();
+public class Controller extends DBConnectionController {
+    Connection connection = connect();
     View view = new View();
     Scanner scanner = new Scanner(System.in);
     private static User user;
-    ////////
+    DAOUserInterface daoUser = new DAOUser();
+
 
     public void signIn() {
         String login = askLogin();
         String password = askPassword();
         setUserToNull();
 
-//        searchStudent(login, password);// sprawdzaj po tabelach czy jest
-//        if (getUser() == null) {
-//            searchEmployee(login, password);
-//        }
-//        if (getUser() == null) {
-//            view.printLine("Wrong login/password. Try again..");
-//            signIn();
-//        }
+        this.user = daoUser.searchUser(login, password);
+        if (getUser() == null) {
+            view.printLine("Wrong login/password. Try again..");
+            signIn();
+        }
     }
 
     private String askLogin() {
@@ -49,6 +48,5 @@ public class Controller implements QueryInterface, DBConnectionInterface{
     private User getUser() {
         return user;
     }
-
 
 }
