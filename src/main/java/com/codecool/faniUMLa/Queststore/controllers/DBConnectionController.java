@@ -3,9 +3,9 @@ package com.codecool.faniUMLa.Queststore.controllers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public interface DBConnectionInterface {
+class DBConnection {
 
-    default Connection connect() {
+    public Connection connect() {
         Connection c = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -20,3 +20,4 @@ public interface DBConnectionInterface {
         return c;
     }
 }
+
