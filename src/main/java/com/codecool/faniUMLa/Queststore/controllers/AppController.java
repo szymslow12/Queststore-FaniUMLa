@@ -14,10 +14,15 @@ public class AppController extends Controller {
     public void handleMenu(UserPrivilege privilege) {
         switch (privilege) {
             case CREATE_MENTOR:
-                //employeeController.addMentor();
-                // break;
-                System.out.println("Im in menu");
-                //}
+                break;
+            case CREATE_CLASS:
+                break;
+            case EDIT_MENTOR:
+                break;
+            case SEE_MENTOR:
+                break;
+            case CREATE_LEVELS:
+                break;
         }
     }
 
