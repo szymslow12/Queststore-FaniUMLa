@@ -9,6 +9,7 @@ public abstract class User {
     private String phoneNumber;
     private String login;
     private String password;
+    private UserAccess access;
 
     public User(int accountID, String firstName, String lastName, String email, String phoneNumber) {
         this.accountID = accountID;
@@ -16,5 +17,9 @@ public abstract class User {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public UserAccess getAccess() {
+        return access;
     }
 }
