@@ -1,14 +1,18 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
+import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
+import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
 import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
 import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 public class AppController extends Controller {
     DAOUserInterface daoUser;
+    DAOAdminInterface daoMentor;
 
     public AppController() {
         daoUser = new DAOUser(connection);
+        daoMentor = new DAOAdmin(connection);
         signIn();
     }
 

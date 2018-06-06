@@ -2,17 +2,17 @@ package com.codecool.faniUMLa.Queststore.DAO;
 
 import java.sql.Connection;
 
-public class DAOMentor implements DAOMentorInterface {
-    private DAOMentorHelper helper;
+public class DAOAdmin implements DAOAdminInterface {
+    private DAOAdminHelper helper;
     Connection connection;
 
-    public DAOMentor(Connection connection) {
+    public DAOAdmin(Connection connection) {
         this.connection = connection;
-        helper = new DAOMentorHelper(connection);
+        helper = new DAOAdminHelper(connection);
     }
 
-    public void createClass() {
-
+    public void createClass(String className) {
+        helper.addClass(className);
     }
 
 }
