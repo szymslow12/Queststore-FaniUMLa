@@ -15,7 +15,7 @@ public class Controller extends DBConnectionController {
     View view = new View();
     Scanner scanner = new Scanner(System.in);
     private static User user;
-    DAOUserInterface daoUser = new DAOUser();
+    DAOUser daoUser = new DAOUser(connection);
 
 
     public void signIn() {
@@ -23,7 +23,7 @@ public class Controller extends DBConnectionController {
         String password = askPassword();
         setUserToNull();
 
-        //this.user = daoUser.searchUser(login, password);
+        this.user = daoUser.getUser(login, password);
         if (getUser() == null) {
             view.printLine("Wrong login/password. Try again..");
             signIn();
@@ -54,6 +54,7 @@ public class Controller extends DBConnectionController {
     public UserPrivilege choosePrivilege() {
         List<UserPrivilege> privileges = user.getAccess().getPrivileges();
         Integer answer = Integer.valueOf(askUser("Which option would you like to choose(number)"));
+        view.displayMenu(privileges);
         for(int i = 0; i < privileges.size(); i++) {
             if(answer.equals(i)) {
                 return privileges.get(i);
