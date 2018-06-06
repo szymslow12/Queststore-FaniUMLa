@@ -7,7 +7,7 @@ user_access TEXT
 );
 CREATE TABLE IF NOT EXISTS mentors
 (
-id_user SERIAL PRIMARY KEY,
+id_user INTEGER REFERENCES users(id_user),
 first_name TEXT,
 last_name TEXT,
 email TEXT,
@@ -15,15 +15,15 @@ phone_number TEXT
 );
 CREATE TABLE IF NOT EXISTS admins
 (
-id_user SERIAL PRIMARY KEY,
+id_user INTEGER REFERENCES users(id_user),
 first_name TEXT,
-las_name TEXT,
+last_name TEXT,
 email TEXT,
 phone_number TEXT
 );
 CREATE TABLE IF NOT EXISTS codecoolers
 (
-id_user SERIAL PRIMARY KEY,
+id_user INTEGER REFERENCES users(id_user),
 first_name TEXT,
 last_name TEXT,
 email TEXT,
