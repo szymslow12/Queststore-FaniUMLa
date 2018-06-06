@@ -7,8 +7,6 @@ public abstract class User {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String login;
-    private String password;
     private UserAccess access;
 
     public User(int accountID, String firstName, String lastName, String email, String phoneNumber) {
@@ -17,6 +15,7 @@ public abstract class User {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        access = UserAccess.MENTOR;
     }
 
     public UserAccess getAccess() {
