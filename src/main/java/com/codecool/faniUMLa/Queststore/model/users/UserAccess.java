@@ -6,18 +6,18 @@ import java.util.List;
 public enum UserAccess {
     ADMIN {
         @Override
-        public List<UserPriviledge> initPrivileges() {
-            List<UserPriviledge> privileges = new ArrayList<>();
+        public List<UserPrivilege> initPrivileges() {
+            List<UserPrivilege> privileges = new ArrayList<>();
 
-
+            privileges.add(UserPrivilege.GREET);
             return privileges;
         }
     },
 
     MENTOR {
         @Override
-        public List<UserPriviledge> initPrivileges() {
-            List<UserPriviledge> privileges = new ArrayList<>();
+        public List<UserPrivilege> initPrivileges() {
+            List<UserPrivilege> privileges = new ArrayList<>();
 
             //privileges.add(UserPriviledge.EXIT);
 
@@ -26,8 +26,8 @@ public enum UserAccess {
     },
 
     CODECOOLER {
-        public List<UserPriviledge> initPrivileges() {
-            List<UserPriviledge> privileges = new ArrayList<>();
+        public List<UserPrivilege> initPrivileges() {
+            List<UserPrivilege> privileges = new ArrayList<>();
             //privileges.add(UserPriviledge.ADD_MENTOR);
 
 
@@ -35,9 +35,9 @@ public enum UserAccess {
         }
     };
 
-    private List<UserPriviledge> privileges = initPrivileges();
-    public abstract List<UserPriviledge> initPrivileges();
-    public List<UserPriviledge> getPrivileges() {
+    private List<UserPrivilege> privileges = initPrivileges();
+    public abstract List<UserPrivilege> initPrivileges();
+    public List<UserPrivilege> getPrivileges() {
         return privileges;
     }
 }

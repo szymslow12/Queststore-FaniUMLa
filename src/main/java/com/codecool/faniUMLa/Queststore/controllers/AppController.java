@@ -1,40 +1,34 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
-import com.codecool.faniUMLa.Queststore.model.users.UserPriviledge;
+import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
-public class AppController {
-    ControllerCodecooler controllerCodecooler;
-    ControllerMentor controllerMentor;
-    ControllerAdmin controllerAdmin;
+public class AppController extends Controller {
+    //ControllerCodecooler controllerCodecooler;
+    //ControllerMentor controllerMentor;
+    //ControllerAdmin controllerAdmin;
 
     public AppController() {
-        controllerCodecooler = new ControllerCodecooler();
-        controllerMentor = new ControllerMentor();
-        controllerAdmin = new Controller (csvDAOEmployee, csvDAOStudent);
-        this.setCsvDAOEmployee(csvDAOEmployee);
-        this.setCsvDAOStudent(csvDAOStudent);
+        //controllerCodecooler = new ControllerCodecooler();
+        //controllerMentor = new ControllerMentor();
+        //controllerAdmin = new Controller (csvDAOEmployee, csvDAOStudent);
         signIn();
     }
 
-    public void handleMenu(UserPriviledge privilege) {
+    public void handleMenu(UserPrivilege privilege) {
         switch (privilege) {
-            case ADD_MENTOR:
-                employeeController.addMentor();
-                break;
-            case REMOVE_MENTOR:
-                employeeController.removeMentor();
-                break;
-            default:
-                super.errorMessage();
+            case GREET:
+                //employeeController.addMentor();
+                // break;
+                System.out.println("Im in menu");
+                //}
         }
     }
 
     public void run() {
-        UserPriviledge privilege;
-        do {
-            displayMenu();
-            privilege = choosePrivilege();
-            handleMenu(privilege);
-        } while (isRun(privilege));
+        UserPrivilege privilege;
+
+        //displayMenu();
+        privilege = choosePrivilege();
+        handleMenu(privilege);
     }
 }

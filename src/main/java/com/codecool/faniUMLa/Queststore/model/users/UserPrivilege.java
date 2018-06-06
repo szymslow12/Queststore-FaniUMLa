@@ -1,4 +1,5 @@
 package com.codecool.faniUMLa.Queststore.model.users;
 
-public enum UserPriviledge {
+public enum UserPrivilege {
+    GREET
 }

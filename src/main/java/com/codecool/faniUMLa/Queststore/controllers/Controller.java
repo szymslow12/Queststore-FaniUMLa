@@ -4,7 +4,7 @@ import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
 import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
 import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.users.User;
-import com.codecool.faniUMLa.Queststore.model.users.UserPriviledge;
+import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 import java.sql.Connection;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Controller extends DBConnectionController {
         String password = askPassword();
         setUserToNull();
 
-        this.user = daoUser.searchUser(login, password);
+        //this.user = daoUser.searchUser(login, password);
         if (getUser() == null) {
             view.printLine("Wrong login/password. Try again..");
             signIn();
@@ -51,8 +51,8 @@ public class Controller extends DBConnectionController {
         return user;
     }
 
-    public UserPriviledge choosePrivilege() {
-        List<UserPriviledge> privileges = user.getAccess().getPrivileges();
+    public UserPrivilege choosePrivilege() {
+        List<UserPrivilege> privileges = user.getAccess().getPrivileges();
         Integer answer = Integer.valueOf(askUser("Which option would you like to choose(number)"));
         for(int i = 0; i < privileges.size(); i++) {
             if(answer.equals(i)) {

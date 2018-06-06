@@ -1,7 +1,6 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 class DBConnectionController {
 
@@ -18,6 +17,33 @@ class DBConnectionController {
             System.exit(0);
         }
         return c;
+    }
+    ResultSet executeQuery(String query, Connection c) {
+        Statement stmt;
+        ResultSet rs = null;
+
+        try {
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
+
+    void updateQuery(String query, Connection c) {
+        Statement stmt;
+        try {
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            stmt.executeUpdate(query);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 
