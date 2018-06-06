@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class DAOUserHelper {
     private Connection connection;
-    private final String GET_USER_ACCESS_ID = "SELECT user_acces, id_user FROM users "+
-                                    "WHERE login= ? AND user_password= ?";
+    private final String GET_USER_ACCESS_ID = "SELECT user_access, id_user FROM users "+
+                                    "WHERE user_login= ? AND user_password= ?";
     private final String GET_MENTOR = "SELECT * FROM mentors "+
             "WHERE id_user =  ?";
     private final String GET_ADMIN = "SELECT * FROM admins "+
@@ -34,14 +34,17 @@ public class DAOUserHelper {
         ArrayList accessID = getUserAccessID(login, password);
         int accessIndex = 0;
         int idUser = 1;
+        if(accessID.size() < 1) {
+            return null;
+        }
 
         String access = (String) accessID.get(accessIndex);
-        String id = (String) accessID.get(idUser);
+        Integer id =  Integer.valueOf((String)accessID.get(idUser));
         try {
             switch (access) {
                 case "MENTOR":
                     query = connection.prepareStatement(GET_MENTOR);
-                    query.setString(1, id);
+                    query.setInt(1, id);
                     rs = query.executeQuery();
                     while (rs.next()) {
                         Integer id_User = rs.getInt("id_user");
@@ -54,7 +57,7 @@ public class DAOUserHelper {
                     break;
                 case "ADMIN":
                     query = connection.prepareStatement(GET_ADMIN);
-                    query.setString(1, id);
+                    query.setInt(1, id);
                     rs = query.executeQuery();
                     while (rs.next()) {
                         Integer id_User = rs.getInt("id_user");
@@ -67,7 +70,7 @@ public class DAOUserHelper {
                     break;
                 case "CODECOOLER":
                     query = connection.prepareStatement(GET_CODECOOLER);
-                    query.setString(1, id);
+                    query.setInt(1, id);
                     rs = query.executeQuery();
                     while (rs.next()) {
                         Integer id_User = rs.getInt("id_user");
@@ -75,8 +78,8 @@ public class DAOUserHelper {
                         String last_name = rs.getString("last_name");
                         String email = rs.getString("email");
                         String phone_number = rs.getString("phone_number");
-                        int class_id = rs.getInt("class_id");
-                        String experience = rs.getString("experience");
+                        int class_id = rs.getInt("id_class");
+                        String experience = rs.getString("level_of_exp");
                         int coolcoins = rs.getInt("coolcoins");
                         user = new Codecooler(id_User, first_name, last_name, email, phone_number, class_id, experience, coolcoins);
                     }

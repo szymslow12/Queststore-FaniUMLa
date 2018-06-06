@@ -8,7 +8,6 @@ public class AppController extends Controller {
 
     public AppController() {
         dauUser = new DAOUser(connection);
-
         signIn();
     }
 

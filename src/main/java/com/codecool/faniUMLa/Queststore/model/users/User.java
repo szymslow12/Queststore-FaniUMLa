@@ -15,10 +15,14 @@ public abstract class User {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        access = UserAccess.MENTOR;
+
     }
 
     public UserAccess getAccess() {
         return access;
+    }
+
+    public void setAccess(UserAccess access) {
+        this.access = access;
     }
 }

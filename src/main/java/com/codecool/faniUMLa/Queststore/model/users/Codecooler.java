@@ -12,5 +12,6 @@ public class Codecooler extends User {
         this.classID = classID;
         this.experience = experience;
         this.coolcoins = coolcoins;
+        super.setAccess(UserAccess.CODECOOLER);
     }
 }
