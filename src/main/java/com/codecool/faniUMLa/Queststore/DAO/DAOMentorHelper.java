@@ -30,6 +30,16 @@ public class DAOMentorHelper {
     }
 
 
+    public String getAddNewArtifactQuery() {
+        String[] messages = {"Enter artifact name: ", "Enter artifact category: ",
+                "Enter price: ", "Enter description: "};
+        String query = String.format("%s%s", "INSERT INTO store (artifact_name, category, price, description)\n",
+                "VALUES (%s, '%s', %s, '%s')");
+        String[] queryValues = getQueryValues(messages.length, messages);
+        return String.format(query, queryValues[0], queryValues[1], queryValues[2], queryValues[3]);
+    }
+
+
     private String[] getQueryValues(int valuesSize, String[] messages) {
         String[] values = new String[valuesSize];
         for (int i = 0; i < valuesSize; i++) {
