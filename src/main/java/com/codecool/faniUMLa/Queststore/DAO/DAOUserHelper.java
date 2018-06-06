@@ -24,12 +24,14 @@ public class DAOUserHelper {
     }
 
     public User getIfExist(String login, String password) {
+        User user = null;
         ResultSet rs = null;
         try {
             rs = prepareQuery(login, password).executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return user;
     }
 
     private PreparedStatement prepareQuery(String login, String password) {

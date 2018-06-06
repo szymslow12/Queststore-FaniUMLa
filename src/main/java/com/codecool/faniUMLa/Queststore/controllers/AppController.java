@@ -1,16 +1,14 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
+import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 public class AppController extends Controller {
-    //ControllerCodecooler controllerCodecooler;
-    //ControllerMentor controllerMentor;
-    //ControllerAdmin controllerAdmin;
+    DAOUser dauUser;
 
     public AppController() {
-        //controllerCodecooler = new ControllerCodecooler();
-        //controllerMentor = new ControllerMentor();
-        //controllerAdmin = new Controller (csvDAOEmployee, csvDAOStudent);
+        dauUser = new DAOUser(connection);
+
         signIn();
     }
 
@@ -26,8 +24,6 @@ public class AppController extends Controller {
 
     public void run() {
         UserPrivilege privilege;
-
-        //displayMenu();
         privilege = choosePrivilege();
         handleMenu(privilege);
     }
