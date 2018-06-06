@@ -1,7 +1,6 @@
 package com.codecool.faniUMLa.Queststore.model.users;
 
 public enum UserPrivilege {
-    GREET,
     CREATE_MENTOR,
     CREATE_CLASS,
     EDIT_MENTOR,
