@@ -9,7 +9,12 @@ public enum UserAccess {
         public List<UserPrivilege> initPrivileges() {
             List<UserPrivilege> privileges = new ArrayList<>();
 
-            privileges.add(UserPrivilege.GREET);
+            privileges.add(UserPrivilege.CREATE_MENTOR);
+            privileges.add(UserPrivilege.CREATE_CLASS);
+            privileges.add(UserPrivilege.EDIT_MENTOR);
+            privileges.add(UserPrivilege.SEE_MENTOR);
+            privileges.add(UserPrivilege.CREATE_LEVELS);
+
             return privileges;
         }
     },
@@ -19,7 +24,14 @@ public enum UserAccess {
         public List<UserPrivilege> initPrivileges() {
             List<UserPrivilege> privileges = new ArrayList<>();
 
-            //privileges.add(UserPriviledge.EXIT);
+            privileges.add(UserPrivilege.CREATE_CODECOOLER);
+            privileges.add(UserPrivilege.ADD_QUEST);
+            privileges.add(UserPrivilege.UPDATE_QUEST);
+            privileges.add(UserPrivilege.ADD_ARTIFACT);
+            privileges.add(UserPrivilege.UPDATE_ARTIFACT);
+            privileges.add(UserPrivilege.MARK_QUEST_DONE);
+            privileges.add(UserPrivilege.MARK_BOUGHT_ARTIFACT);
+            privileges.add(UserPrivilege.SEE_CODECOOLERS_WALLETS);
 
             return privileges;
         }
@@ -28,8 +40,11 @@ public enum UserAccess {
     CODECOOLER {
         public List<UserPrivilege> initPrivileges() {
             List<UserPrivilege> privileges = new ArrayList<>();
-            //privileges.add(UserPriviledge.ADD_MENTOR);
 
+            privileges.add(UserPrivilege.SEE_WALLET);
+            privileges.add(UserPrivilege.BUY_ARTIFACT);
+            privileges.add(UserPrivilege.BUY_ARTIFACT_WITH_TEAMMATES);
+            privileges.add(UserPrivilege.SEE_LEVEL);
 
             return privileges;
         }
