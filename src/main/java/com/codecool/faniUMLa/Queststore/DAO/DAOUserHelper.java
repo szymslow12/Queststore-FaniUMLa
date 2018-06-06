@@ -34,6 +34,7 @@ public class DAOUserHelper {
         ArrayList accessID = getUserAccessID(login, password);
         int accessIndex = 0;
         int idUser = 1;
+
         if(accessID.size() < 1) {
             return null;
         }
@@ -88,17 +89,14 @@ public class DAOUserHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return user;
     }
 
     private PreparedStatement prepareAccessQuery(String login, String password) throws SQLException {
         PreparedStatement query = null;
-
         query = connection.prepareStatement(GET_USER_ACCESS_ID);
         query.setString( 1, login);
         query.setString( 2, password);
-
         return query;
     }
 
@@ -121,6 +119,4 @@ public class DAOUserHelper {
         }
         return userAccessID;
     }
-
-
 }
