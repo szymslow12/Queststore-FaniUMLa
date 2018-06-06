@@ -42,7 +42,7 @@ public class Controller extends DBConnectionController {
         this.user = null;
     }
 
-    private String askUser(String message) {
+    public String askUser(String message) {
         view.printLine(message);
         return scanner.nextLine();
     }
