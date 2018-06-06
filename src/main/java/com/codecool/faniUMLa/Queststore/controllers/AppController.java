@@ -21,6 +21,8 @@ public class AppController extends Controller {
             case CREATE_MENTOR:
                 break;
             case CREATE_CLASS:
+                String class_name = askUser("Provide class_name");
+                daoMentor.createClass(class_name);
                 break;
             case EDIT_MENTOR:
                 break;
