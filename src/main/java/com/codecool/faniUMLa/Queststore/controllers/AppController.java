@@ -47,10 +47,14 @@ public class AppController extends Controller {
     }
 
     public void run() {
-        UserPrivilege privilege;
+        UserPrivilege privilege = null;
         do {
-            privilege = choosePrivilege();
-            handleMenu(privilege);
+            try{
+                privilege = choosePrivilege();
+                handleMenu(privilege);
+            } catch (NumberFormatException e) {
+                view.printLine("Please provide number!");
+            }
         }while(isRun(privilege));
     }
     ArrayList<String> getUserData() {
