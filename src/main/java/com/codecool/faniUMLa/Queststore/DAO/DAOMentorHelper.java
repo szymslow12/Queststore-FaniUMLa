@@ -16,16 +16,39 @@ public class DAOMentorHelper {
         userInputs = new UserInputs();
     }
 
-    public String getAddCodecoolerQuery(PreparedStatement statement, Connection connection) {
+    public String getAddCodecoolerQuery(PreparedStatement statement, Connection connection) throws SQLException {
         String[] messages = {"Enter codecooler login: ", "Enter codecooler password: ",
                 "Enter codecooler first name: ", "Enter codecooler last name: ",
-                "Enter codecooler email: ", "Enter codecooler phone number: "};//, "Enter ID of class: "};
+                "Enter codecooler email: ", "Enter codecooler phone number: ", "Enter ID of class: "};
         String query = String.format("%s%s%s", "INSERT INTO users (user_login, user_password, user_access, first_name, last_name, email, ",
                 "phone_number)\n", "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')");
         String[] queryValues = getQueryValues(messages);
-        //, coolcoins, level_of_exp, id_class)
-        return String.format(query, queryValues[0], queryValues[1],"CODECOOLER", queryValues[2],
-                queryValues[3], queryValues[4], queryValues[5]);
+        addNewUser(statement, connection, String.format(query, queryValues[0], queryValues[1], "CODECOOLER", queryValues[2],
+                queryValues[3], queryValues[4], queryValues[5]));
+        return addNewCodecoolerQuery(statement, connection, queryValues[4], queryValues[6]);
+    }
+
+
+    private String addNewCodecoolerQuery(PreparedStatement statement, Connection connection,
+                                         String email, String classID) throws SQLException {
+
+        int userID = getUserID(statement, connection, email);
+        return String.format("INSERT INTO codecoolers (id_user, coolcoins," +
+                " id_level, id_class)\n VALUES (%s, 0, 1, %s)", userID, classID);
+    }
+
+
+    private int getUserID(PreparedStatement statement, Connection connection, String email) throws SQLException {
+        statement = connection.prepareStatement(String.format("SELECT id_user, email FROM users WHERE email LIKE '%s'",
+                email));
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("id_user");
+    }
+
+    public void addNewUser(PreparedStatement statement, Connection connection, String preparedQuery) throws SQLException {
+        statement = connection.prepareStatement(preparedQuery);
+        statement.execute();
     }
 
 
@@ -40,10 +63,10 @@ public class DAOMentorHelper {
 
 
     public String getAddNewArtifactQuery() {
-        String[] messages = {"Enter artifact name: ", "Enter artifact category: ",
+        String[] messages = {"Enter artifact name: ", "Enter artifact categoryID: ",
                 "Enter price: ", "Enter description: "};
-        String query = String.format("%s%s", "INSERT INTO artifacts (artifact_name, category, price, description)\n",
-                "VALUES (%s, '%s', %s, '%s')");
+        String query = String.format("%s%s", "INSERT INTO artifacts (artifact_name, category_id, price, description)\n",
+                "VALUES ('%s', %s, %s, '%s')");
         String[] queryValues = getQueryValues(messages);
         return String.format(query, queryValues[0], queryValues[1], queryValues[2], queryValues[3]);
     }
@@ -153,7 +176,7 @@ public class DAOMentorHelper {
 
 
     public String getUpdateArtifactQuery() {
-        String query = "UPDATE store SET %s = %s%nWHERE store.id_artifact = %s";
+        String query = "UPDATE artifacts SET %s = %s%nWHERE artifacts.id_artifact = %s";
         String column = userInputs.getString("Enter which column do you want update\n" +
                 "(cateogry (c)/ name (n)/ price (p)/ description (d)): ");
         int artifactID = userInputs.getInt("Enter artifactID which you want update: ");
@@ -175,8 +198,8 @@ public class DAOMentorHelper {
 
         } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
 
-            return setUpdateQuery("Enter new artifact category: ", query, "category",
-                    artifactID, true);
+            return setUpdateQuery("Enter new artifact category: ", query, "category_id",
+                    artifactID, false);
 
         } else if (column.equalsIgnoreCase("p") || column.equalsIgnoreCase("price")) {
 
