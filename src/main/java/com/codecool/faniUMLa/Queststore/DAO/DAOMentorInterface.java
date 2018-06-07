@@ -18,5 +18,5 @@ public interface DAOMentorInterface {
 
     boolean markBoughtArtifact();
 
-    ResultSet seeCodecoolersWallet();
+    void seeCodecoolersWallet();
 }
