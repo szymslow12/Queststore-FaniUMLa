@@ -14,8 +14,6 @@ public class DAOUser implements DAOUserInterface {
     }
 
     public User getUser(String login, String password) {
-        User user = null;
-        user = helper.getIfExist(login,password);
-        return user;
+        return helper.getIfExist(login,password);
     }
 }

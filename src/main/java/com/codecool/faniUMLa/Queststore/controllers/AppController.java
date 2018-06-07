@@ -4,7 +4,6 @@ import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
 import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
 import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
-import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 import java.util.ArrayList;

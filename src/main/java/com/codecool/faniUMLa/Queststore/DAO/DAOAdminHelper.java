@@ -10,18 +10,18 @@ import java.util.ArrayList;
 public class DAOAdminHelper {
     private Connection connection;
 
-    private static final String ADD_CLASS = "INSERT INTO classes (class_name)\n" +
-                                             "VALUES(?) ";
-    private static final String ADD_MENTOR = "INSERT INTO users (first_name, last_name, email, phone_number, user_login, user_password, user_access) " +
+    private final String ADD_CLASS = "INSERT INTO classes (class_name)\n" +
+                                                "VALUES(?) ";
+    private final String ADD_MENTOR = "INSERT INTO users (first_name, last_name, email, phone_number, user_login, user_password, user_access) " +
                                                 "VALUES(?,?,?,?,?,?,?)";
 
-    private static final String FIND_ID = "SELECT id_user FROM users WHERE first_name = ? AND " +
-            "last_name = ? AND email = ? AND phone_number = ? AND user_login = ? AND user_password = ?";
+    private final String FIND_ID = "SELECT id_user FROM users WHERE first_name = ? AND " +
+                                    "last_name = ? AND email = ? AND phone_number = ? AND user_login = ? " +
+                                    "AND user_password = ?";
 
-    private static final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
+    private final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private static final String ADD_LEVEL = "INSERT INTO levels (name_level)\n" +
-            "VALUES(?) ";
+    private final String ADD_LEVEL = "INSERT INTO levels (name_level) VALUES(?) ";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -61,7 +61,6 @@ public class DAOAdminHelper {
         return query;
     }
 
-
     public void updateMentors(ArrayList<String> userData) {
         Integer user_id = getUserId(userData);
         try {
@@ -71,7 +70,6 @@ public class DAOAdminHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     private Integer getUserId(ArrayList<String> userData) {
@@ -87,8 +85,8 @@ public class DAOAdminHelper {
             e.printStackTrace();
         }
         return user_id;
-
     }
+
     private PreparedStatement prepareQuerryForGetUserID(ArrayList<String>userData) {
         PreparedStatement query = null;
         try {
