@@ -16,13 +16,16 @@ public class DAOMentorHelper {
         userInputs = new UserInputs();
     }
 
-    public String getAddCodecoolerQuery() {
-        String[] messages = {"Enter codecooler first name: ", "Enter codecooler last name: ",
-                "Enter codecooler email: ", "Enter codecooler phone number: ", "Enter ID of class: "};
-        String query = String.format("%s%s%s", "INSERT INTO codecoolers (first_name, last_name, email, ",
-                "phone_number, coolcoins, level_of_exp, id_class)\n", "VALUES ('%s', '%s', '%s', '%s', 0, 0, %s)");
+    public String getAddCodecoolerQuery(PreparedStatement statement, Connection connection) {
+        String[] messages = {"Enter codecooler login: ", "Enter codecooler password: ",
+                "Enter codecooler first name: ", "Enter codecooler last name: ",
+                "Enter codecooler email: ", "Enter codecooler phone number: "};//, "Enter ID of class: "};
+        String query = String.format("%s%s%s", "INSERT INTO users (user_login, user_password, user_access, first_name, last_name, email, ",
+                "phone_number)\n", "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')");
         String[] queryValues = getQueryValues(messages);
-        return String.format(query, queryValues[0], queryValues[1], queryValues[2], queryValues[3], queryValues[4]);
+        //, coolcoins, level_of_exp, id_class)
+        return String.format(query, queryValues[0], queryValues[1],"CODECOOLER", queryValues[2],
+                queryValues[3], queryValues[4], queryValues[5]);
     }
 
 
