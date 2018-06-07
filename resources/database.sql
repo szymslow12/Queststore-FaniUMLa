@@ -1,6 +1,4 @@
-﻿\c codecool_quest;
-
-CREATE TABLE IF NOT EXISTS users
+﻿CREATE TABLE IF NOT EXISTS users
 (
 id_user SERIAL PRIMARY KEY,
 user_login TEXT,
@@ -13,15 +11,15 @@ phone_number TEXT
 );
 CREATE TABLE IF NOT EXISTS mentors
 (
+id_mentor SERIAL PRIMARY KEY,
 id_user INTEGER REFERENCES users(id_user)
-ON DELETE CASCADE ON UPDATE NO ACTION,
-id_mentor SERIAL PRIMARY KEY
+ON DELETE CASCADE ON UPDATE NO ACTION
 );
 CREATE TABLE IF NOT EXISTS admins
 (
+id_admin SERIAL PRIMARY KEY,
 id_user INTEGER REFERENCES users(id_user)
-ON DELETE CASCADE ON UPDATE NO ACTION,
-id_admin SERIAL PRIMARY KEY
+ON DELETE CASCADE ON UPDATE NO ACTION
 );
 CREATE TABLE IF NOT EXISTS levels
 (
@@ -30,9 +28,9 @@ name_level TEXT
 );
 CREATE TABLE IF NOT EXISTS codecoolers
 (
+id_codecooler SERIAL PRIMARY KEY,
 id_user INTEGER REFERENCES users(id_user)
 ON DELETE CASCADE ON UPDATE NO ACTION,
-id_codecooler SERIAL PRIMARY KEY,
 coolcoins INTEGER,
 id_level INTEGER REFERENCES levels(id_level)
 ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -67,7 +65,7 @@ ON DELETE CASCADE ON UPDATE NO ACTION,
 price INTEGER,
 description TEXT
 );
-CREATE TABLE IF NOT EXISTS artifacts_codecooleres
+CREATE TABLE IF NOT EXISTS artifacts_codecoolers
 (
 id_codecooler INTEGER,
 FOREIGN KEY (id_codecooler) REFERENCES codecoolers(id_codecooler)
