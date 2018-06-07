@@ -1,9 +1,6 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
-import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
-import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
-import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
-import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
+import com.codecool.faniUMLa.Queststore.DAO.*;
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 import java.util.ArrayList;
@@ -11,10 +8,12 @@ import java.util.ArrayList;
 public class AppController extends Controller {
     DAOUserInterface daoUser;
     DAOAdminInterface daoAdmin;
+    DAOMentorInterface daoMentor;
 
     public AppController() {
         daoUser = new DAOUser(connection);
         daoAdmin = new DAOAdmin(connection);
+        daoMentor = new DAOMentor(connection);
         signIn();
     }
 
@@ -40,6 +39,30 @@ public class AppController extends Controller {
             case CREATE_LEVELS:
                 String level_name = askUser("Provide name");
                 daoAdmin.createLevel(level_name);
+                break;
+            case CREATE_CODECOOLER:
+                daoMentor.addNewCodecooler();
+                break;
+            case ADD_QUEST:
+                daoMentor.addNewQuest();
+                break;
+            case UPDATE_QUEST:
+                daoMentor.updateQuest();
+                break;
+            case ADD_ARTIFACT:
+                daoMentor.addNewArtifact();
+                break;
+            case UPDATE_ARTIFACT:
+                daoMentor.updateArtifact();
+                break;
+            case MARK_QUEST_DONE:
+                daoMentor.markQuestDone();
+                break;
+            case MARK_BOUGHT_ARTIFACT:
+                daoMentor.markBoughtArtifact();
+                break;
+            case SEE_CODECOOLERS_WALLETS:
+                daoMentor.seeCodecoolersWallet();
                 break;
             case EXIT:
                 view.printLine("Bye bye");
