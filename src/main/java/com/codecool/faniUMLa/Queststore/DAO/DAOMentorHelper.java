@@ -92,16 +92,20 @@ public class DAOMentorHelper {
         String column = userInputs.getString("Enter which column do you want update\n" +
                 "(cateogry (c)/ name (n)/ award (a)/ description (d)): ");
         int questID = userInputs.getInt("Enter questID which you want update: ");
-        return getUpdateQuery(column, query, questID);
+        return getUpdateQuery(column, query, questID, true);
     }
 
 
-    private String getUpdateQuery(String column, String query, int questID) {
-        String[] columns = new String[] {"c", "category", "n", "name", "a", "award", "d", "description"};
+    private String getUpdateQuery(String column, String query, int recordID, boolean isQuest) {
 
+        String[] columns = new String[]{"c", "category", "n", "name", "a", "award",
+                                        "d", "description", "p", "price"};
         for (int i = 0; i < columns.length; i++) {
             if (column.equalsIgnoreCase(columns[i])) {
-                return settedUpdateQuestQuery(query, column, questID);
+                if (isQuest)
+                    return settedUpdateQuestQuery(query, column, recordID);
+                else
+                    return settedUpdateArtifactQuery(query, column, recordID);
             }
         }
         return "";
@@ -109,14 +113,26 @@ public class DAOMentorHelper {
 
 
     private String settedUpdateQuestQuery(String query, String column, int questID) {
+
         if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
-            return setUpdateQuery("Enter new quest name: ", query, "quest_name", questID, true);
+
+            return setUpdateQuery("Enter new quest name: ", query, "quest_name",
+                    questID, true);
+
         } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
-            return setUpdateQuery("Enter new quest description: ", query, "description", questID, true);
+
+            return setUpdateQuery("Enter new quest description: ", query, "description",
+                    questID, true);
+
         } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
-            return setUpdateQuery("Enter new quest categoryID: ", query, "id_category", questID, false);
+
+            return setUpdateQuery("Enter new quest categoryID: ", query, "id_category",
+                    questID, false);
+
         } else if (column.equalsIgnoreCase("a") || column.equalsIgnoreCase("award")) {
-            return setUpdateQuery("Enter new quest award: ", query, "award", questID, false);
+
+            return setUpdateQuery("Enter new quest award: ", query, "award",
+                    questID, false);
         }
         return "";
     }
@@ -138,25 +154,31 @@ public class DAOMentorHelper {
         String column = userInputs.getString("Enter which column do you want update\n" +
                 "(cateogry (c)/ name (n)/ price (p)/ description (d)): ");
         int artifactID = userInputs.getInt("Enter artifactID which you want update: ");
+        return getUpdateQuery(column, query, artifactID, false);
+    }
 
-        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("d") ||
-                column.equalsIgnoreCase("name") || column.equalsIgnoreCase("description") ||
-                column.equalsIgnoreCase("c") || column.equalsIgnoreCase("cateogry")) {
 
-            if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
-                String name = "'" + userInputs.getString("Enter new artifact name: ") + "'";
-                return String.format(query, "artifact_name", name, artifactID);
-            } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")){
-                String category = "'" + userInputs.getString("Enter new artifact category: ") + "'";
-                return String.format(query, "category", category, artifactID);
-            } else {
-                String description = "'" + userInputs.getString("Enter new artifact description: ") + "'";
-                return String.format(query, "description", description, artifactID);
-            }
+    private String settedUpdateArtifactQuery(String query, String column, int artifactID) {
+
+        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
+
+            return setUpdateQuery("Enter new artifact name: ", query, "artifact_name",
+                    artifactID, true);
+
+        } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
+
+            return setUpdateQuery("Enter new artifact description: ", query, "description",
+                    artifactID, true);
+
+        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
+
+            return setUpdateQuery("Enter new artifact category: ", query, "category",
+                    artifactID, true);
 
         } else if (column.equalsIgnoreCase("p") || column.equalsIgnoreCase("price")) {
-            int price = userInputs.getInt("Enter new artifact price: ");
-            return String.format(query, "price", price, artifactID);
+
+            return setUpdateQuery("Enter new artifact price: ", query, "price",
+                                artifactID, false);
         }
         return "";
     }
