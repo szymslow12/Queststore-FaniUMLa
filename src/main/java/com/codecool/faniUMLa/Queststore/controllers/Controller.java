@@ -53,8 +53,8 @@ public class Controller extends DBConnectionController {
 
     public UserPrivilege choosePrivilege() {
         List<UserPrivilege> privileges = user.getAccess().getPrivileges();
-        Integer answer = Integer.valueOf(askUser("Which option would you like to choose(number)"));
         view.displayMenu(privileges);
+        Integer answer = Integer.valueOf(askUser("Which option would you like to choose(number)"));
         for(int i = 0; i < privileges.size(); i++) {
             if(answer.equals(i)) {
                 return privileges.get(i);

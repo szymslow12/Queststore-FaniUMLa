@@ -1,7 +1,9 @@
-﻿CREATE TABLE IF NOT EXISTS users
+﻿\c codecool_quest;
+
+CREATE TABLE IF NOT EXISTS users
 (
 id_user SERIAL PRIMARY KEY,
-login TEXT,
+user_login TEXT,
 user_password TEXT,
 user_access TEXT,
 first_name TEXT,
