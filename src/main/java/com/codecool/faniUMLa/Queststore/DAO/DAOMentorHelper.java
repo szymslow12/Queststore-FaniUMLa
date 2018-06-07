@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DAOMentorHelper {
 
@@ -91,30 +92,44 @@ public class DAOMentorHelper {
         String column = userInputs.getString("Enter which column do you want update\n" +
                 "(cateogry (c)/ name (n)/ award (a)/ description (d)): ");
         int questID = userInputs.getInt("Enter questID which you want update: ");
+        return getUpdateQuery(column, query, questID);
+    }
 
-        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("d") ||
-                column.equalsIgnoreCase("name") || column.equalsIgnoreCase("description")) {
 
-            if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
-                String name = "'" + userInputs.getString("Enter new quest name: ") + "'";
-                return String.format(query, "quest_name", name, questID);
-            } else {
-                String description = "'" + userInputs.getString("Enter new quest description: ") + "'";
-                return String.format(query, "description", description, questID);
-            }
+    private String getUpdateQuery(String column, String query, int questID) {
+        String[] columns = new String[] {"c", "category", "n", "name", "a", "award", "d", "description"};
 
-        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("a") ||
-                column.equalsIgnoreCase("category") || column.equalsIgnoreCase("award")) {
-
-            if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
-                int categoryID = userInputs.getInt("Enter new quest categoryID: ");
-                return String.format(query, "id_category", categoryID, questID);
-            } else {
-                int award = userInputs.getInt("Enter new quest award: ");
-                return String.format(query, "award", award, questID);
+        for (int i = 0; i < columns.length; i++) {
+            if (column.equalsIgnoreCase(columns[i])) {
+                return settedUpdateQuery(query, column, questID);
             }
         }
         return "";
+    }
+
+
+    private String settedUpdateQuery(String query, String column, int questID) {
+        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
+            return setUpdateQuery("Enter new quest name: ", query, "quest_name", questID, true);
+        } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
+            return setUpdateQuery("Enter new quest description: ", query, "description", questID, true);
+        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
+            return setUpdateQuery("Enter new quest categoryID: ", query, "id_category", questID, false);
+        } else if (column.equalsIgnoreCase("a") || column.equalsIgnoreCase("award")) {
+            return setUpdateQuery("Enter new quest award: ", query, "award", questID, false);
+        }
+        return "";
+    }
+
+
+    private String setUpdateQuery(String message, String query, String columnName, int recordID, boolean isValueString) {
+        if (isValueString) {
+            String valueToSet = "'" + userInputs.getString(message) + "'";
+            return String.format(query, columnName, valueToSet, recordID);
+        } else {
+            int valueToSet = userInputs.getInt(message);
+            return String.format(query, columnName, valueToSet, recordID);
+        }
     }
 
 
