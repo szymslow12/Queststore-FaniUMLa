@@ -78,6 +78,14 @@ public class DAOMentorHelper {
     }
 
 
+    public String markBoughtArtifactQuery() {
+        int[] queryValues = getIntQueryValues(new String[]{"Enter artifactID: ", "Enter codecoolersID: "});
+        String query = String.format("INSERT INTO artifacts_codecooleres (id_codecooler, id_artifact)%n%s",
+                String.format("VALUES (%s, %s)", queryValues[1], queryValues[0]));
+        return query;
+    }
+
+
     private String[] getQueryValues(String[] messages) {
         String[] values = new String[messages.length];
         for (int i = 0; i < messages.length; i++) {
