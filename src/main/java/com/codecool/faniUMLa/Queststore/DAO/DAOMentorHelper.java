@@ -118,6 +118,35 @@ public class DAOMentorHelper {
     }
 
 
+    public String getUpdateArtifactQuery() {
+        String query = "UPDATE store SET %s = %s%nWHERE store.id_artifact = %s";
+        String column = userInputs.getString("Enter which column do you want update\n" +
+                "(cateogry (c)/ name (n)/ price (p)/ description (d)): ");
+        int artifactID = userInputs.getInt("Enter artifactID which you want update: ");
+
+        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("d") ||
+                column.equalsIgnoreCase("name") || column.equalsIgnoreCase("description") ||
+                column.equalsIgnoreCase("c") || column.equalsIgnoreCase("cateogry")) {
+
+            if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
+                String name = "'" + userInputs.getString("Enter new artifact name: ") + "'";
+                return String.format(query, "artifact_name", name, artifactID);
+            } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")){
+                String category = "'" + userInputs.getString("Enter new artifact category: ") + "'";
+                return String.format(query, "category", category, artifactID);
+            } else {
+                String description = "'" + userInputs.getString("Enter new artifact description: ") + "'";
+                return String.format(query, "description", description, artifactID);
+            }
+
+        } else if (column.equalsIgnoreCase("p") || column.equalsIgnoreCase("price")) {
+            int price = userInputs.getInt("Enter new artifact price: ");
+            return String.format(query, "price", price, artifactID);
+        }
+        return "";
+    }
+
+
     private String[] getQueryValues(String[] messages) {
         String[] values = new String[messages.length];
         for (int i = 0; i < messages.length; i++) {
