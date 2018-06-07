@@ -21,4 +21,13 @@ public class View {
     public void clearScreen() {
         printLine("\033[H\033[2J");
     }
+
+
+    public <E> void displayList(List<E> list, String message) {
+        clearScreen();
+        printLine(message);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.printf("\t(%d) %s\n", i+1, list.get(i).toString());
+        }
+    }
 }
