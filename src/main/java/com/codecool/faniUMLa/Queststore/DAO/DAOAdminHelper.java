@@ -20,6 +20,7 @@ public class DAOAdminHelper {
 
     private static final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
+    private static final String UPDATE_COLUMN = "UPDATE users SET ? = ? WHERE id_user= ?;";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -51,7 +52,7 @@ public class DAOAdminHelper {
             query = connection.prepareStatement(ADD_MENTOR);
             for(int i = 0; i< userData.size(); i++) {
                 query.setString(i+1, userData.get(i));
-            }//MENTOR!!!!!
+            }
             query.setString(7, "MENTOR");
         } catch (SQLException e) {
             System.out.println("Couldn't add mentor");
@@ -99,4 +100,18 @@ public class DAOAdminHelper {
         }
         return query;
     }
+
+    public PreparedStatement prepareQueryForUpdatedMentor(String column_name, String changedWord, Integer idUser) {
+        PreparedStatement query = null;
+        String UPDATE_COLUMN = "UPDATE users SET "+ column_name + " = " + "?" +  " WHERE id_user=" + idUser +";";
+        try {
+            query = connection.prepareStatement(UPDATE_COLUMN);
+            query.setString(1, changedWord);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return query;
+    }
 }
+

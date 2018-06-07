@@ -58,5 +58,13 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.updateMentors(userData);
     }
 
-
+    public void editMentor(String column_name, String changedWord, Integer idUser) {
+        PreparedStatement mentorUpdate = helper.prepareQueryForUpdatedMentor(column_name, changedWord, idUser);
+        try {
+            mentorUpdate.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

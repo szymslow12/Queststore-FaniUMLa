@@ -9,4 +9,5 @@ public interface DAOAdminInterface {
     ArrayList<Mentor> getAllMentors();
     Mentor getMentor(int index);
     void createMentor(ArrayList<String> userData);
+    void editMentor(String column_name, String changedWord, Integer idUser);
 }

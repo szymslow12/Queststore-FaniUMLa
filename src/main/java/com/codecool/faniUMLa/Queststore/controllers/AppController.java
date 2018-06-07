@@ -30,8 +30,8 @@ public class AppController extends Controller {
                 break;
             case EDIT_MENTOR:
                 view.displayList(daoAdmin.getAllMentors(), "");
-                String choosenMentor = askUser("Which mentor would you like to choose(number) ");
-                //daoAdmin.editMentor(choosenMentor);
+                int chosenMentor = (Integer.valueOf(askUser("Which mentor would you like to choose(number) "))-1);
+                handleMentorUpdate(daoAdmin.getMentor(chosenMentor).getIdUser());
                 break;
             case SEE_MENTOR:
                 view.displayList(daoAdmin.getAllMentors(), "");
@@ -55,5 +55,18 @@ public class AppController extends Controller {
             userData.add(askUser("Provide " + column[i] + ": "));
         }
         return userData;
+    }
+
+    private void handleMentorUpdate(Integer id_user) {
+        String word;
+        String answer;
+        String[] column = {"first_name", "last_name", "phone_number", "email"};
+        for(int i = 0; i < column.length; i++) {
+            answer = askUser("Would you like to update " + column[i] + " (y/n)?");
+            if(answer.equalsIgnoreCase("y")) {
+                word = askUser("Provide " + column[i] + ": ");
+                daoAdmin.editMentor(column[i], word, id_user);
+            }
+        }
     }
 }
