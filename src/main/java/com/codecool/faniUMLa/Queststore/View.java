@@ -11,7 +11,7 @@ public class View {
     }
 
     public void displayMenu(List<UserPrivilege> privileges) {
-        clearScreen();
+        //clearScreen();
         printLine("What would you like to do:");
         for (int i = 0; i < privileges.size(); i++) {
             System.out.printf("\t(%d) %s\n", i, privileges.get(i).toString());

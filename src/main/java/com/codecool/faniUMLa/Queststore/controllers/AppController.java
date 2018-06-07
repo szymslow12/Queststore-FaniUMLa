@@ -8,13 +8,12 @@ public class AppController extends Controller {
 
     public AppController() {
         dauUser = new DAOUser(connection);
-
         signIn();
     }
 
     public void handleMenu(UserPrivilege privilege) {
         switch (privilege) {
-            case GREET:
+            case CREATE_MENTOR:
                 //employeeController.addMentor();
                 // break;
                 System.out.println("Im in menu");
