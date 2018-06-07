@@ -51,7 +51,12 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void updateArtifact() {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
+            statement.execute();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
     }
 
     public boolean markQuestDone() {
