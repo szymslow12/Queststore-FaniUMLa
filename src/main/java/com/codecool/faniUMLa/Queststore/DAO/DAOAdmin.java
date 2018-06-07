@@ -15,4 +15,8 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
+    public void editMentor(String choosenMentor) {
+        
+    }
+
 }
