@@ -1,19 +1,22 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.*;
+import com.codecool.faniUMLa.Queststore.model.UserInputs;
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 
 import java.util.ArrayList;
 
 public class AppController extends Controller {
-    DAOUserInterface daoUser;
     DAOAdminInterface daoAdmin;
     DAOMentorInterface daoMentor;
+    DAOCodecoolerInterface daoCodecooler;
+    UserInputs inputs;
 
     public AppController() {
-        daoUser = new DAOUser(connection);
         daoAdmin = new DAOAdmin(connection);
         daoMentor = new DAOMentor(connection);
+        daoCodecooler = new DAOCodecooler(connection);
+        inputs = new UserInputs();
         signIn();
     }
 
@@ -64,19 +67,34 @@ public class AppController extends Controller {
             case SEE_CODECOOLERS_WALLETS:
                 daoMentor.seeCodecoolersWallet();
                 break;
+            case SEE_WALLET:
+                view.printLine(String.valueOf(daoCodecooler.getCoolcoins(getUser().getIdUser())));
+                break;
+            case SEE_LEVEL:
+                view.printLine(daoCodecooler.getLevel(getUser().getIdUser()));
+                break;
+            case BUY_ARTIFACT:
+                daoCodecooler.showArtifacts();
+                int idArtifact = inputs.getInt("Which artifact would you like to buy? ");
+                daoCodecooler.buyArtifact(getUser().getIdUser(), idArtifact);
             case EXIT:
                 view.printLine("Bye bye");
         }
     }
 
     public void run() {
-        UserPrivilege privilege;
+        UserPrivilege privilege = null;
         do {
-            privilege = choosePrivilege();
-            handleMenu(privilege);
+            try{
+                privilege = choosePrivilege();
+                handleMenu(privilege);
+            } catch (NumberFormatException e) {
+                view.printLine("Please provide number!");
+            }
         }while(isRun(privilege));
     }
-    ArrayList<String> getUserData() {
+
+    private ArrayList<String> getUserData() {
         ArrayList <String> userData = new ArrayList<>();
         String[] column = {"first name", "last name", "phone number", "email", "login", "password"};
         for(int i = 0; i<column.length; i++) {
@@ -98,7 +116,7 @@ public class AppController extends Controller {
         }
     }
 
-    public boolean isRun(UserPrivilege privilege) {
+    private boolean isRun(UserPrivilege privilege) {
         return privilege != UserPrivilege.EXIT;
     }
 }

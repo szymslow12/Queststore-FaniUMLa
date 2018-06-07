@@ -15,18 +15,17 @@ public class Controller extends DBConnectionController {
     View view = new View();
     Scanner scanner = new Scanner(System.in);
     private static User user;
-    DAOUser daoUser = new DAOUser(connection);
-
+    DAOUserInterface daoUser = new DAOUser(connection);
 
     public void signIn() {
         String login = askLogin();
         String password = askPassword();
-        setUserToNull();
-
         this.user = daoUser.getUser(login, password);
-        if (getUser() == null) {
+        while(user == null) {
             view.printLine("Wrong login/password. Try again..");
-            signIn();
+            login = askLogin();
+            password = askPassword();
+            this.user = daoUser.getUser(login, password);
         }
     }
 
@@ -38,16 +37,12 @@ public class Controller extends DBConnectionController {
         return askUser("Password");
     }
 
-    private void setUserToNull() {
-        this.user = null;
-    }
-
     public String askUser(String message) {
         view.printLine(message);
         return scanner.nextLine();
     }
 
-    private User getUser() {
+    public User getUser() {
         return user;
     }
 
