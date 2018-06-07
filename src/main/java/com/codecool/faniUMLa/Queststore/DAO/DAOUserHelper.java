@@ -26,7 +26,7 @@ public class DAOUserHelper {
     public User getIfExist(String login, String password) {
         User user = null;
         ResultSet rs = null;
-        PreparedStatement query = null;
+        PreparedStatement query;
         ArrayList accessID = getUserAccessID(login, password);
         int accessIndex = 0;
         int idUser = 1;

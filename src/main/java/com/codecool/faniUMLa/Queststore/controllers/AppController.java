@@ -26,8 +26,8 @@ public class AppController extends Controller {
                 daoAdmin.createClass(class_name);
                 break;
             case EDIT_MENTOR:
-                //daoAdmin.showAllMentors();
-                choosenMentor = askUser("Provide class_name");
+                daoAdmin.getAllMentors();
+                choosenMentor = askUser("Which mentor would you like ");
                 //daoAdmin.editMentor(choosenMentor);
                 break;
             case SEE_MENTOR:

@@ -1,6 +1,12 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.users.Mentor;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DAOAdmin implements DAOAdminInterface {
     private DAOAdminHelper helper;
@@ -16,7 +22,32 @@ public class DAOAdmin implements DAOAdminInterface {
     }
 
     public void editMentor(String choosenMentor) {
-        
+
+    }
+
+    public ArrayList<Mentor> getAllMentors() {
+        ArrayList<Mentor> mentorsList = new ArrayList<>();
+        ResultSet rs;
+        PreparedStatement query;
+        String ALL_MENTORS = " SELECT first_name, last_name FROM users WHERE user_access = MENTOR";
+        try {
+            query = connection.prepareStatement(ALL_MENTORS);
+            rs = query.executeQuery();
+            while (rs.next()) {
+                Integer id_User = rs.getInt("id_user");
+                String first_name = rs.getString("first_name");
+                String last_name = rs.getString("last_name");
+                String email = rs.getString("email");
+                String phone_number = rs.getString("phone_number");
+                mentorsList.add(new Mentor(id_User, first_name, last_name, email, phone_number));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mentorsList;
+
+
+
     }
 
 }
