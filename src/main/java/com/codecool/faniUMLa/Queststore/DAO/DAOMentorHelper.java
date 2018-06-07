@@ -2,6 +2,11 @@ package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class DAOMentorHelper {
 
     private UserInputs userInputs;
@@ -45,10 +50,31 @@ public class DAOMentorHelper {
     }
 
 
-    public String markQuestDoneQuery() {
+    public String addCoolcoinsToWalletQuery(Connection connection, Integer questID, Integer codecoolerID)
+            throws SQLException {
+
+        int award = getAward(connection, questID);
+        String query = String.format("UPDATE codecoolers%nSET coolcoins = (coolcoins + %s)%n%s", award,
+                String.format("WHERE codecoolers.id_codecooler = %s%n", codecoolerID));
+        return query;
+    }
+
+
+    private int getAward(Connection connection, Integer questID) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement(
+                String.format("SELECT award FROM quests WHERE quests.id_quest = %s", questID));
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("award");
+    }
+
+
+    public Object[] markQuestDoneQueryValues() {
         int[] questAndCodecoolerID = getIntQueryValues(new String[]{"Enter quest ID: ", "Enter codecoolers ID: "});
-        return String.format("INSERT INTO quests_codecoolers (id_quest, id_codecooler)%n%s",
+        String query = String.format("INSERT INTO quests_codecoolers (id_quest, id_codecooler)%n%s",
                 String.format("VALUES (%s, %s)", questAndCodecoolerID[0], questAndCodecoolerID[1]));
+        Object[] queryValues = new Object[] {query, questAndCodecoolerID[0], questAndCodecoolerID[1]};
+        return queryValues;
     }
 
 
@@ -67,10 +93,5 @@ public class DAOMentorHelper {
             values[i] = userInputs.getInt(messages[i]);
         }
         return values;
-    }
-
-    public static void main(String[] args) {
-        DAOMentorHelper h = new DAOMentorHelper();
-        System.out.println(h.getAddNewQuestQuery());
     }
 }
