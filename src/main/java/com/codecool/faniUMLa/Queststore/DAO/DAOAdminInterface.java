@@ -8,4 +8,5 @@ public interface DAOAdminInterface {
     void createClass(String className);
     ArrayList<Mentor> getAllMentors();
     Mentor getMentor(int index);
+    void createMentor(ArrayList<String> userData);
 }

@@ -51,9 +51,12 @@ public class DAOAdmin implements DAOAdminInterface {
             ArrayList<Mentor> mentorsList = new ArrayList<>();
             mentorsList = getAllMentors();
             return mentorsList.get(index);
+        }
 
-
-
+    public void createMentor(ArrayList <String> userData) {
+        helper.addUserToDataBase(userData);
+        helper.updateMentors(userData);
     }
+
 
 }
