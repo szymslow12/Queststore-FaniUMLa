@@ -1,6 +1,10 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.View;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOMentor implements DAOMentorInterface {
 
@@ -92,14 +96,33 @@ public class DAOMentor implements DAOMentorInterface {
         return false;
     }
 
-    public ResultSet seeCodecoolersWallet() {
+    public void seeCodecoolersWallet() {
         ResultSet result = null;
+        List<String> fullLineList = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(helper.getCodecoolersWalletsQuery());
             result = statement.executeQuery();
+            fullLineList = getFullLineList(result, fullLineList);
+
         } catch (SQLException err) {
             err.printStackTrace();
         }
-        return result;
+
+        new View().displayList(fullLineList, "Codecoolers wallets: ");
+    }
+
+
+    private List<String> getFullLineList(ResultSet result, List<String> fullLineList) throws SQLException {
+        while (!result.isLast()) {
+            result.next();
+            fullLineList.add(getFullLine(result.getString("full_name"),
+                    result.getInt("coolcoins")));
+        }
+        return fullLineList;
+    }
+
+
+    private String getFullLine(String fullName, int coolcoins) {
+        return String.format("%s . %s", fullName, coolcoins);
     }
 }
