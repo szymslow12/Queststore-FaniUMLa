@@ -86,6 +86,38 @@ public class DAOMentorHelper {
     }
 
 
+    public String getUpdateQuestQuery() {
+        String query = "UPDATE quests SET %s = %s%nWHERE quests.id_quest = %s";
+        String column = userInputs.getString("Enter which column do you want update\n" +
+                "(cateogry (c)/ name (n)/ award (a)/ description (d)): ");
+        int questID = userInputs.getInt("Enter questID which you want update: ");
+
+        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("d") ||
+                column.equalsIgnoreCase("name") || column.equalsIgnoreCase("description")) {
+
+            if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
+                String name = "'" + userInputs.getString("Enter new quest name: ") + "'";
+                return String.format(query, "quest_name", name, questID);
+            } else {
+                String description = "'" + userInputs.getString("Enter new quest description: ") + "'";
+                return String.format(query, "description", description, questID);
+            }
+
+        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("a") ||
+                column.equalsIgnoreCase("category") || column.equalsIgnoreCase("award")) {
+
+            if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
+                int categoryID = userInputs.getInt("Enter new quest categoryID: ");
+                return String.format(query, "id_category", categoryID, questID);
+            } else {
+                int award = userInputs.getInt("Enter new quest award: ");
+                return String.format(query, "award", award, questID);
+            }
+        }
+        return "";
+    }
+
+
     private String[] getQueryValues(String[] messages) {
         String[] values = new String[messages.length];
         for (int i = 0; i < messages.length; i++) {
