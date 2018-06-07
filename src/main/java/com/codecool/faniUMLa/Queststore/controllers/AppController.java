@@ -29,12 +29,12 @@ public class AppController extends Controller {
                 break;
             case EDIT_MENTOR:
                 view.displayList(daoAdmin.getAllMentors(), "");
-                int chosenMentor = (Integer.valueOf(askUser("Which mentor would you like to choose(number) "))-1);
+                int chosenMentor = (Integer.valueOf(askUser("Which mentor would you like to choose(number) ")) - 1);
                 handleMentorUpdate(daoAdmin.getMentor(chosenMentor).getIdUser());
                 break;
             case SEE_MENTOR:
                 view.displayList(daoAdmin.getAllMentors(), "");
-                int mentorIndex = (Integer.valueOf(askUser("Provide mentor's number"))-1);
+                int mentorIndex = (Integer.valueOf(askUser("Provide mentor's number")) - 1);
                 view.printLine(daoAdmin.getMentor(mentorIndex).getMentorDetails());
                 break;
             case CREATE_LEVELS:
