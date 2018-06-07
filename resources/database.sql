@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS users
 (
 id_user SERIAL PRIMARY KEY,
-user_login TEXT,
+user_login TEXT UNIQUE,
 user_password TEXT,
 user_access TEXT,
 first_name TEXT,
