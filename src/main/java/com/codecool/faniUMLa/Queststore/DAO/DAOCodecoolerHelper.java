@@ -19,9 +19,13 @@ public class DAOCodecoolerHelper {
     private final String GET_ARTIFACTS = "SELECT * FROM artifacts";
     private final String ADD_ITEM = "INSERT INTO artifacts_codecooleres VALUES (?, ?, ?);";
     private final String GET_GROUP = "SELECT * FROM groups WHERE id_artifact = ?;";
-    private final String UPDATE_GROUP = "UPDATE groups SET money = ?;";
+    private final String UPDATE_GROUP = "UPDATE groups SET money = ? WHERE id_group = ?;";
     private final String INSERT_BOUGHT_ITEM = "INSERT INTO groups_codecoolers VALUES (?, ?, ?);";
     private final String INSERT_NEW_GROUP = "INSERT INTO groups(id_artifact, money) VALUES (?, ?);";
+    private final String SUBSTRACT_MONEY = "UPDATE codecoolers SET money = ? WHERE id_codecooler = ?;";
+    private final String GET_STUDENT_ARTIFACTS = "SELECT * FROM artifacts_codecooleres WHERE id_artifact = ?;";
+    private final String UPDATE_STUDENT_ARTIFACTS = "UPDATE artifacts_codecooleres " +
+            "SET quantity = ? WHERE id_codecooler = ? AND id_artifact = ?;";
 
     public DAOCodecoolerHelper(Connection connection) {
         this.view = new View();
@@ -79,21 +83,52 @@ public class DAOCodecoolerHelper {
         List<Artifact> artifacts = getArtifacts();
         Artifact artifact = artifacts.get(idArtifact - 1);
         if (isSingleBuyer(artifact)) {
-            int price = artifact.getPrice();
-            int money = getCoolcoins(idUser);
+            ResultSet rs;
+            try {
+                rs = studentArtQuery(idUser).executeQuery();
+                if (rs.next()) {
+                    if (rs.getInt("id_artifact") != artifact.getCategory().getCategoryID()) {
+                        int price = artifact.getPrice();
+                        int money = getCoolcoins(idUser);
+                        if (isAvailable(price, money)) {
+                            addItem(artifact, idUser);
 
-            if (isAvailable(price, money)) {
+                        } else {
 
-                addItem(artifact, idUser);
-
-            } else {
-
-                view.printLine("You cannot afford this item!");
+                            view.printLine("You cannot afford this item!");
+                        }
+                    } else {
+                        updateStudentArt(idUser, idArtifact, rs.getInt("quantity")).executeUpdate();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } else {
             groupShopping(artifact, idUser);
         }
 
+    }
+
+    private PreparedStatement updateStudentArt(int idUser, int idArtifact, int quantity) throws SQLException{
+
+        PreparedStatement query;
+        query = connection.prepareStatement(UPDATE_STUDENT_ARTIFACTS);
+
+        query.setInt(1, quantity + 1);
+        query.setInt(2, idUser);
+        query.setInt(3, idArtifact);
+
+        return  query;
+    }
+
+
+    private PreparedStatement studentArtQuery (int idUser) throws SQLException {
+
+        PreparedStatement query;
+        query = connection.prepareStatement(GET_STUDENT_ARTIFACTS);
+        query.setInt(1, idUser);
+        return query;
     }
 
     private boolean isSingleBuyer(Artifact artifact) {
@@ -136,11 +171,21 @@ public class DAOCodecoolerHelper {
 
         try {
             buyQuery(idUser, item.getArtifactID()).executeUpdate();
+            substractMoneyQuery(idUser, item.getPrice()).executeUpdate();
             view.printLine("Congratulations! You bought item.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private PreparedStatement substractMoneyQuery(int idUser, int price) throws SQLException {
+
+        PreparedStatement query;
+        query = connection.prepareStatement(SUBSTRACT_MONEY);
+        query.setInt(1, getCoolcoins(idUser) - price);
+        query.setInt(2, idUser);
+        return query;
     }
 
     private PreparedStatement buyQuery(int idUser, int idArtifact) throws SQLException {
@@ -163,16 +208,16 @@ public class DAOCodecoolerHelper {
     private void buyArtifact(Artifact artifact, int idUser) {
 
         ResultSet rs;
-
         try {
             rs = groupQuery(artifact.getArtifactID()).executeQuery();
-
+            view.printLine(String.valueOf(getCoolcoins(idUser)));
             if (rs.next()) {
-                int deficit = artifact.getPrice() - rs.getInt("money");
-                int coolcoins = userInputs.getInt("How much money would like to give ?");
+                view.printLine("You need " + String.valueOf(artifact.getPrice() - rs.getInt("money") + " to buy this item."));
+                int coolcoins = getMoney(idUser);
+                int deficit = calculateDeficit(artifact, rs);
                 int moneyToGive = (coolcoins < deficit) ? coolcoins : deficit;
                 int newDeficit = deficit - moneyToGive;
-                updateGroup(newDeficit).executeUpdate();
+                updateGroup(newDeficit, rs.getInt("id_group")).executeUpdate();
 
                 if (isBought(newDeficit, idUser, rs)) {
                     view.printLine("Congratulations! Your group has just bought a new item!");
@@ -188,6 +233,25 @@ public class DAOCodecoolerHelper {
         }
     }
 
+    private int calculateDeficit(Artifact artifact, ResultSet rs) throws SQLException {
+
+        if (artifact.getPrice() > rs.getInt("money")) {
+            return artifact.getPrice() - rs.getInt("money");
+        } else return artifact.getPrice();
+    }
+
+    private int getMoney(int idUser) throws SQLException {
+
+        int money = getCoolcoins(idUser);
+        int coolcoins = userInputs.getInt("How much money would like to give ?");
+        if (coolcoins > money) {
+            view.printLine("You don't have enough money!");
+            getMoney(idUser);
+        }
+        substractMoneyQuery(idUser, money - coolcoins);
+        return coolcoins;
+    }
+
     private PreparedStatement groupQuery(int idArtifact) throws SQLException {
 
         PreparedStatement query;
@@ -197,15 +261,15 @@ public class DAOCodecoolerHelper {
         return query;
     }
 
-    private PreparedStatement updateGroup(int newDeficit) throws SQLException {
+    private PreparedStatement updateGroup(int newDeficit, int idGroup) throws SQLException {
 
         PreparedStatement query;
         query = connection.prepareStatement(UPDATE_GROUP);
         query.setInt(1, newDeficit);
+        query.setInt(2, idGroup);
 
         return query;
     }
-
 
     private boolean isBought(int newDeficit, int idUser, ResultSet rs) throws SQLException {
 
@@ -229,8 +293,6 @@ public class DAOCodecoolerHelper {
     private void createNewGroup(Artifact artifact, int money) throws SQLException {
 
         PreparedStatement query;
-
-        view.printLine(String.valueOf(artifact.getArtifactID()));
         query = connection.prepareStatement(INSERT_NEW_GROUP);
         query.setInt(1, artifact.getArtifactID());
         query.setInt(2, artifact.getPrice() - money);
