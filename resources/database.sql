@@ -39,7 +39,7 @@ id_class INTEGER
 CREATE TABLE IF NOT EXISTS classes
 (
 id_class SERIAL PRIMARY KEY,
-class_name TEXT
+class_name TEXT UNIQUE
 );
 CREATE TABLE IF NOT EXISTS mentors_classes
 (

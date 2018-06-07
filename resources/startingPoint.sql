@@ -1,0 +1,32 @@
+﻿INSERT INTO users
+VALUES(DEFAULT, 'test','test','test','test','test','test','test');
+
+INSERT INTO admins
+VALUES(DEFAULT, DEFAULT);
+
+INSERT INTO mentors
+VALUES (DEFAULT, DEFAULT);
+
+INSERT INTO levels
+VALUES (DEFAULT, 'level1');
+
+INSERT INTO codecoolers
+VALUES (DEFAULT, DEFAULT, 100, DEFAULT, 1);
+
+INSERT INTO classes
+VALUES (DEFAULT, 'class1');
+
+INSERT INTO artCategories
+VALUES (DEFAULT, 'ART1');
+
+INSERT INTO artifacts
+VALUES (DEFAULT, 'czapka', 1, 50, 'CIEPLA CZAPKA');
+
+INSERT INTO groups
+VALUES (DEFAULT, 'CEL1');
+
+INSERT INTO questCategories
+VALUES (DEFAULT, 'CATEGORY 1');
+
+INSERT INTO quests
+VALUES (DEFAULT, 1, 'PROJEKT 1', 50, 'ZROB PROJEKT');

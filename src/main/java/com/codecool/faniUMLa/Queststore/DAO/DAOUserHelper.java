@@ -15,13 +15,9 @@ public class DAOUserHelper {
     private Connection connection;
     private final String GET_USER_ACCESS_ID = "SELECT user_access, id_user FROM users "+
                                     "WHERE user_login= ? AND user_password= ?";
-    private final String GET_MENTOR = "SELECT * FROM mentors "+
+    private final String GET_USER = "SELECT * FROM users "+
             "WHERE id_user =  ?";
-    private final String GET_ADMIN = "SELECT * FROM admins "+
-            "WHERE id_user =  ?";
-    private final String GET_CODECOOLER = "SELECT * FROM codecoolers "+
-            "WHERE id_user =  ?";
-
+    private final String GET_CODECOOLER = "SELECT * FROM users INNER JOIN codecoolers ON (users.id_user = codecoolers.id_user) WHERE users.id_user =  ?";
 
     public DAOUserHelper(Connection connection) {
         this.connection = connection;
@@ -30,10 +26,11 @@ public class DAOUserHelper {
     public User getIfExist(String login, String password) {
         User user = null;
         ResultSet rs = null;
-        PreparedStatement query = null;
+        PreparedStatement query;
         ArrayList accessID = getUserAccessID(login, password);
         int accessIndex = 0;
         int idUser = 1;
+
         if(accessID.size() < 1) {
             return null;
         }
@@ -41,11 +38,12 @@ public class DAOUserHelper {
         String access = (String) accessID.get(accessIndex);
         Integer id =  Integer.valueOf((String)accessID.get(idUser));
         try {
+            query = connection.prepareStatement(GET_USER);
+            query.setInt(1, id);
+            rs = query.executeQuery();
             switch (access) {
                 case "MENTOR":
-                    query = connection.prepareStatement(GET_MENTOR);
-                    query.setInt(1, id);
-                    rs = query.executeQuery();
+
                     while (rs.next()) {
                         Integer id_User = rs.getInt("id_user");
                         String first_name = rs.getString("first_name");
@@ -56,9 +54,7 @@ public class DAOUserHelper {
                     }
                     break;
                 case "ADMIN":
-                    query = connection.prepareStatement(GET_ADMIN);
-                    query.setInt(1, id);
-                    rs = query.executeQuery();
+
                     while (rs.next()) {
                         Integer id_User = rs.getInt("id_user");
                         String first_name = rs.getString("first_name");
@@ -78,27 +74,25 @@ public class DAOUserHelper {
                         String last_name = rs.getString("last_name");
                         String email = rs.getString("email");
                         String phone_number = rs.getString("phone_number");
+                        int id_codecooler = rs.getInt("id_codecooler");
                         int class_id = rs.getInt("id_class");
-                        String experience = rs.getString("level_of_exp");
+                        int level_id = rs.getInt("id_level");
                         int coolcoins = rs.getInt("coolcoins");
-                        user = new Codecooler(id_User, first_name, last_name, email, phone_number, class_id, experience, coolcoins);
+                        user = new Codecooler(idUser, first_name, last_name, email, phone_number, class_id, level_id, coolcoins, id_codecooler);
                     }
                     break;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return user;
     }
 
     private PreparedStatement prepareAccessQuery(String login, String password) throws SQLException {
         PreparedStatement query = null;
-
         query = connection.prepareStatement(GET_USER_ACCESS_ID);
         query.setString( 1, login);
         query.setString( 2, password);
-
         return query;
     }
 
@@ -121,6 +115,4 @@ public class DAOUserHelper {
         }
         return userAccessID;
     }
-
-
 }
