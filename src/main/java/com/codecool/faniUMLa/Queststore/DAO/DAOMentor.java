@@ -2,6 +2,7 @@ package com.codecool.faniUMLa.Queststore.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DAOMentor implements DAOMentorInterface {
@@ -52,14 +53,28 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public boolean markQuestDone() {
-        return true;
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.markQuestDoneQuery());
+            statement.execute();
+            return true;
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return false;
     }
 
     public boolean markBoughtArtifact() {
         return true;
     }
 
-    public void seeCodecoolersWallet() {
-
+    public ResultSet seeCodecoolersWallet() {
+        ResultSet result = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.getCodecoolersWalletsQuery());
+            result = statement.executeQuery();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return result;
     }
 }
