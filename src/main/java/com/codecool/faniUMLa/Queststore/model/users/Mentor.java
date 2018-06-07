@@ -6,4 +6,8 @@ public class Mentor extends User{
         super(accountID, firstName, lastName, email, phoneNumber);
         super.setAccess(UserAccess.MENTOR);
     }
+
+    public String getMentorDetails() {
+        return "ID_User: " + getIdUser() + ", " + getFirstName() + " " + getLastName() + ", "+ getEmail() + ", Phone: " + getPhoneNumber();
+    }
 }

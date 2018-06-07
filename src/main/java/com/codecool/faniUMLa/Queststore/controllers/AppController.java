@@ -17,7 +17,6 @@ public class AppController extends Controller {
     }
 
     public void handleMenu(UserPrivilege privilege) {
-        String choosenMentor;
         switch (privilege) {
             case CREATE_MENTOR:
                 break;
@@ -26,14 +25,14 @@ public class AppController extends Controller {
                 daoAdmin.createClass(class_name);
                 break;
             case EDIT_MENTOR:
-                daoAdmin.getAllMentors();
-                choosenMentor = askUser("Which mentor would you like ");
+                view.displayList(daoAdmin.getAllMentors(), "");
+                String choosenMentor = askUser("Which mentor would you like to choose(number) ");
                 //daoAdmin.editMentor(choosenMentor);
                 break;
             case SEE_MENTOR:
-                //daoAdmin.showAllMentors();
-                choosenMentor = askUser("Provide class_name");
-                //daoAdmin.seeMentor(choosenMentor);
+                view.displayList(daoAdmin.getAllMentors(), "");
+                int mentorIndex = (Integer.valueOf(askUser("Provide mentor's number"))-1);
+                view.printLine(daoAdmin.getMentor(mentorIndex).getMentorDetails());
                 break;
             case CREATE_LEVELS:
                 break;

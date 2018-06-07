@@ -24,4 +24,29 @@ public abstract class User {
     public void setAccess(UserAccess access) {
         this.access = access;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 }

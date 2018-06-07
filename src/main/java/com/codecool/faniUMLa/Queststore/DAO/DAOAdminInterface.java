@@ -7,4 +7,5 @@ import java.util.ArrayList;
 public interface DAOAdminInterface {
     void createClass(String className);
     ArrayList<Mentor> getAllMentors();
+    Mentor getMentor(int index);
 }

@@ -29,7 +29,7 @@ public class DAOAdmin implements DAOAdminInterface {
         ArrayList<Mentor> mentorsList = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
-        String ALL_MENTORS = " SELECT first_name, last_name FROM users WHERE user_access = MENTOR";
+        String ALL_MENTORS = " SELECT * FROM users WHERE user_access = 'MENTOR'";
         try {
             query = connection.prepareStatement(ALL_MENTORS);
             rs = query.executeQuery();
@@ -45,6 +45,12 @@ public class DAOAdmin implements DAOAdminInterface {
             e.printStackTrace();
         }
         return mentorsList;
+        }
+
+        public Mentor getMentor(int index) {
+            ArrayList<Mentor> mentorsList = new ArrayList<>();
+            mentorsList = getAllMentors();
+            return mentorsList.get(index);
 
 
 
