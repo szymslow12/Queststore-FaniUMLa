@@ -15,4 +15,35 @@ public class Artifact {
         this.price = price;
         this.description = description;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getArtifactID() {
+        return artifactID;
+    }
+
+    public ArtifactCategory getCategory() {
+
+        return category;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(artifactID);
+        sb.append(" ");
+        sb.append(name);
+        sb.append(" ");
+        sb.append(category);
+        sb.append(" ");
+        sb.append(price);
+        sb.append(" ");
+        sb.append(description);
+        return sb.toString();
+    }
 }
