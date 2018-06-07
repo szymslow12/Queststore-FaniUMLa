@@ -47,7 +47,7 @@ public class Controller extends DBConnectionController {
         return scanner.nextLine();
     }
 
-    private User getUser() {
+    public User getUser() {
         return user;
     }
 
