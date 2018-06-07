@@ -39,6 +39,8 @@ public class AppController extends Controller {
                 view.printLine(daoAdmin.getMentor(mentorIndex).getMentorDetails());
                 break;
             case CREATE_LEVELS:
+                String level_name = askUser("Provide name");
+                daoAdmin.createLevel(level_name);
                 break;
         }
     }

@@ -21,10 +21,6 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
-    public void editMentor(String choosenMentor) {
-
-    }
-
     public ArrayList<Mentor> getAllMentors() {
         ArrayList<Mentor> mentorsList = new ArrayList<>();
         ResultSet rs;
@@ -65,6 +61,9 @@ public class DAOAdmin implements DAOAdminInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void createLevel(String level_name){
+        helper.addLevel(level_name);
     }
 }
 

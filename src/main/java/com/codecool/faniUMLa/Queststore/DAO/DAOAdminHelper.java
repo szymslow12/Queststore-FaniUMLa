@@ -20,7 +20,8 @@ public class DAOAdminHelper {
 
     private static final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private static final String UPDATE_COLUMN = "UPDATE users SET ? = ? WHERE id_user= ?;";
+    private static final String ADD_LEVEL = "INSERT INTO levels (name_level)\n" +
+            "VALUES(?) ";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -112,6 +113,17 @@ public class DAOAdminHelper {
             e.printStackTrace();
         }
         return query;
+    }
+
+    public void addLevel(String level_name) {
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(ADD_LEVEL);
+            query.setString(1, level_name);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("There's such level already");
+        }
     }
 }
 
