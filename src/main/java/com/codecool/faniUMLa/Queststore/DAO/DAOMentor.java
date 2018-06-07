@@ -15,7 +15,8 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewCodecooler() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getAddCodecoolerQuery());
+            PreparedStatement statement = null;
+            statement = connection.prepareStatement(helper.getAddCodecoolerQuery(statement, connection));
             statement.execute();
         } catch (SQLException err) {
             err.printStackTrace();
