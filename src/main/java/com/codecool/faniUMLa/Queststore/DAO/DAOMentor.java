@@ -1,9 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DAOMentor implements DAOMentorInterface {
 
@@ -36,7 +33,12 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void updateQuest() {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
+            statement.execute();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
     }
 
     public void addNewArtifact() {
@@ -49,13 +51,20 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void updateArtifact() {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
+            statement.execute();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
     }
 
     public boolean markQuestDone() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.markQuestDoneQuery());
+            Object[] queryValues = helper.markQuestDoneQueryValues();
+            PreparedStatement statement = connection.prepareStatement((String) queryValues[0]);
             statement.execute();
+            addCoolcoinsToCodecoolerWallet(statement, (Integer) queryValues[1], (Integer) queryValues[2]);
             return true;
         } catch (SQLException err) {
             err.printStackTrace();
@@ -63,8 +72,23 @@ public class DAOMentor implements DAOMentorInterface {
         return false;
     }
 
+
+    private void addCoolcoinsToCodecoolerWallet(PreparedStatement statement, Integer questID, Integer codecoolerID)
+            throws SQLException {
+
+        statement = connection.prepareStatement(helper.addCoolcoinsToWalletQuery(connection, questID, codecoolerID));
+        statement.execute();
+    }
+
     public boolean markBoughtArtifact() {
-        return true;
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.markBoughtArtifactQuery());
+            statement.execute();
+            return true;
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return false;
     }
 
     public ResultSet seeCodecoolersWallet() {

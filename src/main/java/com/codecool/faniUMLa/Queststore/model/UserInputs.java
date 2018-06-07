@@ -7,19 +7,14 @@ import java.util.Scanner;
 
 public class UserInputs {
 
-    private Scanner scanner;
-
-    public UserInputs() {
-        this.scanner = new Scanner(System.in);
-    }
-
     public String getString(String message) {
         new View().printLine(message);
-        return scanner.nextLine();
+        return new Scanner(System.in).nextLine();
     }
 
 
     public int getInt(String message) {
+        Scanner scanner = new Scanner(System.in);
         boolean isCorrectInput = false;
         int number = 0;
         while (!isCorrectInput) {
