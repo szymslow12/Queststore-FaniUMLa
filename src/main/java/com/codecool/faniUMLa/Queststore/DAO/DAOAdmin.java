@@ -44,7 +44,7 @@ public class DAOAdmin implements DAOAdminInterface {
         }
 
         public Mentor getMentor(int index) {
-            ArrayList<Mentor> mentorsList = new ArrayList<>();
+            ArrayList<Mentor> mentorsList;
             mentorsList = getAllMentors();
             return mentorsList.get(index);
         }

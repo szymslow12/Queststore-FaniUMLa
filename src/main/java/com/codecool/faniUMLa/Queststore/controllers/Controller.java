@@ -15,8 +15,8 @@ public class Controller extends DBConnectionController {
     View view = new View();
     Scanner scanner = new Scanner(System.in);
     private static User user;
-    DAOUser daoUser = new DAOUser(connection);
-    
+    DAOUserInterface daoUser = new DAOUser(connection);
+
     public void signIn() {
         String login = askLogin();
         String password = askPassword();

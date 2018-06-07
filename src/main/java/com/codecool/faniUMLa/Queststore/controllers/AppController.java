@@ -9,11 +9,9 @@ import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
 import java.util.ArrayList;
 
 public class AppController extends Controller {
-    DAOUserInterface daoUser;
     DAOAdminInterface daoAdmin;
 
     public AppController() {
-        daoUser = new DAOUser(connection);
         daoAdmin = new DAOAdmin(connection);
         signIn();
     }
@@ -57,7 +55,8 @@ public class AppController extends Controller {
             }
         }while(isRun(privilege));
     }
-    ArrayList<String> getUserData() {
+
+    private ArrayList<String> getUserData() {
         ArrayList <String> userData = new ArrayList<>();
         String[] column = {"first name", "last name", "phone number", "email", "login", "password"};
         for(int i = 0; i<column.length; i++) {
@@ -79,7 +78,7 @@ public class AppController extends Controller {
         }
     }
 
-    public boolean isRun(UserPrivilege privilege) {
+    private boolean isRun(UserPrivilege privilege) {
         return privilege != UserPrivilege.EXIT;
     }
 }

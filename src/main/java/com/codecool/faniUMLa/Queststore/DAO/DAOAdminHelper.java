@@ -47,7 +47,7 @@ public class DAOAdminHelper {
         }
     }
 
-    PreparedStatement prepareUser(ArrayList<String> userData) {
+    public PreparedStatement prepareUser(ArrayList<String> userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(ADD_MENTOR);

@@ -89,7 +89,7 @@ public class DAOUserHelper {
     }
 
     private PreparedStatement prepareAccessQuery(String login, String password) throws SQLException {
-        PreparedStatement query = null;
+        PreparedStatement query;
         query = connection.prepareStatement(GET_USER_ACCESS_ID);
         query.setString( 1, login);
         query.setString( 2, password);
