@@ -18,4 +18,5 @@ public enum UserPrivilege {
     BUY_ARTIFACT,
     BUY_ARTIFACT_WITH_TEAMMATES,
     SEE_LEVEL,
+    EXIT,
 }

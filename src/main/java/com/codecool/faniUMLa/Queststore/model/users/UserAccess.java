@@ -14,7 +14,7 @@ public enum UserAccess {
             privileges.add(UserPrivilege.EDIT_MENTOR);
             privileges.add(UserPrivilege.SEE_MENTOR);
             privileges.add(UserPrivilege.CREATE_LEVELS);
-
+            privileges.add(UserPrivilege.EXIT);
             return privileges;
         }
     },
@@ -32,6 +32,7 @@ public enum UserAccess {
             privileges.add(UserPrivilege.MARK_QUEST_DONE);
             privileges.add(UserPrivilege.MARK_BOUGHT_ARTIFACT);
             privileges.add(UserPrivilege.SEE_CODECOOLERS_WALLETS);
+            privileges.add(UserPrivilege.EXIT);
 
             return privileges;
         }
@@ -45,6 +46,7 @@ public enum UserAccess {
             privileges.add(UserPrivilege.BUY_ARTIFACT);
             privileges.add(UserPrivilege.BUY_ARTIFACT_WITH_TEAMMATES);
             privileges.add(UserPrivilege.SEE_LEVEL);
+            privileges.add(UserPrivilege.EXIT);
 
             return privileges;
         }

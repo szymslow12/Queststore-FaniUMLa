@@ -41,13 +41,17 @@ public class AppController extends Controller {
                 String level_name = askUser("Provide name");
                 daoAdmin.createLevel(level_name);
                 break;
+            case EXIT:
+                view.printLine("Bye bye");
         }
     }
 
     public void run() {
         UserPrivilege privilege;
-        privilege = choosePrivilege();
-        handleMenu(privilege);
+        do {
+            privilege = choosePrivilege();
+            handleMenu(privilege);
+        }while(isRun(privilege));
     }
     ArrayList<String> getUserData() {
         ArrayList <String> userData = new ArrayList<>();
@@ -69,5 +73,9 @@ public class AppController extends Controller {
                 daoAdmin.editMentor(column[i], word, id_user);
             }
         }
+    }
+
+    public boolean isRun(UserPrivilege privilege) {
+        return privilege != UserPrivilege.EXIT;
     }
 }
