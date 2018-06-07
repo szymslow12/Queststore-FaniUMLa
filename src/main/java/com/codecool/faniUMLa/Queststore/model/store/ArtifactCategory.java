@@ -9,4 +9,8 @@ public class ArtifactCategory {
         this.categoryID = categoryID;
 
     }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
 }
