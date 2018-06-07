@@ -27,7 +27,7 @@ public class View {
         clearScreen();
         printLine(message);
         for (int i = 0; i < list.size(); i++) {
-            System.out.printf("\t(%d) %s\n", i, list.get(i).toString());
+            System.out.printf("\t(%d) %s\n", i+1, list.get(i).toString());
         }
     }
 }
