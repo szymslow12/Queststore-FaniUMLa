@@ -1,5 +1,7 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import java.sql.ResultSet;
+
 public interface DAOMentorInterface {
 
     void addNewCodecooler();
@@ -16,5 +18,5 @@ public interface DAOMentorInterface {
 
     boolean markBoughtArtifact();
 
-    void seeCodecoolersWallet();
+    ResultSet seeCodecoolersWallet();
 }
