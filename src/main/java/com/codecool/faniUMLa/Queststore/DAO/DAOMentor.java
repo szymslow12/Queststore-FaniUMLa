@@ -33,7 +33,12 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void updateQuest() {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
+            statement.execute();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
     }
 
     public void addNewArtifact() {
