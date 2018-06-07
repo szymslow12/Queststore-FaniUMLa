@@ -73,7 +73,9 @@ public class DAOMentorHelper {
 
 
     public String getCodecoolersWalletsQuery() {
-        return "SELECT first_name || last_name AS full_name, coolcoins FROM codecoolers";
+        return String.format("%s%s%s", "SELECT coolcoins",
+                ", users.first_name || ' ' || users.last_name AS full_name FROM ",
+                "codecoolers\nLEFT JOIN users\nON codecoolers.id_user = users.id_user");
     }
 
 
@@ -107,7 +109,7 @@ public class DAOMentorHelper {
 
     public String markBoughtArtifactQuery() {
         int[] queryValues = getIntQueryValues(new String[]{"Enter artifactID: ", "Enter codecoolersID: "});
-        String query = String.format("INSERT INTO artifacts_codecooleres (id_codecooler, id_artifact)%n%s",
+        String query = String.format("INSERT INTO artifacts_codecoolers (id_codecooler, id_artifact)%n%s",
                 String.format("VALUES (%s, %s)", queryValues[1], queryValues[0]));
         return query;
     }
