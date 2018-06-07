@@ -101,14 +101,14 @@ public class DAOMentorHelper {
 
         for (int i = 0; i < columns.length; i++) {
             if (column.equalsIgnoreCase(columns[i])) {
-                return settedUpdateQuery(query, column, questID);
+                return settedUpdateQuestQuery(query, column, questID);
             }
         }
         return "";
     }
 
 
-    private String settedUpdateQuery(String query, String column, int questID) {
+    private String settedUpdateQuestQuery(String query, String column, int questID) {
         if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
             return setUpdateQuery("Enter new quest name: ", query, "quest_name", questID, true);
         } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
