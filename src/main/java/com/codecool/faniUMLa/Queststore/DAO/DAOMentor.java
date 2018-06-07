@@ -71,7 +71,14 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public boolean markBoughtArtifact() {
-        return true;
+        try {
+            PreparedStatement statement = connection.prepareStatement(helper.markBoughtArtifactQuery());
+            statement.execute();
+            return true;
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return false;
     }
 
     public ResultSet seeCodecoolersWallet() {
