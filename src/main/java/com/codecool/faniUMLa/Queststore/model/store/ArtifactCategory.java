@@ -5,8 +5,8 @@ public class ArtifactCategory {
     private int categoryID;
     private String categoryName;
 
-    public ArtifactCategory(int categoryID, String categoryName) {
+    public ArtifactCategory(int categoryID) {
         this.categoryID = categoryID;
-        this.categoryName = categoryName;
+
     }
 }
