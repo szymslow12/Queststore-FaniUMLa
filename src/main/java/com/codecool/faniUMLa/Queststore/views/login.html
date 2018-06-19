@@ -23,12 +23,14 @@
                 </div>
                 <div id="password-label-container">
                     <label id="password-label" for="user-password">Password:
-                        <input type="password" placeholder="password" id="user-password">
+                        <input type="password" placeholder="password" id="user-password"
+                               onkeyup="checkIfPasswordIsEmpty()">
                         <h5></h5>
                     </label>
                 </div>
                 <div id="submit-button">
-                    <button type="submit" form="login" disabled>Submit</button>
+                    <button id="login-button" type="submit" form="login" onmousemove="activateSubmitButton()"
+                            disabled>Submit</button>
                 </div>
             </div>
         </form>
