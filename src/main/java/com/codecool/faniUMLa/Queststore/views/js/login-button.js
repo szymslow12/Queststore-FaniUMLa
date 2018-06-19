@@ -37,3 +37,16 @@ function activateSubmitButton() {
         document.getElementById("login-button").disabled = true;
     }
 }
+
+
+function loginToQuestStore() {
+    var login, password, lol;
+    login = document.forms["login"]["login"].value;
+    password = document.forms["login"]["password"].value;
+    if (login != "test" && password != "test") {
+        document.getElementById("login-head").getElementsByTagName("h5")[0].innerText = "Bad login or password!";
+        return false;
+    } else {
+        return true;
+    }
+}
