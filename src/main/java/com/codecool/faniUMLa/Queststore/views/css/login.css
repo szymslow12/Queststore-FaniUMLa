@@ -1,0 +1,20 @@
+#login-body {
+    background-color: #f3f3f3;
+}
+
+#login-container {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:500px;
+    height:500px;
+    margin-top: -250px; /*set to a negative number 1/2 of your height*/
+    margin-left: -250px; /*set to a negative number 1/2 of your width*/
+    border: 2px solid black;
+    background-color: cyan;
+}
+
+#login-head h3 {
+    font-family: "Times New Roman Bold";
+    text-align: center;
+}
