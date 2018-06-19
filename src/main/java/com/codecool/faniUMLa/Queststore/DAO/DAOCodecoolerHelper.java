@@ -14,7 +14,7 @@ public class DAOCodecoolerHelper {
     private UserInputs userInputs;
     private View view;
     private Connection connection;
-    private final String GET_COOLCOINS = "SELECT coolcoins FROM codecoolers WHERE id_codecooler = ?;";
+    private final String GET_COOLCOINS = "SELECT coolcoins FROM codecoolers WHERE id_user = ?;";
     private final String GET_LEVEL = "SELECT id_level FROM codecoolers WHERE id_codecooler = ?;";
     private final String GET_ARTIFACTS = "SELECT * FROM artifacts";
     private final String ADD_ITEM = "INSERT INTO artifacts_codecooleres VALUES (?, ?, ?);";
