@@ -44,7 +44,6 @@ public enum UserAccess {
 
             privileges.add(UserPrivilege.SEE_WALLET);
             privileges.add(UserPrivilege.BUY_ARTIFACT);
-            privileges.add(UserPrivilege.BUY_ARTIFACT_WITH_TEAMMATES);
             privileges.add(UserPrivilege.SEE_LEVEL);
             privileges.add(UserPrivilege.EXIT);
 

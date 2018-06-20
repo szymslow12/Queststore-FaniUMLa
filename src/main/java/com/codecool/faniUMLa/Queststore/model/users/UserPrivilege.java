@@ -16,7 +16,6 @@ public enum UserPrivilege {
     SEE_CODECOOLERS_WALLETS,
     SEE_WALLET,
     BUY_ARTIFACT,
-    BUY_ARTIFACT_WITH_TEAMMATES,
     SEE_LEVEL,
     EXIT,
 }
