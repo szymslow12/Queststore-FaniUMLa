@@ -2,12 +2,12 @@ function checkIfLoginIsEmpty() {
     var htmlLoginValue;
     htmlLoginValue = document.getElementById("user-login").value;
     if (htmlLoginValue.length <= 0 || htmlLoginValue.includes(" ")) {
-        document.getElementById("password-label-container").style.top = "-40px";
+        document.getElementById("password-label-container").style.top = "-50px";
         document.getElementById("user-login").style.border = "1px solid #33CCCC";
         setBadInputMessage("login-label", "Login cannot contain spaces!");
         return true;
     } else {
-        document.getElementById("password-label-container").style.top = "-20px";
+        document.getElementById("password-label-container").style.top = "10px";
         setBadInputMessage("login-label", "");
         document.getElementById("user-login").style.border = "none";
         return false;
@@ -63,9 +63,11 @@ function adjustPositionOfSubmitButton() {
     var login, password;
     login = document.getElementById("login-label").getElementsByTagName("h5")[0].innerText;
     password = document.getElementById("password-label").getElementsByTagName("h5")[0].innerText;
-    if (login != "" && password != "") {
-        document.getElementById("submit-button").style.top = "-30%";
+    if (login != "" && password != ""){
+        document.getElementById("submit-button").style.top = "-101px";
+    } else if (login != "" || password != "") {
+        document.getElementById("submit-button").style.top = "-40px";
     } else {
-        document.getElementById("submit-button").style.top = "-30px";
+        document.getElementById("submit-button").style.top = "20px";
     }
 }
