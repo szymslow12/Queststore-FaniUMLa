@@ -64,10 +64,10 @@ function adjustPositionOfSubmitButton() {
     login = document.getElementById("login-label").getElementsByTagName("h5")[0].innerText;
     password = document.getElementById("password-label").getElementsByTagName("h5")[0].innerText;
     if (login != "" && password != ""){
-        document.getElementById("submit-button").style.top = "-101px";
+        document.getElementById("login-button-container").style.top = "-121px";
     } else if (login != "" || password != "") {
-        document.getElementById("submit-button").style.top = "-40px";
+        document.getElementById("login-button-container").style.top = "-60px";
     } else {
-        document.getElementById("submit-button").style.top = "20px";
+        document.getElementById("login-button-container").style.top = "0px";
     }
 }
