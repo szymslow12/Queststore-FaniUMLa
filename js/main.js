@@ -41,3 +41,28 @@ function createButton(name) {
     button.appendChild(text);
     document.body.appendChild(button);
 }
+
+function createTable(array) {
+    var table = document.createElement("table");
+    var row = document.createElement("tr");
+    
+    for (var i=0; i<array.length; i++) {
+        var col = document.createElement("td");
+        col.textContent = array[i];
+        row.appendChild(col);
+    }
+    table.appendChild(row);
+
+    for(var j = 0; j<10; j++) {
+        var row = document.createElement("tr");
+        for (var i=0; i<array.length; i++) {
+            var data = document.createElement("td");
+            data.textContent = "ffdfd";
+            row.appendChild(data);
+        } 
+        table.appendChild(row);
+    
+    }
+        
+    document.body.appendChild(table);
+}
