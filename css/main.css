@@ -54,7 +54,7 @@ nav li a {
     border-radius: 0px;
 }
 
-nav li a:hover {
+nav li a:hover, .active {
     background-color: #33CCCC;
     color: #2C3E50;
 }
