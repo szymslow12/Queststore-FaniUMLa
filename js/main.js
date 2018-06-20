@@ -17,11 +17,13 @@ function createMenu(array) {
 
     for (var i = 0; i < array.length; i++) {
         var li = document.createElement("li");
-        ul.appendChild(li);
+        
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
         a.textContent = array[i];
         li.appendChild(a);
+
+        ul.appendChild(li);
     }
 
     document.body.appendChild(nav);
