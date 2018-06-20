@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login to Questore</title>
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/login-button.js"></script>
+</head>
+<body id="login-body">
+    <div id="login-container">
+        <header id="login-head">
+            <h3>Log in!</h3>
+            <h5></h5>
+        </header>
+        <form id="login" action="css/sss.html" onsubmit="return loginToQuestStore()">
+            <div id="input-container">
+                <div id="login-label-container">
+                    <label id="login-label" for="user-login">Login:
+                        <input type="text" placeholder="login" id="user-login" autofocus="on"
+                               onkeyup="checkIfLoginIsEmpty()" name="login">
+                        <h5></h5>
+                    </label>
+                </div>
+                <div id="password-label-container">
+                    <label id="password-label" for="user-password">Password:
+                        <input type="password" placeholder="password" id="user-password"
+                               onkeyup="checkIfPasswordIsEmpty()" name="password">
+                        <h5></h5>
+                    </label>
+                </div>
+                <div id="submit-button">
+                    <button id="login-button" type="submit" form="login" onmousemove="activateSubmitButton()"
+                            disabled>Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
