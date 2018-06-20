@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Login to Questore</title>
     <link rel="stylesheet" href="css/login.css">
+    <!--link rel="stylesheet" href="main.css"-->
     <script src="js/login-button.js"></script>
 </head>
-<body id="login-body">
+<body id="login-body" onkeyup="adjustPositionOfSubmitButton()">
     <div id="login-container">
         <header id="login-head">
-            <h3>Log in!</h3>
+            <h3>Please provide login and password!</h3>
             <h5></h5>
         </header>
         <form id="login" action="css/sss.html" onsubmit="return loginToQuestStore()">
@@ -17,7 +18,7 @@
                 <div id="login-label-container">
                     <label id="login-label" for="user-login">Login:
                         <input type="text" placeholder="login" id="user-login" autofocus="on"
-                               onkeyup="checkIfLoginIsEmpty()" name="login">
+                               onkeyup="checkIfLoginIsEmpty()" name="login" autocomplete="off">
                         <h5></h5>
                     </label>
                 </div>
