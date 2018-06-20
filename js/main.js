@@ -17,11 +17,13 @@ function createMenu(array) {
 
     for (var i = 0; i < array.length; i++) {
         var li = document.createElement("li");
-        ul.appendChild(li);
+        
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
         a.textContent = array[i];
         li.appendChild(a);
+
+        ul.appendChild(li);
     }
 
     document.body.appendChild(nav);
@@ -40,4 +42,29 @@ function createButton(name) {
     button.setAttribute("class", "button");
     button.appendChild(text);
     document.body.appendChild(button);
+}
+
+function createTable(array) {
+    var table = document.createElement("table");
+    var row = document.createElement("tr");
+    
+    for (var i=0; i<array.length; i++) {
+        var col = document.createElement("td");
+        col.textContent = array[i];
+        row.appendChild(col);
+    }
+    table.appendChild(row);
+
+    for(var j = 0; j<10; j++) {
+        var row = document.createElement("tr");
+        for (var i=0; i<array.length; i++) {
+            var data = document.createElement("td");
+            data.textContent = "ffdfd";
+            row.appendChild(data);
+        } 
+        table.appendChild(row);
+    
+    }
+        
+    document.body.appendChild(table);
 }
