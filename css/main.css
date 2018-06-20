@@ -67,4 +67,19 @@ footer {
     font-size: 15px;
     letter-spacing: 2x;
     padding: 8px 10px;
+    background-color: #2C3E50;
+    border-radius: 10px;
+}
+.button {
+    width: 25%;
+    border-radius: 10px;
+    background-color: #33CCCC;
+    color: #2C3E50;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    letter-spacing: 2px;
+    font-weight: 500;
 }

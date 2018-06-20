@@ -30,13 +30,10 @@ function createMenu(array) {
 }
 
 function includeFooter() {
-        document.write('<footer class="menu">\
-            <p> &copy; FaniUMLa</p>\
-        </footer>\
-    \
-    </body>\
-    \
-    ');
+    var footer = document.createElement("footer");
+    var text = document.createTextNode("\u00A9 FaniUMLa");
+    footer.appendChild(text);
+    document.body.appendChild(footer);
 }
 
 function createButton(name) {
