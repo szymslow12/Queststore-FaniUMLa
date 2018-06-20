@@ -84,11 +84,39 @@ footer {
     font-weight: 500;
     text-transform: uppercase;
 }
+.tableHeader {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 27px;
+    background-color: #2C3E50;
+    color: #ECF0F1;
+    text-align: center;  
+    padding: 10px;
+    text-transform: uppercase;
+}
 
-table, tr, td{
-    border: 1px solid black;
+.tableRow {
+    
     border-collapse: collapse;
+    background-color: #33CCCC;
     color: #2C3E50;
-    padding: 2px;
-    margin: 2px;
+    padding: 20px;
+}
+
+td {
+    padding: 10px;
+    border: px solid #2C3E50;
+    text-align: center;
+}
+
+table {
+    margin: 20px;
+    border: px solid #2C3E50;
+}
+
+td a {
+    color: #2C3E50;
+}
+
+tr td a:hover {
+    color: #ECF0F1;
 }

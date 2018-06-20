@@ -46,25 +46,40 @@ function createButton(name) {
 
 function createTable(array) {
     var table = document.createElement("table");
-    var row = document.createElement("tr");
+    var rowH = document.createElement("tr");
+    rowH.setAttribute("class", "tableHeader")
     
     for (var i=0; i<array.length; i++) {
         var col = document.createElement("td");
         col.textContent = array[i];
-        row.appendChild(col);
+        rowH.appendChild(col);
     }
-    table.appendChild(row);
+    table.appendChild(rowH);
+
+    var imgDict = {
+        "See Details" : "fas fa-address-book",
+        "Update" : "fas fa-user-edit",
+        "Delete" : "fas fa-trash-alt"
+    };
 
     for(var j = 0; j<10; j++) {
         var row = document.createElement("tr");
+        row.setAttribute("class", "tableRow")
         for (var i=0; i<array.length; i++) {
-            var data = document.createElement("td");
-            data.textContent = "ffdfd";
+            
+            if(array[i] in imgDict) {
+                var data = document.createElement("td");
+                var a = document.createElement("a");
+                data.appendChild(a);
+                a.setAttribute("class", imgDict[array[i]]);
+                a.setAttribute("href", "sth.html");
+            } else {
+                var data = document.createElement("td");
+                data.textContent = "Elzbieta Krzych";
+            }
             row.appendChild(data);
         } 
         table.appendChild(row);
-    
-    }
-        
+    } 
     document.body.appendChild(table);
 }
