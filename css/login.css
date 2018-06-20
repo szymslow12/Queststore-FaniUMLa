@@ -64,6 +64,7 @@
 #login-label-container {
     position: relative;
     left: 20%;
+    margin: 20px;
 }
 
 #login-label-container h5 {
@@ -79,6 +80,7 @@
     position: relative;
     left: 20%;
     top: 10px;
+    margin: 20px;
  }
 
  #password-label-container h5{
@@ -101,7 +103,7 @@
     position: relative;
     border-radius: 10px;
     border: none;
-    left: 20.7%;
+    left: 17%;
 }
 
 #submit-button {
