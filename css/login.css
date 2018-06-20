@@ -1,3 +1,4 @@
+/* #33CCCC */
 #login-body {
     /*background-color: #ECF0F1;*/
     background: -moz-radial-gradient(circle, #ECF0F1, grey 200%);
@@ -13,7 +14,7 @@
     height:350px;
     margin-top: -175px; /*set to a negative number 1/2 of your height*/
     margin-left: -250px; /*set to a negative number 1/2 of your width*/
-    background-color: grey;
+    background-color: #2980B9;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -25,7 +26,7 @@
     height: 30%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background-color: #2980B9;
+    background-color: #2C3E50;
 
 }
 
@@ -34,6 +35,7 @@
     position: relative;
     top: 30%;
     font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
     text-align: center;
     font-size: 20px;
     line-height: 1.5;
@@ -44,12 +46,13 @@
     position: relative;
     font-family: 'Times New Roman', Times, serif;
     text-align: left;
+
     top: 10px;
     left: 5%;
     color: red;
     font-size: 20px;
     line-height: 1.5;
-    color: red;
+    color: #2C3E50;
 }
 
 
@@ -66,31 +69,39 @@
 
 #login-label-container h5 {
     position: relative;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
     top: -20px;
     left: 45%;
-    color: red;
+    color: #2C3E50;
 }
 
 #password-label-container {
     position: relative;
     left: 20%;
-    top: -20px;
+    top: -40px;
  }
 
  #password-label-container h5{
      position: relative;
+     font-family: 'Times New Roman', Times, serif;
+     letter-spacing: 1px;
      left: 45%;
      top: -20px;
-     color: red;
+     color: #2C3E50;
   }
 
 #user-login {
     position: relative;
     left: 29%;
+    border: none;
+    border-radius: 10px;
 }
 
 #user-password {
     position: relative;
+    border-radius: 10px;
+    border: none;
     left: 20.7%;
 }
 
@@ -102,8 +113,9 @@
 
 label {
     font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
     color: #ECF0F1;
-    font-size: 20px;
+    font-size: 23px;
     line-height: 1.5;
 }
 
