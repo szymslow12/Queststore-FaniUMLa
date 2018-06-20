@@ -1,5 +1,5 @@
 
-function includeHTML(title, first, second, third) {
+function includeHeader(title, first, second, third) {
     document.write('\<body>\
     \
         <header>\
@@ -18,12 +18,11 @@ function includeHTML(title, first, second, third) {
                 </li>\
             </ul>\
         </nav>\
-    \
-        <section>\
-            <p>cos</p>\
-        </section>\
-    \
-        <footer class="menu">\
+        ');
+}
+
+function includeFooter() {
+        document.write('<footer class="menu">\
             <p> &copy; FaniUMLa</p>\
         </footer>\
     \
