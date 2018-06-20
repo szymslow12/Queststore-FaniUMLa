@@ -40,6 +40,7 @@ function includeFooter() {
 function createButton(name) {
     var button = document.createElement("BUTTON");
     var text = document.createTextNode(name);
+    button.setAttribute("class", "button");
     button.appendChild(text);
     document.body.appendChild(button);
 }
