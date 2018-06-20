@@ -7,7 +7,7 @@ function createHeader(name) {
 
 
 
-function createMenu(array) {
+function createMenu(array, activePage) {
 
     var nav = document.createElement("NAV");
     nav.setAttribute("class", "menu");
@@ -21,6 +21,11 @@ function createMenu(array) {
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
         a.textContent = array[i];
+
+        if(activePage == array[i]) {
+            a.setAttribute("class", "active");
+        }
+
         li.appendChild(a);
 
         ul.appendChild(li);
@@ -76,7 +81,7 @@ function createForm(inputsArray, optionsArray) {
     createSelectElements(container, optionsArray);
 
     form.appendChild(container);
-    
+
     var button = createButton("Save");
     button.setAttribute("class", "button save-button");
     form.appendChild(button);
