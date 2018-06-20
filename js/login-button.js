@@ -3,11 +3,13 @@ function checkIfLoginIsEmpty() {
     htmlLoginValue = document.getElementById("user-login").value;
     if (htmlLoginValue.length <= 0 || htmlLoginValue.includes(" ")) {
         document.getElementById("password-label-container").style.top = "-40px";
+        document.getElementById("user-login").style.border = "1px solid #33CCCC";
         setBadInputMessage("login-label", "Login cannot contain spaces!");
         return true;
     } else {
         document.getElementById("password-label-container").style.top = "-20px";
         setBadInputMessage("login-label", "");
+        document.getElementById("user-login").style.border = "none";
         return false;
     }
 }
@@ -17,10 +19,12 @@ function checkIfPasswordIsEmpty() {
     var htmlLoginValue;
     htmlLoginValue = document.getElementById("user-password").value;
     if (htmlLoginValue.length <= 0) {
-        setBadInputMessage("password-label", "Password cannot be empty");
+        setBadInputMessage("password-label", "Password cannot be empty!");
+        document.getElementById("user-password").style.border = "1px solid #33CCCC";
         return true;
     } else {
         setBadInputMessage("password-label", "");
+        document.getElementById("user-password").style.border = "none";
         return false;
     }
 }
