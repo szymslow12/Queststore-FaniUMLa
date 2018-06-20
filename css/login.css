@@ -46,13 +46,12 @@
     position: relative;
     font-family: 'Times New Roman', Times, serif;
     text-align: left;
-
     top: 10px;
     left: 5%;
     color: red;
     font-size: 20px;
     line-height: 1.5;
-    color: #2C3E50;
+    color: white;
 }
 
 
@@ -71,7 +70,7 @@
     position: relative;
     font-family: 'Times New Roman', Times, serif;
     letter-spacing: 1px;
-    top: -20px;
+    top: -25px;
     left: 45%;
     color: #2C3E50;
 }
@@ -79,7 +78,7 @@
 #password-label-container {
     position: relative;
     left: 20%;
-    top: -40px;
+    top: 10px;
  }
 
  #password-label-container h5{
@@ -87,7 +86,7 @@
      font-family: 'Times New Roman', Times, serif;
      letter-spacing: 1px;
      left: 45%;
-     top: -20px;
+     top: -30px;
      color: #2C3E50;
   }
 
@@ -107,7 +106,7 @@
 
 #submit-button {
      position: relative;
-     top: -30px;
+     top: 20px;
      left: 57%;
 }
 
