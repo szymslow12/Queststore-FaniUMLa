@@ -54,7 +54,7 @@ nav li a {
     border-radius: 0px;
 }
 
-nav li a:hover {
+nav li a:hover, .active {
     background-color: #33CCCC;
     color: #2C3E50;
 }
@@ -82,35 +82,37 @@ footer {
     padding: 15px;
     letter-spacing: 2px;
     font-weight: 500;
-    text-transform: uppercase;
 }
 .tableHeader {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 27px;
+    font-size: 25px;
     background-color: #2C3E50;
     color: #ECF0F1;
     text-align: center;  
-    padding: 10px;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
 .tableRow {
-    
     border-collapse: collapse;
     background-color: #33CCCC;
     color: #2C3E50;
-    padding: 20px;
+    border-radius: 30px;
+  
 }
 
 td {
     padding: 10px;
-    border: px solid #2C3E50;
     text-align: center;
 }
 
 table {
     margin: 20px;
-    border: px solid #2C3E50;
+    margin-left: 0;
+    align-self: center;
+    
 }
 
 td a {
@@ -119,4 +121,45 @@ td a {
 
 tr td a:hover {
     color: #ECF0F1;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #ECF0F1;;
+    border-radius: 10px;
+    background-color: rgba(44, 62, 80, 1);
+    color: #ECF0F1;
+    position: absolute;
+    opacity: 1;
+    padding: 40px;
+}
+
+.form-container {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(236, 240, 241, 0.7);
+    width: 100%;
+    height: 100%;
+}
+
+label {
+    float: left;
+    margin-right: 10px;
+}
+
+input, select {
+    float: right;
+}
+
+input, select, label {
+    margin-bottom: 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
 }
