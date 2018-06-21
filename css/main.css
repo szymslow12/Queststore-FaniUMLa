@@ -12,12 +12,14 @@ body {
     flex-direction: column;
 }
 
-.menu {
-    background-color: #2C3E50;
-    padding: 0;
+.sticky {
+
+    position: sticky;
+    top: 0;
+    width: 100%;
     margin: 0;
-    border-radius: 10px;
-}
+    padding: 2px;
+  }
 
 .dropdown-content {
     display: none;
@@ -62,6 +64,8 @@ header {
 }
 
 .menu {
+    background-color: #2C3E50;
+    border-radius: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
