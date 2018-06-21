@@ -19,9 +19,38 @@ body {
     border-radius: 10px;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #2C3E50;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px;
+  }
+
+.dropdown-content a {
+    border-top: 2px solid #ECF0F1;
+}
+.dropdown-menu {
+    width: 120px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background: #2980B9;
     width: 100%;
@@ -32,7 +61,7 @@ header {
     border-radius: 10px;
 }
 
-nav ul {
+.menu {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -42,7 +71,7 @@ nav ul {
     border: -1px solid #ECF0F1;
 }
 
-nav li a {
+.menu a {
     font-size: 30px;
     text-decoration: none;
     color: #ECF0F1;
@@ -54,7 +83,7 @@ nav li a {
     border-radius: 0px;
 }
 
-nav li a:hover, .active {
+.menu a:hover, .active {
     background-color: #33CCCC;
     color: #2C3E50;
 }
@@ -69,6 +98,10 @@ footer {
     padding: 8px 10px;
     background-color: #2C3E50;
     border-radius: 10px;
+}
+
+#icon {
+    padding: 15px;
 }
 .button {
     width: 25%;
