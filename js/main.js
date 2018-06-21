@@ -281,7 +281,7 @@ function createSelectElements(container, optionsArray) {
         for(var j=0; j<2; j++) {
             var option = document.createElement("option");
             option.value = optionsArray[i] + j;
-            option.text = optionsArray[i];
+            option.text = optionsArray[i] + j;
             select.appendChild(option);
             div.appendChild(select);
         }
@@ -328,42 +328,5 @@ function fillRows(columnsData, columnsToFill) {
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];
         }
-    }
-}
-
-function createQuestRelease(optionsArray) {
-    var form = document.createElement("form");
-    form.setAttribute("id", "form");
-
-    var container = document.createElement("div");
-    container.setAttribute("class", "container");
-    createSelectElements(container, optionsArray);
-
-    form.appendChild(container);
-
-    var button = createButton("Choose");
-    button.setAttribute("class", "button save-button form-button");
-    form.appendChild(button);
-    document.body.appendChild(form);
-}
-
-function createSelectElements(container, optionsArray) {
-    for (var i = 0; i < optionsArray.length; i++) {
-
-        var div = document.createElement("div");
-        var label = document.createElement("label");
-        div.appendChild(label);
-        label.textContent = optionsArray[i];
-
-        var select = document.createElement("select");
-        for(var j=0; j<2; j++) {
-            var option = document.createElement("option");
-            option.value = optionsArray[i] + j;
-            option.text = optionsArray[i]+j;
-            select.appendChild(option);
-            div.appendChild(select);
-        }
-        
-        container.appendChild(div);
     }
 }
