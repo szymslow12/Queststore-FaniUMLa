@@ -178,21 +178,22 @@ function createStoreTable(array, id) {
 
 
 function fillTable(id) {
-    console.log(id);
     if (id == "basic-items") {
-        fillRows([['Basic Beer', 'just tasty BEER', '12'], ['Basic Wine', 'just tasty Wine', '20']]);
+        var basicItems = [['Basic Beer', 'just tasty BEER', '12'], ['Basic Wine', 'just tasty Wine', '20']];
+        fillRows(basicItems, basicItems[0].length);
     } else {
-        fillRows([['Magic Beer', 'just tasty magic BEER', '120'], ['Magic Wine', 'just tasty magic Wine', '200']]);
+        var magicItems = [['Magic Beer', 'just tasty magic BEER', '120'], ['Magic Wine', 'just tasty magic Wine', '200']];
+        fillRows(magicItems, magicItems[0].length);
     }
 }
 
-function fillRows(itemsDetails) {
+function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
-    for (i = 0; i < itemsDetails.length; i++) {
+    for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
         var columns = row.getElementsByTagName("td");
-        for (j = 0; j < 3; j++) {
-            columns[j].textContent = itemsDetails[i][j];
+        for (j = 0; j < columnsToFill; j++) {
+            columns[j].textContent = columnsData[i][j];
         }
     }
 }
