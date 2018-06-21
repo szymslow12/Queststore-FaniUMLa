@@ -15,6 +15,7 @@ function createButton(name) {
     var text = document.createTextNode(name);
     button.appendChild(text);
     button.setAttribute("class", "button");
+    button.setAttribute("onclick", "createStoreTable(['Name', 'Description', 'Price', 'Buy'])");
     document.body.appendChild(button);
     return button;
 }
