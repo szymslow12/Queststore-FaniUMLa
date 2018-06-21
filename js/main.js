@@ -42,7 +42,7 @@ function includeFooter() {
 }
 
 function createButton(name) {
-    var button = document.createElement("BUTTON");
+    var button = document.createElement("button");
     var text = document.createTextNode(name);
     button.appendChild(text);
     button.setAttribute("class", "button");
@@ -80,19 +80,19 @@ function createTable(array) {
             if(array[i] in imgDict && array[i]!="Delete"&& array[i]!="Buy") {
                 var data = document.createElement("td");
                 var button = createFormButton("", formArray, []);
-                button.setAttribute("class", imgDict[array[i]]);
+                button.setAttribute("class", imgDict[array[i]] + " functionButton");
                 data.appendChild(button);
             }else if(array[i]=="Delete") {
                 var data = document.createElement("td");
                 var button = createSubmitButton();
-                button.setAttribute("class", imgDict[array[i]]);
+                button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
 
             }else if(array[i]=="Buy") {
                 var data = document.createElement("td");
                 var button = createFormButton("", [], ["Are you sure you want Buy"]);
-                button.setAttribute("class", imgDict[array[i]]);
+                button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
             } else {
@@ -189,7 +189,7 @@ function createForm(inputsArray, optionsArray) {
     form.appendChild(container);
 
     var button = createButton("Save");
-    button.setAttribute("class", "button save-button");
+    button.setAttribute("class", "button save-button form-button");
     form.appendChild(button);
     document.body.appendChild(form);
 }
