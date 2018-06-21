@@ -7,8 +7,10 @@ function createHeader(name) {
 
 function createMenu(array, activePage) {
 
+    hideMenu();
     var menu = document.createElement("div");
     menu.setAttribute("class", "menu");
+    menu.setAttribute("id", "menu");
     document.body.appendChild(menu);
 
     for (var i = 0; i < array.length - 1; i++) {
@@ -67,8 +69,17 @@ function createButton(name) {
     document.body.appendChild(button);
     return button;
 }
-
-
+function hideMenu() {
+    window.onscroll = function () {
+        var navbar = document.getElementById("menu");
+        var sticky = navbar.offsetTop;
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky");
+        } else {
+            navbar.classList.remove("sticky");
+        }
+    }
+}
 
 function createTable(array, view) {
     var table = document.createElement("table");
@@ -92,22 +103,22 @@ function createTable(array, view) {
     for (var j = 0; j < 10; j++) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
-        for (var i=0; i<array.length; i++) {
-        var formArray = getArrayForForm(view);
-            
-            if(array[i] in imgDict && array[i]!="Delete"&& array[i]!="Buy") {
+        for (var i = 0; i < array.length; i++) {
+            var formArray = getArrayForForm(view);
+
+            if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy") {
                 var data = document.createElement("td");
                 var button = createFormButton("", formArray, []);
                 button.setAttribute("class", imgDict[array[i]] + " functionButton");
                 data.appendChild(button);
-            }else if(array[i]=="Delete") {
+            } else if (array[i] == "Delete") {
                 var data = document.createElement("td");
                 var button = createSubmitButton("delete");
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
 
-            }else if(array[i]=="Buy") {
+            } else if (array[i] == "Buy") {
                 var data = document.createElement("td");
                 var button = createSubmitButton("buy");
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
@@ -126,8 +137,8 @@ function createTable(array, view) {
 
 function getArrayForForm(view) {
     var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
-        if(view == "Mentor") {
-            formArray.push("Wallet")
+    if (view == "Mentor") {
+        formArray.push("Wallet")
 
         } else if(view =="Classes" || view =="Levels" || view=="Quests" || view == "Artifacts") {
             formArray=["Name"];
@@ -161,7 +172,7 @@ function createSubmitButton(actionLabel) {
 function handleSubmit(actionLabel) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
-    var textArea=document.createElement("div");
+    var textArea = document.createElement("div");
     textArea.setAttribute("class", "text-area");
     div.appendChild(textArea);
     var info = document.createElement("label");
@@ -172,12 +183,12 @@ function handleSubmit(actionLabel) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function() { confirmAll(div) });
+    button1.addEventListener("click", function () { confirmAll(div) });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button no-button");
     textArea.appendChild(button2);
-    button2.addEventListener("click", function() { confirmAll(div) });
+    button2.addEventListener("click", function () { confirmAll(div) });
 
     document.body.appendChild(div);
 }
@@ -275,15 +286,15 @@ function createStoreTable(array, id) {
 function fillStoreTable(id) {
     if (id == "basic-items") {
         var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
-                          ['Sanctuary', 'You can spend a day in home office', '300 cc'],
-                          ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
+        ['Sanctuary', 'You can spend a day in home office', '300 cc'],
+        ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
         fillRows(basicItems, basicItems[0].length);
     } else {
         var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
-                          ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
-                          ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
-                          ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
-                          ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
+        ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
+        ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
+        ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
+        ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
         fillRows(magicItems, magicItems[0].length);
     }
 }
