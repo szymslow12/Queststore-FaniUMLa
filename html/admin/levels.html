@@ -12,10 +12,11 @@
     <script src="../../js/main.js"></script>
 </head>
 <body>
+    <script> var view = "Levels";</script>
     <script>createHeader("Admin")</script>
     <script>createMenu(['Mentors', 'Classes', 'Levels'],"Levels")</script>
     <script>createFormButton("Add Level", ["Level Name"],[])</script>
-    <script>createTable(["Level Name","Level threshold", "Update", "Delete"])</script>
+    <script>createTable(["Level Name","Level threshold", "Update", "Delete"], view)</script>
     <script>includeFooter()</script>
 
 </body>

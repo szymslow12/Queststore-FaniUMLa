@@ -73,11 +73,11 @@ function createTable(array) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
         for (var i=0; i<array.length; i++) {
-        var formArray = getArrayForForm(array, imgDict);
+        var formArray = getArrayForForm(view);
             
             if(array[i] in imgDict) {
                 var data = document.createElement("td");
-                var button = createFormButton("", formArray, ["test"]);
+                var button = createFormButton("", formArray, []);
                 button.setAttribute("class", imgDict[array[i]]);
                 data.appendChild(button);
 
@@ -92,13 +92,18 @@ function createTable(array) {
     document.body.appendChild(table);
 }
 
-function getArrayForForm(array, imgDict) {
-    var formArray = new Array();
-    for(var i=0; i<array.length; i++) {
-        if(!(array[i] in imgDict)) {
-            formArray.push(array[i])
+function getArrayForForm(view) {
+    var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
+        if(view == "Mentor") {
+            formArray.push("Wallet")
+
+        } else if(view =="Classes" || view =="Levels") {
+            formArray=["Name"];
         }
-    }
+        if(view=="Levels") {
+            formArray.push("Level Threshold");
+        }
+
     return formArray;
 }
 
