@@ -65,7 +65,8 @@ function createTable(array) {
     var imgDict = {
         "See Details" : "fas fa-address-book",
         "Update" : "fas fa-user-edit",
-        "Delete" : "fas fa-trash-alt"
+        "Delete" : "fas fa-trash-alt",
+        "Buy" : "fas fa-shopping-cart"
     };
 
     for(var j = 0; j<10; j++) {
