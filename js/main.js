@@ -162,3 +162,14 @@ function createSelectElements(container, optionsArray) {
         container.appendChild(div);
     }
 }
+
+function createStoreTable(array) {
+    var tables = document.getElementsByTagName("table");
+    if (tables.length == 0) {
+        createTable(array);
+    } else {
+        var table = tables[0];
+        table.remove();
+        createTable(array);
+    }
+}
