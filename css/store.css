@@ -19,13 +19,22 @@ html {
     align-items: center;
 }
 
+.functionButton {
+    background-color: #33CCCC;
+    font-size: 20px;
+    color: #2C3E50;
+}
+
 .button {
     width: 25%;
-    height: 250px;
     margin-top: 20px;
     margin-bottom: 50px;
     margin-left: 125px;
     margin-right: 125px;
+}
+
+.cat-button {
+    height: 250px;
 }
 
 table {

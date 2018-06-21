@@ -70,7 +70,7 @@ function createButton(name) {
 
 
 
-function createTable(array) {
+function createTable(array, view) {
     var table = document.createElement("table");
     var rowH = document.createElement("tr");
     rowH.setAttribute("class", "tableHeader")
@@ -102,14 +102,14 @@ function createTable(array) {
                 data.appendChild(button);
             }else if(array[i]=="Delete") {
                 var data = document.createElement("td");
-                var button = createSubmitButton();
+                var button = createSubmitButton("delete");
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
 
             }else if(array[i]=="Buy") {
                 var data = document.createElement("td");
-                var button = createFormButton("", [], ["Are you sure you want Buy"]);
+                var button = createSubmitButton("buy");
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
@@ -129,37 +129,43 @@ function getArrayForForm(view) {
         if(view == "Mentor") {
             formArray.push("Wallet")
 
-        } else if(view =="Classes" || view =="Levels") {
+        } else if(view =="Classes" || view =="Levels" || view=="Quest") {
             formArray=["Name"];
         }
         if(view=="Levels") {
             formArray.push("Level Threshold");
         }
+        if(view=="Levels") {
+            formArray.push("Category");
+            formArray.push("Description");
+            formArray.push("Avard");
+        }
+
 
     return formArray;
 }
 
-function createSubmitButton() {
+function createSubmitButton(actionLabel) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleDelete() });
+    button.addEventListener("click", function () { handleSubmit(actionLabel) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleDelete() {
+function handleSubmit(actionLabel) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea=document.createElement("div");
     textArea.setAttribute("class", "text-area");
     div.appendChild(textArea);
     var info = document.createElement("label");
-    info.textContent="Are you sure you want to delete?";
+    info.textContent="Are you sure you want to "+ actionLabel + "?";
     textArea.appendChild(info);
 
     var button1 = createButton("Yes");
     textArea.appendChild(button1);
-    button1.setAttribute("class", "button yes-button");
+    button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
     button1.addEventListener("click", function() { confirmAll(div) });
 
