@@ -12,10 +12,11 @@
     <script src="../../js/main.js"></script>
 </head>
 <body>
-    <script>createHeader("Admin")</script>
-    <script>createMenu(['Mentors', 'Classes', 'Levels'])</script>
+    <script> var user = "Admin";</script>
+    <script>createHeader()</script>
+    <script>createMenu(['Mentors', 'Classes', 'Levels'],"Mentors")</script>
     <script>createFormButton("Add Mentor", ["Name", "Surname", "Phone", "Email"], ["Class"])</script>
-    <script>createTable(["First Name", "Last Name", "See Details", "Update", "Delete"])</script>
+    <script>createTable(["First Name", "Last Name", "See Details", "Update", "Delete"], user)</script>
     <script>includeFooter()</script>
 
 </body>

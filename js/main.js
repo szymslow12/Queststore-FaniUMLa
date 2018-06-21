@@ -73,10 +73,11 @@ function createTable(array) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
         for (var i=0; i<array.length; i++) {
+        var formArray = getArrayForForm(array, imgDict);
             
             if(array[i] in imgDict) {
                 var data = document.createElement("td");
-                var button = createFormButton("", array, ["test"]);
+                var button = createFormButton("", formArray, ["test"]);
                 button.setAttribute("class", imgDict[array[i]]);
                 data.appendChild(button);
 
@@ -89,6 +90,16 @@ function createTable(array) {
         table.appendChild(row);
     } 
     document.body.appendChild(table);
+}
+
+function getArrayForForm(array, imgDict) {
+    var formArray = new Array();
+    for(var i=0; i<array.length; i++) {
+        if(!(array[i] in imgDict)) {
+            formArray.push(array[i])
+        }
+    }
+    return formArray;
 }
 
 function createFormButton(name, inputsArray, optionsArray) {
