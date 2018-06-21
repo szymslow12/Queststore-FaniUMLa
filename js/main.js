@@ -44,7 +44,7 @@ function createHiddenMenu(menu) {
         if (options[i] == "Log-out") {
             a2.setAttribute("href", "../login.html");
         } else {
-            a2.setAttribute("href", options[i] + ".html");
+            a2.setAttribute("href", "../" + options[i] + ".html");
         }
         dropdownContent.appendChild(a2);
     }
@@ -158,6 +158,7 @@ function createInputElements(container, inputsArray) {
         label.textContent = inputsArray[i];
 
         var input = document.createElement("input");
+        input.setAttribute("required", "");
         div.appendChild(input);
 
         container.appendChild(div);
