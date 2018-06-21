@@ -51,7 +51,6 @@ function createHiddenMenu(menu) {
         dropdownContent.appendChild(a2);
     }
     div.appendChild(dropdownContent);
-    
 }
 
 function seeProfile() {
@@ -76,6 +75,7 @@ function seeProfile() {
             input.setAttribute("onfocus","this.value=''" );
         } else if (i == 0 || i == 1) {
             input.setAttribute("readOnly", true);
+            input.style.backgroundColor = "grey";
         }
     }
 
@@ -139,7 +139,12 @@ function createTable(array, view) {
 
             if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                 var data = document.createElement("td");
-                var button = createFormButton("", formArray, []);
+
+                if (array[i] == "See Details") {
+                    var button = createFormButton("", formArray, [], true);
+                } else {
+                    var button = createFormButton("", formArray, [], false);
+                }
                 button.setAttribute("class", imgDict[array[i]] + " functionButton");
                 data.appendChild(button);
             } else if (array[i] == "Delete") {
@@ -231,9 +236,9 @@ function handleSubmit(actionLabel) {
     document.body.appendChild(div);
 }
 
-function createFormButton(name, inputsArray, optionsArray) {
+function createFormButton(name, inputsArray, optionsArray, boolean) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleForm(inputsArray, optionsArray) })
+    button.addEventListener("click", function () { handleForm(inputsArray, optionsArray, boolean) })
     document.body.appendChild(button);
     return button;
 }
@@ -242,8 +247,8 @@ function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
 
-function handleForm(inputsArray, optionsArray) {
-    createForm(inputsArray, optionsArray);
+function handleForm(inputsArray, optionsArray, boolean) {
+    createForm(inputsArray, optionsArray, boolean);
     displayForm();
 }
 
@@ -255,14 +260,14 @@ function displayForm() {
     document.body.appendChild(div);
 }
 
-function createForm(inputsArray, optionsArray) {
+function createForm(inputsArray, optionsArray, boolean) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
-    createInputElements(container, inputsArray);
-    createSelectElements(container, optionsArray);
+    createInputElements(container, inputsArray, boolean);
+    createSelectElements(container, optionsArray, boolean);
 
     form.appendChild(container);
 
@@ -303,7 +308,7 @@ function setStudentList() {
     document.body.appendChild(div);
 }
 
-function createInputElements(container, inputsArray) {
+function createInputElements(container, inputsArray, boolean) {
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
 
@@ -315,7 +320,15 @@ function createInputElements(container, inputsArray) {
         input.setAttribute("required", "");
         div.appendChild(input);
 
+        input.value = inputsArray[i];
         container.appendChild(div);
+        if (boolean) {
+            input.setAttribute("readOnly", true);
+            input.style.backgroundColor = "grey";
+        } else {
+            input.setAttribute("onclick","setAttribute('required', '');");
+            input.setAttribute("onfocus","this.value=''" );
+        }
     }
 }
 
