@@ -50,6 +50,8 @@ function createButton(name) {
     return button;
 }
 
+
+
 function createTable(array) {
     var table = document.createElement("table");
     var rowH = document.createElement("tr");
@@ -75,12 +77,24 @@ function createTable(array) {
         for (var i=0; i<array.length; i++) {
         var formArray = getArrayForForm(view);
             
-            if(array[i] in imgDict) {
+            if(array[i] in imgDict && array[i]!="Delete"&& array[i]!="Buy") {
                 var data = document.createElement("td");
                 var button = createFormButton("", formArray, []);
                 button.setAttribute("class", imgDict[array[i]]);
                 data.appendChild(button);
+            }else if(array[i]=="Delete") {
+                var data = document.createElement("td");
+                var button = createFormButton("", [], ["Are you sure you want delete?"]);
+                button.setAttribute("class", imgDict[array[i]]);
+                
+                data.appendChild(button);
 
+            }else if(array[i]=="Buy") {
+                var data = document.createElement("td");
+                var button = createFormButton("", [], ["Are you sure you want Buy"]);
+                button.setAttribute("class", imgDict[array[i]]);
+                
+                data.appendChild(button);
             } else {
                 var data = document.createElement("td");
                 data.textContent = "-----------------";
