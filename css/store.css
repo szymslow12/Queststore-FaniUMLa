@@ -1,3 +1,8 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 .button-container {
     position: relative;
     top: 0px;
@@ -21,4 +26,16 @@
     margin-bottom: 50px;
     margin-left: 125px;
     margin-right: 125px;
+}
+
+table {
+    position: relative;
+    margin-top: 0px;
+    margin-bottom: 80px;
+}
+
+footer {
+    position: absolute;
+    bottom: 1px;
+    width: 98.5%;
 }
