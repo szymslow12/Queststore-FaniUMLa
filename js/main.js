@@ -57,12 +57,31 @@ function createHiddenMenu(menu) {
 function seeProfile() {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
-    var textArea = document.createElement("div");
-    textArea.setAttribute("class", "text-area");
-    div.appendChild(textArea);
-    var info = document.createElement("label");
+    var form = document.createElement("form");
+    div.appendChild(form);
+    form.setAttribute("class", "text-area");
     var formArray = ["First Name", "Last Name", "Phone", "Email"];
     document.body.appendChild(div);
+
+    for (var i = 0; i < formArray.length; i++) {
+        var label = document.createElement("label");
+        label.textContent = formArray[i];
+        form.appendChild(label);
+        var input = document.createElement("input");
+        input.value = formArray[i];
+        form.appendChild(input);
+
+        if (i == 2 || i == 3) {
+            input.setAttribute("onclick","setAttribute('required', '');");
+            input.setAttribute("onfocus","this.value=''" );
+        } else if (i == 0 || i == 1) {
+            input.setAttribute("readOnly", true);
+        }
+    }
+
+    var button = createButton("Save", );
+    form.appendChild(button);
+    button.setAttribute("class", "button functionButton")
 }
 
 function includeFooter() {
