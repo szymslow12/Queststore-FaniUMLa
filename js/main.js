@@ -76,10 +76,10 @@ function createTable(array) {
             
             if(array[i] in imgDict) {
                 var data = document.createElement("td");
-                var a = document.createElement("a");
-                data.appendChild(a);
-                a.setAttribute("class", imgDict[array[i]]);
-                a.setAttribute("href", "sth.html");
+                var button = createFormButton("", array, ["test"]);
+                button.setAttribute("class", imgDict[array[i]]);
+                data.appendChild(button);
+
             } else {
                 var data = document.createElement("td");
                 data.textContent = "-----------------";
@@ -97,6 +97,8 @@ function createFormButton(name, inputsArray, optionsArray) {
 
     button.addEventListener("click", function () { handleForm(inputsArray, optionsArray) })
     document.body.appendChild(button);
+
+    return button;
 }
 
 function handleForm(inputsArray, optionsArray) {
