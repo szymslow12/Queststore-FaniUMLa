@@ -129,16 +129,21 @@ function getArrayForForm(view) {
         if(view == "Mentor") {
             formArray.push("Wallet")
 
-        } else if(view =="Classes" || view =="Levels" || view=="Quest") {
+        } else if(view =="Classes" || view =="Levels" || view=="Quests" || view == "Artifacts") {
             formArray=["Name"];
         }
         if(view=="Levels") {
             formArray.push("Level Threshold");
         }
-        if(view=="Levels") {
+        if(view=="Quests") {
             formArray.push("Category");
             formArray.push("Description");
-            formArray.push("Avard");
+            formArray.push("Award");
+        }
+
+        if(view=="Artifacts") {
+            formArray.push("Description");
+            formArray.push("Price");
         }
 
 
