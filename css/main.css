@@ -149,6 +149,7 @@ footer {
 td {
     padding: 10px;
     text-align: center;
+    min-width: 100px;
 }
 
 table {
@@ -235,4 +236,15 @@ input, select, label {
 }
 .confirm {
     display:none;
+}
+.list-container {
+   
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 100%;
+    height: 100%;
+ 
 }

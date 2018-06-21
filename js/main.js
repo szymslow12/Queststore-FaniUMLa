@@ -51,7 +51,7 @@ function createHiddenMenu(menu) {
         dropdownContent.appendChild(a2);
     }
     div.appendChild(dropdownContent);
-    li.appendChild(div);
+    
 }
 
 function seeProfile() {
@@ -224,7 +224,7 @@ function handleSubmit(actionLabel) {
     button1.addEventListener("click", function () { confirmAll(div) });
 
     var button2 = createButton("No");
-    button2.setAttribute("class", "button no-button");
+    button2.setAttribute("class", "button functionButton");
     textArea.appendChild(button2);
     button2.addEventListener("click", function () { confirmAll(div) });
 
@@ -268,8 +268,39 @@ function createForm(inputsArray, optionsArray) {
 
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
+    
+    
+    if(inputsArray.length==0 && optionsArray.length>0 && optionsArray[0]=="Class") {
+        
+        button.setAttribute("onclick","setStudentList();return false");
+    }
     form.appendChild(button);
     document.body.appendChild(form);
+    
+}
+
+function setStudentList() {
+    var div = document.createElement("div")
+    div.setAttribute("class", "text-container");
+    var form = document.createElement("form");
+    div.appendChild(form);
+    form.setAttribute("class", "text-area");
+    
+    var formArray = ["First Name Last Name"];
+    for(var j = 0; j<10; j++) {
+        for (var i = 0; i < formArray.length; i++) {
+            var label = document.createElement("label");
+            label.textContent = formArray[i];
+            form.appendChild(label);
+            var checkbox = document.createElement("input");
+            checkbox.setAttribute("type", "checkbox");
+            form.appendChild(checkbox);
+        }
+    }
+    var button = createButton("Save");
+    button.setAttribute("class", "button functionButton")
+    form.appendChild(button);
+    document.body.appendChild(div);
 }
 
 function createInputElements(container, inputsArray) {
