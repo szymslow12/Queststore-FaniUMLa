@@ -1,0 +1,49 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.button-container {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    width: 25%;
+    height: 250px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: 125px;
+    margin-right: 125px;
+}
+
+table {
+    position: relative;
+    margin-top: 0px;
+    margin-bottom: 80px;
+}
+
+footer {
+    position: absolute;
+    bottom: 1px;
+    width: 98.5%;
+}
+
+h3 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #2C3E50;
+    margin-top: 35px;
+}

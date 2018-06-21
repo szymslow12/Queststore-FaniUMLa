@@ -1,37 +1,55 @@
 function createHeader(name) {
 
-    var header = document.createElement("HEADER");
+    var header = document.createElement("header");
     header.textContent = "Welcome " + name;
     document.body.appendChild(header);
 }
 
-
-
 function createMenu(array, activePage) {
 
-    var nav = document.createElement("NAV");
-    nav.setAttribute("class", "menu");
+    var menu = document.createElement("div");
+    menu.setAttribute("class", "menu");
+    document.body.appendChild(menu);
 
-    var ul = document.createElement("ul");
-    nav.appendChild(ul);
-
-    for (var i = 0; i < array.length; i++) {
-        var li = document.createElement("li");
+    for (var i = 0; i < array.length - 1; i++) {
 
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
         a.textContent = array[i];
 
-        if(activePage == array[i]) {
+
+        if (activePage == array[i]) {
             a.setAttribute("class", "active");
         }
-
-        li.appendChild(a);
-
-        ul.appendChild(li);
+        menu.appendChild(a);
     }
+    createHiddenMenu(menu);
+}
 
-    document.body.appendChild(nav);
+function createHiddenMenu(menu) {
+    var options = ["Profile", "Log-out"];
+    var div = document.createElement("div");
+    div.setAttribute("class", "dropdown");
+    menu.appendChild(div);
+    var a = document.createElement("a");
+    a.setAttribute("class", "fas fa-cog");
+    a.setAttribute("id", "icon")
+    div.appendChild(a);
+    var dropdownContent = document.createElement("div");
+    dropdownContent.setAttribute("class", "dropdown-content");
+
+    for (var i = 0; i < options.length; i++) {
+        var a2 = document.createElement("a");
+        a2.textContent = options[i];
+        if (options[i] == "Log-out") {
+            a2.setAttribute("href", "../login.html");
+        } else {
+            a2.setAttribute("href", "../" + options[i] + ".html");
+        }
+        dropdownContent.appendChild(a2);
+    }
+    div.appendChild(dropdownContent);
+    li.appendChild(div);
 }
 
 function includeFooter() {
@@ -56,8 +74,8 @@ function createTable(array) {
     var table = document.createElement("table");
     var rowH = document.createElement("tr");
     rowH.setAttribute("class", "tableHeader")
-    
-    for (var i=0; i<array.length; i++) {
+
+    for (var i = 0; i < array.length; i++) {
         var col = document.createElement("td");
         col.textContent = array[i];
         rowH.appendChild(col);
@@ -65,15 +83,16 @@ function createTable(array) {
     table.appendChild(rowH);
 
     var imgDict = {
-        "See Details" : "fas fa-address-book",
-        "Update" : "fas fa-user-edit",
-        "Delete" : "fas fa-trash-alt",
-        "Buy" : "fas fa-shopping-cart"
+        "See Details": "fas fa-address-book",
+        "Update": "fas fa-user-edit",
+        "Delete": "fas fa-trash-alt",
+        "Buy": "fas fa-shopping-cart"
     };
 
-    for(var j = 0; j<10; j++) {
+    for (var j = 0; j < 10; j++) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
+<<<<<<< HEAD
         for (var i=0; i<array.length; i++) {
         var formArray = getArrayForForm(view);
             
@@ -83,6 +102,11 @@ function createTable(array) {
                 button.setAttribute("class", imgDict[array[i]] + " functionButton");
                 data.appendChild(button);
             }else if(array[i]=="Delete") {
+=======
+        for (var i = 0; i < array.length; i++) {
+
+            if (array[i] in imgDict) {
+>>>>>>> view
                 var data = document.createElement("td");
                 var button = createSubmitButton();
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
@@ -100,12 +124,13 @@ function createTable(array) {
                 data.textContent = "-----------------";
             }
             row.appendChild(data);
-        } 
+        }
         table.appendChild(row);
-    } 
+    }
     document.body.appendChild(table);
 }
 
+<<<<<<< HEAD
 function getArrayForForm(view) {
     var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
         if(view == "Mentor") {
@@ -122,6 +147,10 @@ function getArrayForForm(view) {
 }
 
 function createSubmitButton() {
+=======
+function createFormButton(name, inputsArray, optionsArray) {
+
+>>>>>>> view
     var button = createButton(name);
     button.addEventListener("click", function () { handleDelete() });
     document.body.appendChild(button);
@@ -203,6 +232,7 @@ function createInputElements(container, inputsArray) {
         label.textContent = inputsArray[i];
 
         var input = document.createElement("input");
+        input.setAttribute("required", "");
         div.appendChild(input);
 
         container.appendChild(div);
@@ -225,5 +255,46 @@ function createSelectElements(container, optionsArray) {
         select.appendChild(option);
         div.appendChild(select);
         container.appendChild(div);
+    }
+}
+
+function createStoreTable(array, id) {
+    var tables = document.getElementsByTagName("table");
+    if (tables.length == 0) {
+        createTable(array);
+        fillStoreTable(id);
+    } else {
+        var table = tables[0];
+        table.remove();
+        createTable(array);
+        fillStoreTable(id);
+    }
+}
+
+
+function fillStoreTable(id) {
+    if (id == "basic-items") {
+        var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
+                          ['Sanctuary', 'You can spend a day in home office', '300 cc'],
+                          ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
+        fillRows(basicItems, basicItems[0].length);
+    } else {
+        var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
+                          ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
+                          ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
+                          ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
+                          ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
+        fillRows(magicItems, magicItems[0].length);
+    }
+}
+
+function fillRows(columnsData, columnsToFill) {
+    var rows = document.getElementsByClassName("tableRow");
+    for (i = 0; i < columnsData.length; i++) {
+        var row = rows[i];
+        var columns = row.getElementsByTagName("td");
+        for (j = 0; j < columnsToFill; j++) {
+            columns[j].textContent = columnsData[i][j];
+        }
     }
 }

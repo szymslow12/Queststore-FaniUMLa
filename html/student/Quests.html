@@ -7,17 +7,22 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/store.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-        crossorigin="anonymous">
+          crossorigin="anonymous">
     <script src="../../js/main.js"></script>
+    <script src="../../js/store.js"></script>
+    <style>table {
+                margin-top: 50px;
+           }
+    </style>
 </head>
-
 <body>
-    <script>createHeader("mentor")</script>
-    <script>createMenu(["Students", "Quests", "Artifacts", ""], "Students")</script>
-    <script>createFormButton("Add Student", ["Name", "Surname", "Phone", "Email"], ["Class"])</script>
-    <script>createTable(["First Name", "Last Name", "See Details", "Update", "Delete"])</script>
-    <script>includeFooter()</script>
+<script>createHeader("Student!")</script>
+<script>createMenu(['Store', 'Inventory', 'Quests'])</script>
+<script>createTable(['Name', 'Category', 'Description','Award'])</script>
+<script>includeFooter()</script>
+
 </body>
 
 </html>

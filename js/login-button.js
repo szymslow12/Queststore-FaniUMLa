@@ -42,6 +42,7 @@ function activateSubmitButton() {
     } else {
         document.getElementById("login-button").disabled = true;
     }
+    adjustPositionOfSubmitButton();
 }
 
 
