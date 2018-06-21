@@ -92,7 +92,6 @@ function createTable(array) {
     for (var j = 0; j < 10; j++) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
-<<<<<<< HEAD
         for (var i=0; i<array.length; i++) {
         var formArray = getArrayForForm(view);
             
@@ -102,11 +101,6 @@ function createTable(array) {
                 button.setAttribute("class", imgDict[array[i]] + " functionButton");
                 data.appendChild(button);
             }else if(array[i]=="Delete") {
-=======
-        for (var i = 0; i < array.length; i++) {
-
-            if (array[i] in imgDict) {
->>>>>>> view
                 var data = document.createElement("td");
                 var button = createSubmitButton();
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
@@ -130,7 +124,6 @@ function createTable(array) {
     document.body.appendChild(table);
 }
 
-<<<<<<< HEAD
 function getArrayForForm(view) {
     var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
         if(view == "Mentor") {
@@ -147,10 +140,6 @@ function getArrayForForm(view) {
 }
 
 function createSubmitButton() {
-=======
-function createFormButton(name, inputsArray, optionsArray) {
-
->>>>>>> view
     var button = createButton(name);
     button.addEventListener("click", function () { handleDelete() });
     document.body.appendChild(button);
