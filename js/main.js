@@ -127,7 +127,8 @@ function createTable(array, view) {
         "See Details": "fas fa-address-book",
         "Update": "fas fa-user-edit",
         "Delete": "fas fa-trash-alt",
-        "Buy": "fas fa-shopping-cart"
+        "Buy": "fas fa-shopping-cart",
+        "Give": "fas fa-gift"
     };
 
     for (var j = 0; j < 10; j++) {
@@ -136,7 +137,7 @@ function createTable(array, view) {
         for (var i = 0; i < array.length; i++) {
             var formArray = getArrayForForm(view);
 
-            if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy") {
+            if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                 var data = document.createElement("td");
                 var button = createFormButton("", formArray, []);
                 button.setAttribute("class", imgDict[array[i]] + " functionButton");
@@ -154,6 +155,13 @@ function createTable(array, view) {
                 button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                 
                 data.appendChild(button);
+
+            } else if (array[i] == "Give") {
+                var data = document.createElement("td");
+                var button = createFormButton("", [], ["Class"]);
+                button.setAttribute("class", imgDict[array[i]] + " functionButton");
+                data.appendChild(button);
+
             } else {
                 var data = document.createElement("td");
                 data.textContent = "-----------------";
@@ -289,12 +297,14 @@ function createSelectElements(container, optionsArray) {
         label.textContent = optionsArray[i];
 
         var select = document.createElement("select");
-
-        var option = document.createElement("option");
-        option.value = optionsArray[i];
-        option.text = optionsArray[i];
-        select.appendChild(option);
-        div.appendChild(select);
+        for(var j=0; j<2; j++) {
+            var option = document.createElement("option");
+            option.value = optionsArray[i] + j;
+            option.text = optionsArray[i] + j;
+            select.appendChild(option);
+            div.appendChild(select);
+        }
+        
         container.appendChild(div);
     }
 }
