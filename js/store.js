@@ -21,3 +21,14 @@ function createButton(name, id) {
     document.body.appendChild(button);
     return button;
 }
+
+function createStoreHeader(coolcoins) {
+    var storeHeader = document.createElement("h3");
+    var coinSymbol = document.createElement("i");
+    coinSymbol.setAttribute('class', "fas fa-dollar-sign");
+    var headerText = document.createTextNode("You have " + coolcoins + " ");
+    storeHeader.appendChild(headerText);
+    storeHeader.appendChild(coinSymbol);
+    storeHeader.appendChild(document.createTextNode(" , you can buy following items:"));
+    document.body.appendChild(storeHeader);
+}
