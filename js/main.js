@@ -163,13 +163,36 @@ function createSelectElements(container, optionsArray) {
     }
 }
 
-function createStoreTable(array) {
+function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
         createTable(array);
+        fillTable(id);
     } else {
         var table = tables[0];
         table.remove();
         createTable(array);
+        fillTable(id);
+    }
+}
+
+
+function fillTable(id) {
+    console.log(id);
+    if (id == "basic-items") {
+        fillRows([['Basic Beer', 'just tasty BEER', '12'], ['Basic Wine', 'just tasty Wine', '20']]);
+    } else {
+        fillRows([['Magic Beer', 'just tasty magic BEER', '120'], ['Magic Wine', 'just tasty magic Wine', '200']]);
+    }
+}
+
+function fillRows(itemsDetails) {
+    var rows = document.getElementsByClassName("tableRow");
+    for (i = 0; i < itemsDetails.length; i++) {
+        var row = rows[i];
+        var columns = row.getElementsByTagName("td");
+        for (j = 0; j < 3; j++) {
+            columns[j].textContent = itemsDetails[i][j];
+        }
     }
 }
