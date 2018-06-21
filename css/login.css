@@ -97,6 +97,7 @@
     left: 29%;
     border: none;
     border-radius: 10px;
+    padding:10px;
 }
 
 #user-password {
@@ -104,6 +105,7 @@
     border-radius: 10px;
     border: none;
     left: 17%;
+    padding:10px;
 }
 
 #login-button-container {
