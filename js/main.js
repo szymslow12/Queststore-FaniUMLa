@@ -84,7 +84,7 @@ function createTable(array) {
                 data.appendChild(button);
             }else if(array[i]=="Delete") {
                 var data = document.createElement("td");
-                var button = createFormButton("", [], ["Are you sure you want delete?"]);
+                var button = createSubmitButton();
                 button.setAttribute("class", imgDict[array[i]]);
                 
                 data.appendChild(button);
@@ -121,14 +121,47 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createFormButton(name, inputsArray, optionsArray) {
-    
+function createSubmitButton() {
     var button = createButton(name);
-
-    button.addEventListener("click", function () { handleForm(inputsArray, optionsArray) })
+    button.addEventListener("click", function () { handleDelete() });
     document.body.appendChild(button);
 
     return button;
+}
+
+function handleDelete() {
+    var div = document.createElement("div");
+    div.setAttribute("class", "text-container");
+    var textArea=document.createElement("div");
+    textArea.setAttribute("class", "text-area");
+    div.appendChild(textArea);
+    var info = document.createElement("label");
+    info.textContent="Are you sure you want to delete?";
+    textArea.appendChild(info);
+
+    var button1 = createButton("Yes");
+    textArea.appendChild(button1);
+    button1.setAttribute("class", "button yes-button");
+    textArea.appendChild(button1);
+    button1.addEventListener("click", function() { confirmAll(div) });
+
+    var button2 = createButton("No");
+    button2.setAttribute("class", "button no-button");
+    textArea.appendChild(button2);
+    button2.addEventListener("click", function() { confirmAll(div) });
+
+    document.body.appendChild(div);
+}
+
+function createFormButton(name, inputsArray, optionsArray) {
+    var button = createButton(name);
+    button.addEventListener("click", function () { handleForm(inputsArray, optionsArray) })
+    document.body.appendChild(button);
+    return button;
+}
+
+function confirmAll(div) {
+    div.setAttribute("class", "confirm");
 }
 
 function handleForm(inputsArray, optionsArray) {
