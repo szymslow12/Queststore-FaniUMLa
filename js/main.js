@@ -167,22 +167,28 @@ function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
         createTable(array);
-        fillTable(id);
+        fillStoreTable(id);
     } else {
         var table = tables[0];
         table.remove();
         createTable(array);
-        fillTable(id);
+        fillStoreTable(id);
     }
 }
 
 
-function fillTable(id) {
+function fillStoreTable(id) {
     if (id == "basic-items") {
-        var basicItems = [['Basic Beer', 'just tasty BEER', '12'], ['Basic Wine', 'just tasty Wine', '20']];
+        var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
+                          ['Sanctuary', 'You can spend a day in home office', '300 cc'],
+                          ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
         fillRows(basicItems, basicItems[0].length);
     } else {
-        var magicItems = [['Magic Beer', 'just tasty magic BEER', '120'], ['Magic Wine', 'just tasty magic Wine', '200']];
+        var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
+                          ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
+                          ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
+                          ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
+                          ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
         fillRows(magicItems, magicItems[0].length);
     }
 }
