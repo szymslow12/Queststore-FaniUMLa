@@ -1,37 +1,55 @@
 function createHeader(name) {
 
-    var header = document.createElement("HEADER");
+    var header = document.createElement("header");
     header.textContent = "Welcome " + name;
     document.body.appendChild(header);
 }
 
-
-
 function createMenu(array, activePage) {
 
-    var nav = document.createElement("NAV");
-    nav.setAttribute("class", "menu");
+    var menu = document.createElement("div");
+    menu.setAttribute("class", "menu");
+    document.body.appendChild(menu);
 
-    var ul = document.createElement("ul");
-    nav.appendChild(ul);
-
-    for (var i = 0; i < array.length; i++) {
-        var li = document.createElement("li");
+    for (var i = 0; i < array.length - 1; i++) {
 
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
         a.textContent = array[i];
 
-        if(activePage == array[i]) {
+
+        if (activePage == array[i]) {
             a.setAttribute("class", "active");
         }
-
-        li.appendChild(a);
-
-        ul.appendChild(li);
+        menu.appendChild(a);
     }
+    createHiddenMenu(menu);
+}
 
-    document.body.appendChild(nav);
+function createHiddenMenu(menu) {
+    var options = ["Profile", "Log-out"];
+    var div = document.createElement("div");
+    div.setAttribute("class", "dropdown");
+    menu.appendChild(div);
+    var a = document.createElement("a");
+    a.setAttribute("class", "fas fa-cog");
+    a.setAttribute("id", "icon")
+    div.appendChild(a);
+    var dropdownContent = document.createElement("div");
+    dropdownContent.setAttribute("class", "dropdown-content");
+
+    for (var i = 0; i < options.length; i++) {
+        var a2 = document.createElement("a");
+        a2.textContent = options[i];
+        if (options[i] == "Log-out") {
+            a2.setAttribute("href", "../login.html");
+        } else {
+            a2.setAttribute("href", options[i] + ".html");
+        }
+        dropdownContent.appendChild(a2);
+    }
+    div.appendChild(dropdownContent);
+    li.appendChild(div);
 }
 
 function includeFooter() {
@@ -42,7 +60,7 @@ function includeFooter() {
 }
 
 function createButton(name) {
-    var button = document.createElement("BUTTON");
+    var button = document.createElement("button");
     var text = document.createTextNode(name);
     button.appendChild(text);
     button.setAttribute("class", "button");
@@ -54,8 +72,8 @@ function createTable(array) {
     var table = document.createElement("table");
     var rowH = document.createElement("tr");
     rowH.setAttribute("class", "tableHeader")
-    
-    for (var i=0; i<array.length; i++) {
+
+    for (var i = 0; i < array.length; i++) {
         var col = document.createElement("td");
         col.textContent = array[i];
         rowH.appendChild(col);
@@ -63,18 +81,18 @@ function createTable(array) {
     table.appendChild(rowH);
 
     var imgDict = {
-        "See Details" : "fas fa-address-book",
-        "Update" : "fas fa-user-edit",
-        "Delete" : "fas fa-trash-alt",
-        "Buy" : "fas fa-shopping-cart"
+        "See Details": "fas fa-address-book",
+        "Update": "fas fa-user-edit",
+        "Delete": "fas fa-trash-alt",
+        "Buy": "fas fa-shopping-cart"
     };
 
-    for(var j = 0; j<10; j++) {
+    for (var j = 0; j < 10; j++) {
         var row = document.createElement("tr");
         row.setAttribute("class", "tableRow")
-        for (var i=0; i<array.length; i++) {
-            
-            if(array[i] in imgDict) {
+        for (var i = 0; i < array.length; i++) {
+
+            if (array[i] in imgDict) {
                 var data = document.createElement("td");
                 var button = createFormButton("", array, ["test"]);
                 button.setAttribute("class", imgDict[array[i]]);
@@ -85,14 +103,14 @@ function createTable(array) {
                 data.textContent = "-----------------";
             }
             row.appendChild(data);
-        } 
+        }
         table.appendChild(row);
-    } 
+    }
     document.body.appendChild(table);
 }
 
 function createFormButton(name, inputsArray, optionsArray) {
-    
+
     var button = createButton(name);
 
     button.addEventListener("click", function () { handleForm(inputsArray, optionsArray) })
