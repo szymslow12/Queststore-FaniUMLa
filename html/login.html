@@ -12,25 +12,25 @@
             <h3>Please provide login and password!</h3>
             <h5></h5>
         </header>
-        <form id="login" action="index.html" onsubmit="return loginToQuestStore()">
+        <form id="login" action="" onsubmit="loginToQuestStore()">
             <div id="input-container">
                 <div id="login-label-container">
                     <label id="login-label" for="user-login">Login:
                         <input type="text" placeholder="  login" id="user-login" autofocus="on"
-                               onkeyup="checkIfLoginIsEmpty()" name="login" autocomplete="off">
+                               required name="login" autocomplete="off">
                         <h5></h5>
                     </label>
                 </div>
                 <div id="password-label-container">
                     <label id="password-label" for="user-password">Password:
                         <input type="password" placeholder="  password" id="user-password"
-                               onkeyup="checkIfPasswordIsEmpty()" name="password">
+                               required name="password">
                         <h5></h5>
                     </label>
                 </div>
                 <div id="login-button-container">
-                    <button id="login-button" type="submit" form="login" onmousemove="activateSubmitButton()"
-                            disabled>Submit</button>
+                    <button id="login-button" type="submit" form="login"
+                            >Submit</button>
                 </div>
             </div>
         </form>
