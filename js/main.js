@@ -51,7 +51,6 @@ function createHiddenMenu(menu) {
         dropdownContent.appendChild(a2);
     }
     div.appendChild(dropdownContent);
-    li.appendChild(div);
 }
 
 function seeProfile() {
@@ -76,6 +75,7 @@ function seeProfile() {
             input.setAttribute("onfocus","this.value=''" );
         } else if (i == 0 || i == 1) {
             input.setAttribute("readOnly", true);
+            input.style.backgroundColor = "grey";
         }
     }
 
