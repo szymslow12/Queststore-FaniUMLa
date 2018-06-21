@@ -149,7 +149,6 @@ footer {
 td {
     padding: 10px;
     text-align: center;
-    border-radius: 10px;
 }
 
 table {
@@ -161,7 +160,6 @@ table {
 
 td a {
     color: #2C3E50;
-    border-radius: 10px;
 }
 
 tr td a:hover {
