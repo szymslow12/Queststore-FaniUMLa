@@ -46,12 +46,23 @@ function createHiddenMenu(menu) {
         if (options[i] == "Log-out") {
             a2.setAttribute("href", "../login.html");
         } else {
-            a2.setAttribute("href", "../" + options[i] + ".html");
+            a2.setAttribute("onclick", "seeProfile();");
         }
         dropdownContent.appendChild(a2);
     }
     div.appendChild(dropdownContent);
     li.appendChild(div);
+}
+
+function seeProfile() {
+    var div = document.createElement("div");
+    div.setAttribute("class", "text-container");
+    var textArea = document.createElement("div");
+    textArea.setAttribute("class", "text-area");
+    div.appendChild(textArea);
+    var info = document.createElement("label");
+    var formArray = ["First Name", "Last Name", "Phone", "Email"];
+    document.body.appendChild(div);
 }
 
 function includeFooter() {
