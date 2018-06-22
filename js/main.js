@@ -13,7 +13,7 @@ function createMenu(array, activePage) {
     menu.setAttribute("id", "menu");
     document.body.appendChild(menu);
 
-    for (var i = 0; i < array.length - 1; i++) {
+    for (var i = 0; i < array.length; i++) {
 
         var a = document.createElement("a");
         a.setAttribute("href", array[i] + ".html");
@@ -55,33 +55,36 @@ function createHiddenMenu(menu) {
 
 function seeProfile() {
     var div = document.createElement("div");
-    div.setAttribute("class", "text-container");
+    div.setAttribute("class", "form-container");
     var form = document.createElement("form");
     div.appendChild(form);
-    form.setAttribute("class", "text-area");
-    var formArray = ["First Name", "Last Name", "Phone", "Email"];
+    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password"];
     document.body.appendChild(div);
+    var container = document.createElement("div");
+    container.setAttribute("class", "container");
+    form.appendChild(container);
 
     for (var i = 0; i < formArray.length; i++) {
+        var labelDiv = document.createElement("div");
+        container.appendChild(labelDiv);
         var label = document.createElement("label");
         label.textContent = formArray[i];
-        form.appendChild(label);
+        labelDiv.appendChild(label);
         var input = document.createElement("input");
         input.value = formArray[i];
-        form.appendChild(input);
+        labelDiv.appendChild(input);
 
-        if (i == 2 || i == 3) {
-            input.setAttribute("onclick","setAttribute('required', '');");
-            input.setAttribute("onfocus","this.value=''" );
-        } else if (i == 0 || i == 1) {
+        if (i == 0 || i == 1 || i == 4) {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
-        }
+        } else {
+            input.setAttribute("onclick","setAttribute('required', '');");
+            input.setAttribute("onfocus","this.value=''" ); }
     }
 
     var button = createButton("Save", );
     form.appendChild(button);
-    button.setAttribute("class", "button functionButton")
+    button.setAttribute("class", "button functionButton");
 }
 
 function includeFooter() {
