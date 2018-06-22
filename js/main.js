@@ -267,7 +267,7 @@ function createForm(inputsArray, optionsArray, boolean) {
     var container = document.createElement("div");
     container.setAttribute("class", "container");
     createInputElements(container, inputsArray, boolean);
-    createSelectElements(container, optionsArray, boolean);
+    createSelectElements(container, optionsArray);
 
     form.appendChild(container);
 
@@ -365,7 +365,6 @@ function createStoreTable(array, id) {
         fillStoreTable(id);
     }
 }
-
 
 function fillStoreTable(id) {
     if (id == "basic-items") {
