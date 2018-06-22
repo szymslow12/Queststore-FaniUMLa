@@ -226,6 +226,11 @@ input, select {
     float: right;
 }
 
+input {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+}
+
 input, select, label {
     margin-bottom: 5px;
 }
