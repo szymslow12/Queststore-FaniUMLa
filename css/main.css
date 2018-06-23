@@ -64,7 +64,6 @@ header {
 }
 
 .menu {
-    position: relative;
     background-color: #2C3E50;
     border-radius: 10px;
     display: flex;
@@ -251,7 +250,6 @@ input, select, label {
 }
 
 .button-container {
-    position: relative;
     top: 0px;
     width: 100%;
     height: auto;
@@ -267,7 +265,6 @@ input, select, label {
 }
 
 .category-button {
-    /*width: 25%;*/
     height: 250px;
     margin-top: 20px;
     margin-bottom: 50px;
@@ -275,10 +272,6 @@ input, select, label {
     margin-right: 125px;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 .functionButton {
     background-color: #33CCCC;
@@ -286,19 +279,7 @@ html {
     color: #2C3E50;
 }
 
-table {
-    position: relative;
-    margin-top: 0px;
-    margin-bottom: 80px;
-}
-
-footer {
-    position: absolute;
-    bottom: 1px;
-    width: 98.5%;
-}
-
-h3 {
+.button-container h3 {
     font-family: 'Times New Roman', Times, serif;
     font-size: 20px;
     line-height: 1.5;
