@@ -1,23 +1,7 @@
-/* #33CCCC */
-#login-body {
-    /*background-color: #ECF0F1;*/
-    background: -moz-radial-gradient(circle, #ECF0F1, grey 200%);
 
-}
 
-#login-container {
-    display: inline-block;
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    width:500px;
-    height:350px;
-    margin-top: -175px; /*set to a negative number 1/2 of your height*/
-    margin-left: -250px; /*set to a negative number 1/2 of your width*/
-    background-color: #2980B9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+
+
 
 #login-head {
     position: relative;
@@ -42,24 +26,10 @@
     color: #ECF0F1;
 }
 
-#login-head h5 {
-    position: relative;
-    font-family: 'Times New Roman', Times, serif;
-    text-align: left;
-    top: 10px;
-    left: 5%;
-    color: red;
-    font-size: 20px;
-    line-height: 1.5;
-    color: #2980B9;
-}
 
 
-#input-container {
-    position: relative;
-    height: auto;
-    width: 350px;
-}
+
+
 
 #login-label-container {
     position: relative;
