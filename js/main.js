@@ -358,12 +358,21 @@ function createStoreTable(array, id) {
     if (tables.length == 0) {
         createTable(array);
         fillStoreTable(id);
+        moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
         createTable(array);
         fillStoreTable(id);
+        moveStoreTableBeforeFooter();
     }
+}
+
+
+function moveStoreTableBeforeFooter() {
+    var table = document.getElementsByTagName("table")[0];
+    var buttonContainer = document.getElementsByClassName("button-container")[0];
+    buttonContainer.appendChild(table);
 }
 
 
