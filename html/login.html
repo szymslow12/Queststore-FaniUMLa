@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login to Questore</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/main.css">
     <script src="../js/login-button.js"></script>
 </head>
 <body id="login-body" onkeyup="adjustPositionOfSubmitButton()">
@@ -12,26 +12,23 @@
             <h3>Please provide login and password!</h3>
             <h5></h5>
         </header>
-        <form id="login" action="" onsubmit="loginToQuestStore()">
+        <form id="login" action="" onsubmit="return loginToQuestStore()">
+
             <div id="input-container">
-                <div id="login-label-container">
-                    <label id="login-label" for="user-login">Login:
-                        <input type="text" placeholder="  login" id="user-login" autofocus="on"
-                               required name="login" autocomplete="off">
-                        <h5></h5>
-                    </label>
-                </div>
-                <div id="password-label-container">
-                    <label id="password-label" for="user-password">Password:
-                        <input type="password" placeholder="  password" id="user-password"
-                               required name="password">
-                        <h5></h5>
-                    </label>
-                </div>
-                <div id="login-button-container">
-                    <button id="login-button" type="submit" form="login"
-                            >Submit</button>
-                </div>
+                <label id="login-label" for="user-login">Login:
+                    <input required name="login" type="text" placeholder="  login" id="user-login" autofocus="on"
+                            autocomplete="off">
+                    <h5></h5>
+                </label>
+                <label id="password-label" for="user-password">Password:
+                    <input type="password" placeholder="  password" id="user-password"
+                           required name="password">
+                    <h5></h5>
+                </label>
+            </div>
+            <div id="login-button-container">
+                <button class="button login-button" type="submit" form="login"
+                >Submit</button>
             </div>
         </form>
     </div>
