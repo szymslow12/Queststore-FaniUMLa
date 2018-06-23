@@ -65,8 +65,14 @@ function loginToQuestStore() {
     }
     else if (login == "mentor" && password == "mentor") {
         form.setAttribute("action", "../html/mentor/Students.html");
+        return true;
     } else if (login == "student" && password == "student") {
         form.setAttribute("action", "../html/student/Store.html");
+        return true;
+    } else {
+        document.getElementById("input-container").style.top = "0px";
+        document.getElementById("login-head").getElementsByTagName("h5")[0].innerText = "Bad login or password!";
+        return false;
     }
 }
 
