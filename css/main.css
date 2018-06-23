@@ -286,3 +286,68 @@ input, select, label {
     color: #2C3E50;
     margin-top: 35px;
 }
+
+#login-body {
+    background: -moz-radial-gradient(circle, #ECF0F1, grey 200%);
+
+}
+
+#login-container {
+
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:500px;
+    height:350px;
+    margin-top: -175px; /*set to a negative number 1/2 of your height*/
+    margin-left: -250px; /*set to a negative number 1/2 of your width*/
+    background-color: #2980B9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#login-head {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: 80px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #2980B9;
+    margin-left: 80px;
+    margin-bottom: 10px;
+}
+
+#login-head h3 {
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 20px;
+    /*line-height: 1.5;*/
+    color: #ECF0F1;
+    margin-top: 18px;
+
+
+}
+
+.login-button {
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+#login-head h5 {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 20px;
+    /*line-height: 1.5;*/
+    color: rgba(44, 62, 80, 1);
+    margin-top: -20px;
+}
+
+#login {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border: none;
+}
