@@ -24,6 +24,7 @@ function createButton(name, id) {
 
 function createStoreHeader(coolcoins) {
     var storeHeader = document.createElement("h3");
+    storeHeader.setAttribute("class", "store-header")
     var coinSymbol = document.createElement("i");
     coinSymbol.setAttribute('class', "fas fa-dollar-sign");
     var headerText = document.createTextNode("You have " + coolcoins + " ");
