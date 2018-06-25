@@ -6,23 +6,21 @@
     <link rel="stylesheet" href="../css/main.css">
     <script src="../js/login-button.js"></script>
 </head>
-<body id="login-body" onkeyup="adjustPositionOfSubmitButton()">
+<body id="login-body">
     <div id="login-container">
         <header id="login-head">
             <h3>Please provide login and password!</h3>
             <h5></h5>
         </header>
         <form id="login" action="" onsubmit="return loginToQuestStore()">
-
             <div id="input-container">
-                <label id="login-label" for="user-login">Login:
-                    <input required name="login" type="text" placeholder="  login" id="user-login" autofocus="on"
+                <label class="login-label" for="user-login">Login:
+                    <input required id="user-login" class="login-input" name="login" type="text" placeholder="  login" autofocus="on"
                             autocomplete="off">
                     <h5></h5>
                 </label>
-                <label id="password-label" for="user-password">Password:
-                    <input type="password" placeholder="  password" id="user-password"
-                           required name="password">
+                <label class="login-label" for="user-password">Password:
+                    <input required id="user-password" class="login-input" name="password" type="password" placeholder="  password">
                     <h5></h5>
                 </label>
             </div>
