@@ -293,7 +293,6 @@ input, select, label {
 }
 
 #login-container {
-
     position:fixed;
     top: 50%;
     left: 50%;
@@ -332,6 +331,7 @@ input, select, label {
 }
 
 .login-button {
+    width: 100px;
     font-size: 15px;
     letter-spacing: 2px;
     font-weight: 500;
