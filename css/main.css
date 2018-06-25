@@ -351,3 +351,15 @@ input, select, label {
     border-top-right-radius: 0px;
     border: none;
 }
+
+.login-label {
+    width: 100%;
+}
+
+.login-input {
+    float: right;
+    border-radius: 10px;
+    border: none;
+    padding:10px;
+    padding-right: 50px;
+}
