@@ -23,6 +23,9 @@ public class DAOMentorHelper {
     private final String GET_QUEST_CATEGORY = "SELECT * FROM questcategories";
     private final String ADD_QUEST = "INSERT INTO quests(id_category, quest_name, award, description)" +
                                         "VALUES(?, ?, ?, ?)";
+    private final String GET_ARTIFACT_CATGORY = "SELECT * FROM artcategories";
+    private final String ADD_ARTIFACT = "INSERT INTO artifacts(artifact_name, category_id, price, description)" +
+            "VALUES(?, ?, ?, ?)";
 
     public DAOMentorHelper() {
         userInputs = new UserInputs();
@@ -83,7 +86,7 @@ public class DAOMentorHelper {
         statement.setString(2, questData.get(1));
         statement.setInt(3, Integer.parseInt(questData.get(2)));
         statement.setString(4, questData.get(3));
-        System.out.println(statement.executeUpdate());
+        statement.executeUpdate();
 
     }
 
@@ -97,13 +100,18 @@ public class DAOMentorHelper {
     }
 
 
-    public String getAddNewArtifactQuery() {
-        String[] messages = {"Enter artifact name: ", "Enter artifact categoryID: ",
-                "Enter price: ", "Enter description: "};
-        String query = String.format("%s%s", "INSERT INTO artifacts (artifact_name, category_id, price, description)\n",
-                "VALUES ('%s', %s, %s, '%s')");
-        String[] queryValues = getQueryValues(messages);
-        return String.format(query, queryValues[0], queryValues[1], queryValues[2], queryValues[3]);
+    public void addArtifact(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(GET_ARTIFACT_CATGORY);
+        showCategories(statement);
+        List<String> artifactData = getData(new String[] {"Enter artifact categoryID: ", "Enter artifact name: ",
+                "Enter price: ", "Enter description: "});
+        statement = connection.prepareStatement(ADD_ARTIFACT);
+        statement.setString(1, artifactData.get(1));
+        statement.setInt(2, Integer.parseInt(artifactData.get(0)));
+        statement.setInt(3, Integer.parseInt(artifactData.get(2)));
+        statement.setString(4, artifactData.get(3));
+        statement.executeUpdate();
+
     }
 
 
@@ -244,15 +252,6 @@ public class DAOMentorHelper {
                                 artifactID, false);
         }
         return "";
-    }
-
-
-    private String[] getQueryValues(String[] messages) {
-        String[] values = new String[messages.length];
-        for (int i = 0; i < messages.length; i++) {
-            values[i] = userInputs.getString(messages[i]);
-        }
-        return values;
     }
 
 

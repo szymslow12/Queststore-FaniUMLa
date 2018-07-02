@@ -48,8 +48,9 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewArtifact() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getAddNewArtifactQuery());
-            statement.execute();
+            /*PreparedStatement statement = connection.prepareStatement(helper.getAddNewArtifactQuery());
+            statement.execute();*/
+            helper.addArtifact(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }
