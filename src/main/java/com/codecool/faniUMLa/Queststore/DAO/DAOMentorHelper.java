@@ -97,15 +97,6 @@ public class DAOMentorHelper {
     }
 
 
-    private int getUserID(PreparedStatement statement, Connection connection, String email) throws SQLException {
-        statement = connection.prepareStatement(String.format("SELECT id_user, email FROM users WHERE email LIKE '%s'",
-                email));
-        ResultSet resultSet = statement.executeQuery();
-        resultSet.next();
-        return resultSet.getInt("id_user");
-    }
-
-
     public String getAddNewArtifactQuery() {
         String[] messages = {"Enter artifact name: ", "Enter artifact categoryID: ",
                 "Enter price: ", "Enter description: "};
