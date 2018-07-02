@@ -1,40 +1,71 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
+import org.postgresql.core.SqlCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DAOMentorHelper {
 
     private UserInputs userInputs;
+    private final String ADD_USER = "INSERT INTO users (user_login, user_password," +
+                                    " first_name, last_name, email, phone_number, user_access) " +
+                                    "VALUES(?,?,?,?,?,?,?)";
+    private final String ADD_CODECOOLER = "INSERT INTO codecoolers (id_user, coolcoins, id_level, id_class)" +
+                                            "VALUES (?, ?, ?, ?)";
+    private final String GET_USER_ID = "SELECT id_user FROM users WHERE email LIKE ?";
 
     public DAOMentorHelper() {
         userInputs = new UserInputs();
     }
 
-    public String getAddCodecoolerQuery(PreparedStatement statement, Connection connection) throws SQLException {
-        String[] messages = {"Enter codecooler login: ", "Enter codecooler password: ",
-                "Enter codecooler first name: ", "Enter codecooler last name: ",
-                "Enter codecooler email: ", "Enter codecooler phone number: ", "Enter ID of class: "};
-        String query = String.format("%s%s%s", "INSERT INTO users (user_login, user_password, user_access, first_name, last_name, email, ",
-                "phone_number)\n", "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')");
-        String[] queryValues = getQueryValues(messages);
-        addNewUser(statement, connection, String.format(query, queryValues[0], queryValues[1], "CODECOOLER", queryValues[2],
-                queryValues[3], queryValues[4], queryValues[5]));
-        return addNewCodecoolerQuery(statement, connection, queryValues[4], queryValues[6]);
+    public void addCodecooler(Connection connection) throws SQLException {
+            PreparedStatement statement = connection.prepareStatement(ADD_USER);
+            List<String> userData = getData(new String[]{"Enter codecooler login: ", "Enter codecooler password: ",
+                    "Enter codecooler first name: ", "Enter codecooler last name: ",
+                    "Enter codecooler email: ", "Enter codecooler phone number: ", "Enter ID of class: "});
+            for (int i = 0; i < userData.size() - 1; i++) {
+                statement.setString(i + 1, userData.get(i));
+                System.out.println(userData.get(i));
+            }
+            statement.setString(userData.size(), "CODECOOLER");
+            statement.executeUpdate();
+            addCodecoolerToDatabase(userData, connection);
+
     }
 
+    private void addCodecoolerToDatabase(List<String> userData, Connection connection) throws SQLException{
+        String email = userData.get(4);
+        String idClass= userData.get(userData.size() - 1);
+        PreparedStatement statement = connection.prepareStatement(GET_USER_ID);
+        int idUser = getUserID(statement, email);
+        statement = connection.prepareStatement(ADD_CODECOOLER);
+        statement.setInt(1, idUser);
+        statement.setInt(2, 0);
+        statement.setInt(3, 1);
+        statement.setInt(4, Integer.parseInt(idClass));
+        statement.executeUpdate();
+    }
 
-    private String addNewCodecoolerQuery(PreparedStatement statement, Connection connection,
-                                         String email, String classID) throws SQLException {
+    private List<String> getData(String[] labels) {
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < labels.length; i++) {
+            data.add(userInputs.getString(labels[i]));
+        }
+        return data;
+    }
 
-        int userID = getUserID(statement, connection, email);
-        return String.format("INSERT INTO codecoolers (id_user, coolcoins," +
-                " id_level, id_class)\n VALUES (%s, 0, 1, %s)", userID, classID);
+    private int getUserID(PreparedStatement statement, String email) throws SQLException {
+        statement.setString(1, email);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        int idUser = resultSet.getInt("id_user");
+        return idUser;
     }
 
 
