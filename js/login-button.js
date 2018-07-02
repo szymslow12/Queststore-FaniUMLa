@@ -60,7 +60,7 @@ function loginToQuestStore() {
     //     return false;
     // } else
     if (login == "admin" && password == "admin") {
-        form.setAttribute("action", "../html/admin/mentors.html");
+        form.setAttribute("action", "../html/admin/Mentors.html");
         return true;
     }
     else if (login == "mentor" && password == "mentor") {
