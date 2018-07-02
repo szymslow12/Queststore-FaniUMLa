@@ -20,7 +20,6 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewCodecooler() {
         try {
-            PreparedStatement statement = null;
             helper.addCodecooler(connection);
         } catch (SQLException err) {
             err.printStackTrace();
@@ -30,8 +29,9 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewQuest() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getAddNewQuestQuery());
-            statement.execute();
+            /*PreparedStatement statement = connection.prepareStatement(helper.getAddNewQuestQuery());
+            statement.execute();*/
+            helper.addQuest(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }

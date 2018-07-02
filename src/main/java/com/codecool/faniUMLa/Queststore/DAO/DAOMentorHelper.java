@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
 import org.postgresql.core.SqlCommand;
 
@@ -19,6 +20,9 @@ public class DAOMentorHelper {
     private final String ADD_CODECOOLER = "INSERT INTO codecoolers (id_user, coolcoins, id_level, id_class)" +
                                             "VALUES (?, ?, ?, ?)";
     private final String GET_USER_ID = "SELECT id_user FROM users WHERE email LIKE ?";
+    private final String GET_QUEST_CATEGORY = "SELECT * FROM questcategories";
+    private final String ADD_QUEST = "INSERT INTO quests(id_category, quest_name, award, description)" +
+                                        "VALUES(?, ?, ?, ?)";
 
     public DAOMentorHelper() {
         userInputs = new UserInputs();
@@ -69,27 +73,36 @@ public class DAOMentorHelper {
     }
 
 
+    public void addQuest(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(GET_QUEST_CATEGORY);
+        showCategories(statement);
+        List<String> questData = getData(new String[]{"Enter quest category ID: ", "Enter quest name: ",
+                "Enter amount of award: ", "Enter description: "});
+        statement = connection.prepareStatement(ADD_QUEST);
+        statement.setInt(1, Integer.parseInt(questData.get(0)));
+        statement.setString(2, questData.get(1));
+        statement.setInt(3, Integer.parseInt(questData.get(2)));
+        statement.setString(4, questData.get(3));
+        System.out.println(statement.executeUpdate());
+
+    }
+
+
+    private void showCategories(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            new View().printLine("--> " + String.valueOf(resultSet.getInt(1)) +
+                            ". " + resultSet.getString(2));
+        }
+    }
+
+
     private int getUserID(PreparedStatement statement, Connection connection, String email) throws SQLException {
         statement = connection.prepareStatement(String.format("SELECT id_user, email FROM users WHERE email LIKE '%s'",
                 email));
         ResultSet resultSet = statement.executeQuery();
         resultSet.next();
         return resultSet.getInt("id_user");
-    }
-
-    public void addNewUser(PreparedStatement statement, Connection connection, String preparedQuery) throws SQLException {
-        statement = connection.prepareStatement(preparedQuery);
-        statement.execute();
-    }
-
-
-    public String getAddNewQuestQuery() {
-        String[] messages = {"Enter quest category ID: ", "Enter quest name: ",
-                "Enter amount of coolcoins for quest: ", "Enter description: "};
-        String query = String.format("%s%s", "INSERT INTO quests (id_category, quest_name, award, description)\n",
-                "VALUES (%s, '%s', %s, '%s')");
-        String[] queryValues = getQueryValues(messages);
-        return String.format(query, queryValues[0], queryValues[1], queryValues[2], queryValues[3]);
     }
 
 
