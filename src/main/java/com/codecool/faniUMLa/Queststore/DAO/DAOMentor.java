@@ -1,6 +1,7 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,8 +21,7 @@ public class DAOMentor implements DAOMentorInterface {
     public void addNewCodecooler() {
         try {
             PreparedStatement statement = null;
-            statement = connection.prepareStatement(helper.getAddCodecoolerQuery(statement, connection));
-            statement.execute();
+            helper.addCodecooler(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }
