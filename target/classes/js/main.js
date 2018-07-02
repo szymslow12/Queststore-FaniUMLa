@@ -16,7 +16,8 @@ function createMenu(array, activePage) {
     for (var i = 0; i < array.length; i++) {
 
         var a = document.createElement("a");
-        a.setAttribute("href", array[i] + ".html");
+//        a.setAttribute("href", array[i] + ".html");
+        a.setAttribute("href", array[i]);
         a.textContent = array[i];
 
 

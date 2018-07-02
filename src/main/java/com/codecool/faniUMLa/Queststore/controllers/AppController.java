@@ -30,16 +30,33 @@ public class AppController extends Controller implements HttpHandler {
         if(method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
-                case "/admin":
+                case "/Admin":
                     response= this.getFile("html/admin/Mentors.html");
                     break;
-                case "/mentor":
+                case "/Classes":
+                    response= this.getFile("html/admin/Classes.html");
+                    break;
+                case "/Levels":
+                    response= this.getFile("html/admin/Levels.html");
+                    break;
+                case "/Mentor":
                     response= this.getFile("html/mentor/Students.html");
                     break;
-                case "/student":
+                case "/Artifacts":
+                    response= this.getFile("html/mentor/Artifacts.html");
+                    break;
+                case "/mentor/Quests":
+                    response= this.getFile("html/mentor/Quests.html");
+                    break;
+                case "/Student":
                     response= this.getFile("html/student/Store.html");
                     break;
-
+                case "/Inventory":
+                    response= this.getFile("html/student/Inventory.html");
+                    break;
+                case "/student/Quests":
+                    response= this.getFile("html/student/Quests.html");
+                    break;
             }
         }
         httpExchange.sendResponseHeaders(200, response.length());

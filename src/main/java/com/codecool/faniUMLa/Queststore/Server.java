@@ -9,9 +9,15 @@ import java.net.InetSocketAddress;
 public class Server {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
-        server.createContext("/admin", new AppController());
-        server.createContext("/student", new AppController());
-        server.createContext("/mentor", new AppController());
+        server.createContext("/Admin", new AppController());
+        server.createContext("/Classes", new AppController());
+        server.createContext("/Levels", new AppController());
+        server.createContext("/Student", new AppController());
+        server.createContext("/Mentor", new AppController());
+        server.createContext("/Inventory", new AppController());
+        server.createContext("/mentor/Quests", new AppController());
+        server.createContext("/Artifacts", new AppController());
+        server.createContext("/student/Quests", new AppController());
         server.createContext("/js/main.js", new Static());
         server.createContext("/js/login-button.js", new Static());
         server.createContext("/js/store.js", new Static());
