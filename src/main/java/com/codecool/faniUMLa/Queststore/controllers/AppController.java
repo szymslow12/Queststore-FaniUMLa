@@ -58,9 +58,6 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Store":
                     response= this.getFile("html/student/Store.html");
                     break;
-                case "/Mentors":
-                    response= this.getFile("html/admin/Mentors.html");
-                    break;
             }
         }
         httpExchange.sendResponseHeaders(200, response.length());
