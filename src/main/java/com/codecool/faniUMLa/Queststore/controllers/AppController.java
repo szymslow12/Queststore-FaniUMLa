@@ -39,14 +39,14 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Levels":
                     response= this.getFile("html/admin/Levels.html");
                     break;
-                case "/Mentor":
+                case "/Mentor": case"/Students":
                     response= this.getFile("html/mentor/Students.html");
                     break;
                 case "/Artifacts":
                     response= this.getFile("html/mentor/Artifacts.html");
                     break;
-                case "/mentor/Quests":
-                    response= this.getFile("html/mentor/Quests.html");
+                case "/QuestsMentor":
+                    response= this.getFile("html/mentor/QuestsMentor.html");
                     break;
                 case "/Student":
                     response= this.getFile("html/student/Store.html");
@@ -54,8 +54,11 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Inventory":
                     response= this.getFile("html/student/Inventory.html");
                     break;
-                case "/student/Quests":
+                case "/Quests":
                     response= this.getFile("html/student/Quests.html");
+                    break;
+                case "/Store":
+                    response= this.getFile("html/student/Store.html");
                     break;
             }
         }
