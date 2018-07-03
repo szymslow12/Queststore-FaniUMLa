@@ -10,13 +10,13 @@ import java.io.OutputStream;
 import java.util.Scanner;
 
 public class AppController extends Controller implements HttpHandler {
-    DAOAdminInterface daoAdmin;
+    DAOAdminController daoAdminController;
     DAOMentorInterface daoMentor;
     DAOCodecoolerInterface daoCodecooler;
     //UserInputs inputs;
 
     public AppController() {
-        daoAdmin = new DAOAdmin(connection);
+        daoAdminController = new DAOAdminController(connection);
         daoMentor = new DAOMentor(connection);
         daoCodecooler = new DAOCodecooler(connection);
         //inputs = new UserInputs();
