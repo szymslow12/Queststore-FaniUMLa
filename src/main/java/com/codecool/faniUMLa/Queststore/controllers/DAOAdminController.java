@@ -22,17 +22,40 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String subSiteName = getSubSite(httpExchange.getRequestURI().getQuery());
 
         if(method.equals("GET")) {
+            JSONArray json;
+            JSONObject obj;
             switch(subSiteName) {
                 case "Admin":
                     ArrayList<Mentor> mentorsList = daoAdmin.getAllMentors();
-                    JSONArray json = new JSONArray();
+                    json = new JSONArray();
                     for (Mentor mentor : mentorsList) {
-                        JSONObject obj = new JSONObject();
+                        obj = new JSONObject();
                         obj.put("First Name", mentor.getFirstName());
                         obj.put("Last Name", mentor.getLastName());
                         json.put(obj);
                     }
                     response = json.toString();
+                    break;
+                case "Classes":
+                    ArrayList<String> classList = daoAdmin.getAllClasses();
+                    json = new JSONArray();
+                    for (String c : classList) {
+                        obj = new JSONObject();
+                        obj.put("Class Name", c);
+                        json.put(obj);
+                    }
+                    response = json.toString();
+                    break;
+                case "Levels":
+                    ArrayList<String> levelList = daoAdmin.getAllLevels();
+                    json = new JSONArray();
+                    for (String level : levelList) {
+                        obj = new JSONObject();
+                        obj.put("Class Name", level);
+                        json.put(obj);
+                    }
+                    response = json.toString();
+                    break;
             }
 
             try {

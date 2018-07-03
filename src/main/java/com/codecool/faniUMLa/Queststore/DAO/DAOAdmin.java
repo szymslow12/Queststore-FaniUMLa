@@ -21,6 +21,14 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
+    public ArrayList<String> getAllClasses() {
+        return helper.getAllClasses();
+    }
+
+    public ArrayList<String> getAllLevels() {
+        return helper.getAllLevels();
+    }
+
     public ArrayList<Mentor> getAllMentors() {
         ArrayList<Mentor> mentorsList = new ArrayList<>();
         ResultSet rs;
@@ -43,11 +51,11 @@ public class DAOAdmin implements DAOAdminInterface {
         return mentorsList;
         }
 
-        public Mentor getMentor(int index) {
-            ArrayList<Mentor> mentorsList;
-            mentorsList = getAllMentors();
-            return mentorsList.get(index);
-        }
+    public Mentor getMentor(int index) {
+        ArrayList<Mentor> mentorsList;
+        mentorsList = getAllMentors();
+        return mentorsList.get(index);
+    }
 
     public void createMentor(ArrayList <String> userData) {
         helper.addUserToDataBase(userData);
