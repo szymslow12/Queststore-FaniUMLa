@@ -39,8 +39,9 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateQuest() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
-            statement.execute();
+            /*PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
+            statement.execute();*/
+            helper.updateRow(connection, "quests");
         } catch (SQLException err) {
             err.printStackTrace();
         }
@@ -58,8 +59,9 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateArtifact() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
-            statement.execute();
+            /*PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
+            statement.execute();*/
+            helper.updateRow(connection, "artifacts");
         } catch (SQLException err) {
             err.printStackTrace();
         }

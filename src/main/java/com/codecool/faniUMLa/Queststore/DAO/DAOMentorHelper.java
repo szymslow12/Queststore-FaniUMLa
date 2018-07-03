@@ -1,7 +1,11 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.Quest;
+import com.codecool.faniUMLa.Queststore.model.QuestCategory;
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+import com.codecool.faniUMLa.Queststore.model.store.ArtifactCategory;
 import org.postgresql.core.SqlCommand;
 
 import java.sql.Connection;
@@ -26,6 +30,12 @@ public class DAOMentorHelper {
     private final String GET_ARTIFACT_CATGORY = "SELECT * FROM artcategories";
     private final String ADD_ARTIFACT = "INSERT INTO artifacts(artifact_name, category_id, price, description)" +
             "VALUES(?, ?, ?, ?)";
+    private final String GET_ALL_QUESTS = "SELECT * FROM quests";
+    private final String GET_ALL_ARTIFACTS = "SELECT * FROM artifacts";
+    private final String UPDATE_QUEST = "UPDATE quests SET %s = ? WHERE id_quest = ?";
+    private final String UPDATE_ARTIFACT = "UPDATE artifacts SET %s = ? WHERE id_artifact = ?";
+
+
 
     public DAOMentorHelper() {
         userInputs = new UserInputs();
@@ -115,6 +125,112 @@ public class DAOMentorHelper {
     }
 
 
+    public void updateRow(Connection connection, String tableName) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(getAllQuery(tableName));
+        printAll(statement, tableName);
+        int ID = userInputs.getInt("Enter number: ");
+        String columnName = columnName(tableName, getData(getUpdateColumn(tableName)).get(0));
+        statement = connection.prepareStatement(String.format(getUpdateQuery(tableName), columnName));
+        setUpdateStatement(statement, columnName, ID);
+        statement.executeUpdate();
+
+    }
+
+
+    private String getAllQuery(String tableName) {
+        if (tableName.equalsIgnoreCase("quests")) {
+            return GET_ALL_QUESTS;
+        } else {
+            return GET_ALL_ARTIFACTS;
+        }
+    }
+
+
+    private String getUpdateQuery(String tableName) {
+        if (tableName.equalsIgnoreCase("quests")) {
+            return UPDATE_QUEST;
+        } else {
+            return UPDATE_ARTIFACT;
+        }
+    }
+
+
+    private void printAll(PreparedStatement statement, String tableName) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        if (tableName.equalsIgnoreCase("quests")) {
+            new View().displayList(getAllQuests(resultSet), "");
+        } else {
+            new View().displayList(getAllArtifacts(resultSet), "");
+        }
+
+
+    }
+
+
+    private List<Quest> getAllQuests(ResultSet resultSet) throws SQLException {
+        List<Quest> objectList = new ArrayList<>();
+        while (resultSet.next()) {
+            int ID = resultSet.getInt(1);
+            int cateogryID = resultSet.getInt(2);
+            String name = resultSet.getString(3);
+            int award = resultSet.getInt(4);
+            String description = resultSet.getString(5);
+            objectList.add(new Quest(ID, new QuestCategory(cateogryID), name, award, description));
+        }
+        return objectList;
+    }
+
+
+    private List<Artifact> getAllArtifacts(ResultSet resultSet) throws SQLException {
+        List<Artifact> objectList = new ArrayList<>();
+        while (resultSet.next()) {
+            int ID = resultSet.getInt(1);
+            String name = resultSet.getString(2);
+            int categoryID = resultSet.getInt(3);
+            int price = resultSet.getInt(4);
+            String description = resultSet.getString(5);
+            objectList.add(new Artifact(ID, name, new ArtifactCategory(categoryID), price, description));
+        }
+        return objectList;
+    }
+
+
+    private String[] getUpdateColumn(String tableName) {
+        if (tableName.equalsIgnoreCase("quests")) {
+            return new String[]{"Enter which column do you want update\n" +
+                    "(cateogry (c)/ name (n)/ award (a)/ description (d)): "};
+        } else {
+            return new String[]{"Enter which column do you want update\n" +
+                    "(cateogry (c)/ name (n)/ price (p)/ description (d)): "};
+        }
+    }
+
+
+    private void setUpdateStatement(PreparedStatement statement, String columnName, int ID) throws SQLException {
+        String updateValue = getData(getUpdateLabel(columnName)).get(0);
+        if (columnName.equalsIgnoreCase("award") ||
+                columnName.equalsIgnoreCase("price") ||
+                columnName.contains("id")) {
+            statement.setInt(1, Integer.parseInt(updateValue));
+        } else {
+            statement.setString(1, updateValue);
+        }
+        statement.setInt(2, ID);
+    }
+
+
+    private String[] getUpdateLabel(String columnName) {
+        if (columnName.equalsIgnoreCase("award") ||
+                columnName.equalsIgnoreCase("price") ||
+                columnName.contains("id")) {
+
+            return new String[]{"Enter number: "};
+        } else {
+            return new String[]{"Enter new value: "};
+        }
+    }
+
+
     public String getCodecoolersWalletsQuery() {
         return String.format("%s%s%s", "SELECT coolcoins",
                 ", users.first_name || ' ' || users.last_name AS full_name FROM ",
@@ -158,98 +274,57 @@ public class DAOMentorHelper {
     }
 
 
-    public String getUpdateQuestQuery() {
-        String query = "UPDATE quests SET %s = %s%nWHERE quests.id_quest = %s";
-        String column = userInputs.getString("Enter which column do you want update\n" +
-                "(cateogry (c)/ name (n)/ award (a)/ description (d)): ");
-        int questID = userInputs.getInt("Enter questID which you want update: ");
-        return getUpdateQuery(column, query, questID, true);
-    }
 
 
-    private String getUpdateQuery(String column, String query, int recordID, boolean isQuest) {
-
-        String[] columns = new String[]{"c", "category", "n", "name", "a", "award",
-                                        "d", "description", "p", "price"};
-        for (int i = 0; i < columns.length; i++) {
-            if (column.equalsIgnoreCase(columns[i])) {
-                if (isQuest)
-                    return settedUpdateQuestQuery(query, column, recordID);
-                else
-                    return settedUpdateArtifactQuery(query, column, recordID);
-            }
-        }
-        return "";
-    }
-
-
-    private String settedUpdateQuestQuery(String query, String column, int questID) {
-
-        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
-
-            return setUpdateQuery("Enter new quest name: ", query, "quest_name",
-                    questID, true);
-
-        } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
-
-            return setUpdateQuery("Enter new quest description: ", query, "description",
-                    questID, true);
-
-        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
-
-            return setUpdateQuery("Enter new quest categoryID: ", query, "id_category",
-                    questID, false);
-
-        } else if (column.equalsIgnoreCase("a") || column.equalsIgnoreCase("award")) {
-
-            return setUpdateQuery("Enter new quest award: ", query, "award",
-                    questID, false);
-        }
-        return "";
-    }
-
-
-    private String setUpdateQuery(String message, String query, String columnName, int recordID, boolean isValueString) {
-        if (isValueString) {
-            String valueToSet = "'" + userInputs.getString(message) + "'";
-            return String.format(query, columnName, valueToSet, recordID);
+    private String columnName(String tableName, String answer) {
+        if (tableName.equalsIgnoreCase("quests")) {
+            return questColumnName(answer);
         } else {
-            int valueToSet = userInputs.getInt(message);
-            return String.format(query, columnName, valueToSet, recordID);
+            return artifactColumnName(answer);
         }
     }
 
 
-    public String getUpdateArtifactQuery() {
-        String query = "UPDATE artifacts SET %s = %s%nWHERE artifacts.id_artifact = %s";
-        String column = userInputs.getString("Enter which column do you want update\n" +
-                "(cateogry (c)/ name (n)/ price (p)/ description (d)): ");
-        int artifactID = userInputs.getInt("Enter artifactID which you want update: ");
-        return getUpdateQuery(column, query, artifactID, false);
+    private String questColumnName(String answer) {
+
+        if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("name")) {
+
+            return "quest_name";
+
+
+        } else if (answer.equalsIgnoreCase("d") || answer.equalsIgnoreCase("description")){
+
+            return "description";
+
+        } else if (answer.equalsIgnoreCase("c") || answer.equalsIgnoreCase("category")) {
+
+            return "id_category";
+
+        } else if (answer.equalsIgnoreCase("a") || answer.equalsIgnoreCase("award")) {
+
+            return "award";
+        }
+        return "";
     }
 
 
-    private String settedUpdateArtifactQuery(String query, String column, int artifactID) {
+    private String artifactColumnName(String answer) {
 
-        if (column.equalsIgnoreCase("n") || column.equalsIgnoreCase("name")) {
+        if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("name")) {
 
-            return setUpdateQuery("Enter new artifact name: ", query, "artifact_name",
-                    artifactID, true);
+            return "artifact_name";
 
-        } else if (column.equalsIgnoreCase("d") || column.equalsIgnoreCase("description")){
+        } else if (answer.equalsIgnoreCase("d") || answer.equalsIgnoreCase("description")){
 
-            return setUpdateQuery("Enter new artifact description: ", query, "description",
-                    artifactID, true);
+            return "description";
 
-        } else if (column.equalsIgnoreCase("c") || column.equalsIgnoreCase("category")) {
+        } else if (answer.equalsIgnoreCase("c") || answer.equalsIgnoreCase("category")) {
 
-            return setUpdateQuery("Enter new artifact category: ", query, "category_id",
-                    artifactID, false);
+            return "category_id";
 
-        } else if (column.equalsIgnoreCase("p") || column.equalsIgnoreCase("price")) {
+        } else if (answer.equalsIgnoreCase("p") || answer.equalsIgnoreCase("price")) {
 
-            return setUpdateQuery("Enter new artifact price: ", query, "price",
-                                artifactID, false);
+            return "price";
         }
         return "";
     }
