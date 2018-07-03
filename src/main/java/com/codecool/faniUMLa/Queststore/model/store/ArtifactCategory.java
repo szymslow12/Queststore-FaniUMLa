@@ -13,4 +13,8 @@ public class ArtifactCategory {
     public int getCategoryID() {
         return categoryID;
     }
+
+    public String toString() {
+        return "Cat.ID: " + categoryID;
+    }
 }
