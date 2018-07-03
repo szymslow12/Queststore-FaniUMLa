@@ -29,8 +29,6 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewQuest() {
         try {
-            /*PreparedStatement statement = connection.prepareStatement(helper.getAddNewQuestQuery());
-            statement.execute();*/
             helper.addQuest(connection);
         } catch (SQLException err) {
             err.printStackTrace();
@@ -39,8 +37,6 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateQuest() {
         try {
-            /*PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
-            statement.execute();*/
             helper.updateRow(connection, "quests");
         } catch (SQLException err) {
             err.printStackTrace();
@@ -49,8 +45,6 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewArtifact() {
         try {
-            /*PreparedStatement statement = connection.prepareStatement(helper.getAddNewArtifactQuery());
-            statement.execute();*/
             helper.addArtifact(connection);
         } catch (SQLException err) {
             err.printStackTrace();
@@ -59,8 +53,6 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateArtifact() {
         try {
-            /*PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
-            statement.execute();*/
             helper.updateRow(connection, "artifacts");
         } catch (SQLException err) {
             err.printStackTrace();
@@ -70,10 +62,6 @@ public class DAOMentor implements DAOMentorInterface {
     public boolean markQuestDone() {
         try {
             helper.markQuestDone(connection);
-            /*Object[] queryValues = helper.markQuestDoneQueryValues();
-            PreparedStatement statement = connection.prepareStatement((String) queryValues[0]);
-            statement.execute();
-            addCoolcoinsToCodecoolerWallet(statement, (Integer) queryValues[1], (Integer) queryValues[2]);*/
             return true;
         } catch (SQLException err) {
             err.printStackTrace();
@@ -82,17 +70,8 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
 
-    /*private void addCoolcoinsToCodecoolerWallet(PreparedStatement statement, Integer questID, Integer codecoolerID)
-            throws SQLException {
-
-        statement = connection.prepareStatement(helper.addCoolcoinsToWalletQuery(connection, questID, codecoolerID));
-        statement.execute();
-    }*/
-
     public boolean markBoughtArtifact() {
         try {
-            /*PreparedStatement statement = connection.prepareStatement(helper.markBoughtArtifactQuery());
-            statement.execute();*/
             helper.markBoughtArtifact(connection);
             return true;
         } catch (SQLException err) {
