@@ -14,7 +14,7 @@ public class Server {
         server.createContext("/Classes", new AppController());
         server.createContext("/Levels", new AppController());
         server.createContext("/Student", new AppController());
-        server.createContext("/Mentor", new AppController());
+        server.createContext("/Mentors", new AppController());
         server.createContext("/Inventory", new AppController());
         server.createContext("/QuestsMentor", new AppController());
         server.createContext("/Artifacts", new AppController());
