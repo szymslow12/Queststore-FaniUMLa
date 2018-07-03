@@ -15,4 +15,8 @@ public class Quest {
         this.award = award;
         this.description = description;
     }
+
+    public String toString() {
+        return questID + ". " + name;
+    }
 }
