@@ -9,6 +9,6 @@ public class App {
         System.out.println("Queststore");
         ServerConnection serverConnection = new ServerConnection(2020);
         AppController controller = new AppController();
-        controller.run();
+        //controller.run();
     }
 }
