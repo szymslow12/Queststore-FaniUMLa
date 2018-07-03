@@ -69,10 +69,11 @@ public class DAOMentor implements DAOMentorInterface {
 
     public boolean markQuestDone() {
         try {
-            Object[] queryValues = helper.markQuestDoneQueryValues();
+            helper.markQuestDone(connection);
+            /*Object[] queryValues = helper.markQuestDoneQueryValues();
             PreparedStatement statement = connection.prepareStatement((String) queryValues[0]);
             statement.execute();
-            addCoolcoinsToCodecoolerWallet(statement, (Integer) queryValues[1], (Integer) queryValues[2]);
+            addCoolcoinsToCodecoolerWallet(statement, (Integer) queryValues[1], (Integer) queryValues[2]);*/
             return true;
         } catch (SQLException err) {
             err.printStackTrace();
