@@ -8,4 +8,9 @@ public class QuestCategory {
     public QuestCategory(int categoryID) {
         this.categoryID = categoryID;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(categoryID);
+    }
 }
