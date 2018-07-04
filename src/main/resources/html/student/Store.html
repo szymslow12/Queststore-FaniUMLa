@@ -17,7 +17,9 @@
 <script>createHeader("Student!")</script>
 <script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Store")</script>
 <script>createStoreHeader(200)</script>
-<script>createStoreButtons(["Basic items", "Magic items"])</script>
+<script>createButtons(["Basic items", "Magic items"],
+        "createStoreTable(['Name', 'Description', 'Price', 'Buy'], this.id)")
+</script>
 <script>includeFooter()</script>
 
 </body>
