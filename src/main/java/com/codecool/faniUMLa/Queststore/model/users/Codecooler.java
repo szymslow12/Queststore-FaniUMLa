@@ -20,6 +20,18 @@ public class Codecooler extends User {
     }
 
 
+    public int getClassID() {
+        return classID;
+    }
+
+    public int getLevel_id() {
+        return level_id;
+    }
+
+    public int getCoolcoins() {
+        return coolcoins;
+    }
+
     public Codecooler(int idUser, String firstName, String lastName, int level_id, int coolcoins, int id_codecooler,
                       int class_id) {
         super(idUser, firstName, lastName);
@@ -27,6 +39,7 @@ public class Codecooler extends User {
         this.level_id = level_id;
         this.coolcoins = coolcoins;
         this.classID = class_id;
+
     }
 
     public String toString() {
