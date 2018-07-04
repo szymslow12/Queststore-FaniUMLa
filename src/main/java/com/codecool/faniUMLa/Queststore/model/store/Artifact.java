@@ -29,6 +29,10 @@ public class Artifact {
         return category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public int getPrice() {
         return price;
     }
