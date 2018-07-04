@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore;
 import com.codecool.faniUMLa.Queststore.controllers.DAOAdminController;
+import com.codecool.faniUMLa.Queststore.controllers.DAOStudentController;
 import com.codecool.faniUMLa.Queststore.server.*;
 
 import com.codecool.faniUMLa.Queststore.controllers.AppController;
@@ -20,9 +21,11 @@ public class Server {
         server.createContext("/Artifacts", new AppController());
         server.createContext("/Quests", new AppController());
         server.createContext("/Store", new AppController());
+        server.createContext("/Discard", new AppController());
         server.createContext("/js/main.js", new Static());
         server.createContext("/js/login-button.js", new Static());
         server.createContext("/daoAdminController", new DAOAdminController());
+        server.createContext("/daoStudentController", new DAOStudentController());
         server.createContext("/js/store.js", new Static());
         server.createContext("/css/main.css", new Static());
         server.setExecutor(null);
