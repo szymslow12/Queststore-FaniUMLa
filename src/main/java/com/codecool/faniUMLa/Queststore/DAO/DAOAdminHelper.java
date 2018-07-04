@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.sql.Connection;
@@ -23,11 +24,11 @@ public class DAOAdminHelper {
 
     private final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private final String ADD_LEVEL = "INSERT INTO levels (name_level) VALUES(?) ";
+    private final String ADD_LEVEL = "INSERT INTO levels (level_name) VALUES(?) ";
 
     private final String GET_ALL_CLASSES = "SELECT class_name FROM classes";
 
-    private final String GET_ALL_LEVELS = "SELECT name_level FROM levels";
+    private final String GET_ALL_LEVELS = "SELECT * FROM levels";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -62,17 +63,19 @@ public class DAOAdminHelper {
         return classList;
     }
 
-    public ArrayList<String> getAllLevels() {
-        ArrayList<String> levelList = new ArrayList<>();
+    public ArrayList<Level> getAllLevels() {
+        ArrayList<Level> levelList = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
         try {
             query = connection.prepareStatement(GET_ALL_LEVELS);
             rs = query.executeQuery();
             while (rs.next()) {
-                String level_name = rs.getString("name_level");
+                Integer id_level = rs.getInt("id_level");
+                String level_name = rs.getString("level_name");
+                Integer threshold_level = rs.getInt("threshold_level");
 
-                levelList.add(level_name);
+                levelList.add(new Level(id_level, level_name, threshold_level));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -75,12 +75,12 @@ function seeProfile() {
         input.value = formArray[i];
         labelDiv.appendChild(input);
 
-        if (i == 0 || i == 1 || i == 4) {
+        if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.setAttribute("onclick", "setAttribute('required', '');");
-            input.setAttribute("onfocus", "this.value=''");
+            input.addEventListener("click", function () { input.setAttribute('required', true) });
+            input.addEventListener("click", function () { input.value = '' });
         }
     }
 
@@ -265,7 +265,7 @@ function handleSubmit(actionLabel) {
 
 function createFormButton(name, inputsArray, optionsArray, boolean) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleForm(inputsArray, optionsArray, boolean) })
+    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean) })
     document.body.appendChild(button);
     return button;
 }
@@ -274,8 +274,8 @@ function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
 
-function handleForm(inputsArray, optionsArray, boolean) {
-    createForm(inputsArray, optionsArray, boolean);
+function handleForm(name, inputsArray, optionsArray, boolean) {
+    createForm(name, inputsArray, optionsArray, boolean);
     displayForm();
 }
 
@@ -287,15 +287,21 @@ function displayForm() {
     document.body.appendChild(div);
 }
 
-function createForm(inputsArray, optionsArray, boolean) {
+function createForm(name, inputsArray, optionsArray, boolean) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
-    createInputElements(container, inputsArray, boolean);
-    createSelectElements(container, optionsArray);
+    container.setAttribute("id", "container");
 
+    if (!name.includes("Add")) {
+        createInputElements(true, container, inputsArray, boolean);
+        fullfillInputs();
+    } else {
+        createInputElements(false, container, inputsArray, boolean);
+    }
+    createSelectElements(container, optionsArray);
     form.appendChild(container);
 
     var button = createButton("Save");
@@ -335,7 +341,8 @@ function setStudentList() {
     document.body.appendChild(div);
 }
 
-function createInputElements(container, inputsArray, boolean) {
+function createInputElements(isFull, container, inputsArray, boolean) {
+
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
 
@@ -347,16 +354,42 @@ function createInputElements(container, inputsArray, boolean) {
         input.setAttribute("required", "");
         div.appendChild(input);
 
-        input.value = inputsArray[i];
+        if (isFull) {
+            div.setAttribute("class", "input-container");
+            label.setAttribute("type", "label");
+            input.setAttribute("type", "input");
+        }
+
         container.appendChild(div);
         if (boolean) {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.setAttribute("onclick", "setAttribute('required', '');");
-            input.setAttribute("onfocus", "this.value=''");
+            input.addEventListener("click", function () { input.setAttribute('required', true) });
+            input.addEventListener("click", function () { input.value = '' });
         }
     }
+}
+
+function fullfillInputs() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var json = this.responseText;
+            var obj = JSON.parse(json);
+            var div = document.getElementById("container");
+            for (var i = 0; i < div.childNodes.length; i++) {
+                var child = div.childNodes[i].lastChild;
+                if (child.nodeName === "INPUT") {
+                    child.value = obj[div.childNodes[i].firstChild.textContent];
+                }
+
+            }
+        }
+    };
+    xhttp.open("GET", "/Data", true);
+    xhttp.send();
+
 }
 
 function createSelectElements(container, optionsArray) {

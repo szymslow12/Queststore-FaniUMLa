@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.util.ArrayList;
@@ -12,5 +13,5 @@ public interface DAOAdminInterface {
     void editMentor(String column_name, String changedWord, Integer idUser);
     void createLevel(String level_name);
     ArrayList<String> getAllClasses();
-    ArrayList<String> getAllLevels();
+    ArrayList<Level> getAllLevels();
 }

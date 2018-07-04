@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class DAOAdmin implements DAOAdminInterface {
         return helper.getAllClasses();
     }
 
-    public ArrayList<String> getAllLevels() {
+    public ArrayList<Level> getAllLevels() {
         return helper.getAllLevels();
     }
 
