@@ -31,6 +31,11 @@ public class DAOMentor implements DAOMentorInterface {
         return students;
     }
 
+    public Codecooler getCodecooler(int index) {
+        List<Codecooler> students = getAllStudents();
+        return students.get(index);
+    }
+
     public List<Quest> getAllQuests() {
         List<Quest> quests = new ArrayList<>();
         try {
@@ -40,6 +45,11 @@ public class DAOMentor implements DAOMentorInterface {
             e.printStackTrace();
         }
         return quests;
+    }
+
+    public Quest getQuest(int index) {
+        List<Quest> quests = getAllQuests();
+        return quests.get(index);
     }
 
     public List<Artifact> getAllArtifacts() {
@@ -53,6 +63,10 @@ public class DAOMentor implements DAOMentorInterface {
         return artifacts;
     }
 
+    public Artifact getArtifact(int index) {
+        List<Artifact> artifacts = getAllArtifacts();
+        return artifacts.get(index);
+    }
 
 
     public void addNewCodecooler() {
@@ -95,6 +109,19 @@ public class DAOMentor implements DAOMentorInterface {
             err.printStackTrace();
         }
     }
+
+    public void deleteStudent(int index) {
+        helper.deleteStudent(index);
+    }
+
+    public void deleteQuest(int index) {
+        helper.deleteQuest(index);
+    }
+
+    public void deleteArtifact(int index) {
+        helper.deleteArtifact(index);
+    }
+
 
     public boolean markQuestDone() {
         try {
