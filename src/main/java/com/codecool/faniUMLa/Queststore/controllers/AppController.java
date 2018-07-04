@@ -25,7 +25,7 @@ public class AppController extends Controller implements HttpHandler {
     public void handle (HttpExchange httpExchange) throws IOException {
         String response = "";
         String method = httpExchange.getRequestMethod();
-        if(method.equals("GET")) {
+        if (method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
                 case "/Admin": case "/Mentors":
@@ -58,6 +58,19 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Store":
                     response= this.getFile("html/student/Store.html");
                     break;
+            }
+        } else if (method.equals("POST")) {
+            DAOAdminController daoAdminController = new DAOAdminController();
+
+            switch(httpExchange.getRequestURI().toString()) {
+                case "/Levels":
+                    response = daoAdminController.createLevel(httpExchange);
+                    break;
+                case "/Classes":
+                    response = daoAdminController.createClass(httpExchange);
+                    break;
+                case "/Mentors":
+                    response = daoAdminController.createMentor(httpExchange);
             }
         }
         httpExchange.sendResponseHeaders(200, response.length());

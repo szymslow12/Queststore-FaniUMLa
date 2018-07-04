@@ -71,8 +71,8 @@ public class DAOAdmin implements DAOAdminInterface {
             e.printStackTrace();
         }
     }
-    public void createLevel(String level_name){
-        helper.addLevel(level_name);
+    public void createLevel(String levelName, Integer thresholdLevel){
+        helper.addLevel(levelName, thresholdLevel);
     }
 }
 

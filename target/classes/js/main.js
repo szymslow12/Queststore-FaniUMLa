@@ -160,14 +160,22 @@ function createTable(array, view) {
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("delete");
+<<<<<<< HEAD
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
+=======
+                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
 
                         data.appendChild(button);
 
                     } else if (array[i] == "Buy") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("buy");
+<<<<<<< HEAD
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
+=======
+                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
 
                         data.appendChild(button);
 
@@ -182,9 +190,15 @@ function createTable(array, view) {
                         data.textContent = entries[x][array[i]];
                     }
                     row.appendChild(data);
+<<<<<<< HEAD
                 }
                 table.appendChild(row);
             }
+=======
+                }
+                    table.appendChild(row);
+                }
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
             document.getElementById("table_content").appendChild(table);
         };
     }
@@ -292,6 +306,8 @@ function displayForm() {
 function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
+    form.method='post';
+
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -309,9 +325,7 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
-
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -338,7 +352,8 @@ function setStudentList() {
         }
     }
     var button = createButton("Save");
-    button.setAttribute("class", "button functionButton")
+    button.setAttribute("class", "button functionButton");
+    button.setAttribute("type", "submit");
     form.appendChild(button);
     document.body.appendChild(div);
 }
@@ -354,6 +369,7 @@ function createInputElements(isFull, container, inputsArray, boolean) {
 
         var input = document.createElement("input");
         input.setAttribute("required", "");
+        input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
         if (isFull) {
