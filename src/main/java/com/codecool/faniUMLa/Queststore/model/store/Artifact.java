@@ -33,7 +33,12 @@ public class Artifact {
         return price;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
         sb.append(artifactID);
         sb.append(" ");
