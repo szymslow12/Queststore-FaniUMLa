@@ -46,7 +46,7 @@ public class AppController extends Controller implements HttpHandler {
                 case "/QuestsMentor":
                     response= this.getFile("html/mentor/QuestsMentor.html");
                     break;
-                case "/Student":
+                case "/Store":
                     response= this.getFile("html/student/Store.html");
                     break;
                 case "/Inventory":
@@ -54,9 +54,6 @@ public class AppController extends Controller implements HttpHandler {
                     break;
                 case "/Quests":
                     response= this.getFile("html/student/Quests.html");
-                    break;
-                case "/Store":
-                    response= this.getFile("html/student/Store.html");
                     break;
                 case "/Discard":
                     response= this.getFile("html/student/Discard.html");

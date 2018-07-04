@@ -3,6 +3,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 import com.codecool.faniUMLa.Queststore.DAO.DAOCodecooler;
 import com.codecool.faniUMLa.Queststore.DAO.DAOCodecoolerInterface;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+import com.codecool.faniUMLa.Queststore.model.store.Inventory;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONArray;
@@ -33,6 +34,22 @@ public class DAOStudentController extends UriController implements HttpHandler {
                         jsonObject.put("Name", artifact.getName());
                         jsonObject.put("Description", artifact.getDescription());
                         jsonObject.put("Price", artifact.getPrice());
+                        json.put(jsonObject);
+                    }
+                    response = json.toString();
+                    break;
+                case "Inventory":
+                    // for test and presentation is passed codecoolerID = 1
+                    Inventory inv = daoCodecooler.getBoughtArtifacts(1);
+                    List<Artifact> boughtArtifacts = inv.getArtifacts();
+                    json = new JSONArray();
+                    for (Artifact artifact: boughtArtifacts) {
+                        int quantity = inv.getArtifactQuantity(artifact.getArtifactID());
+                        jsonObject = new JSONObject();
+                        jsonObject.put("Name", artifact.getName());
+                        jsonObject.put("Description", artifact.getDescription());
+                        jsonObject.put("Price", artifact.getPrice());
+                        jsonObject.put("Amount", quantity);
                         json.put(jsonObject);
                     }
                     response = json.toString();
