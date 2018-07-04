@@ -16,7 +16,7 @@ function createMenu(array, activePage) {
     for (var i = 0; i < array.length; i++) {
 
         var a = document.createElement("a");
-//        a.setAttribute("href", array[i] + ".html");
+        //        a.setAttribute("href", array[i] + ".html");
         a.setAttribute("href", array[i]);
         a.textContent = array[i];
 
@@ -79,8 +79,8 @@ function seeProfile() {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function() {input.setAttribute('required', true)});
-            input.addEventListener("click", function() {input.value = ''});
+            input.addEventListener("click", function () { input.setAttribute('required', true) });
+            input.addEventListener("click", function () { input.value = '' });
         }
     }
 
@@ -155,15 +155,15 @@ function createTable(array, view) {
             } else if (array[i] == "Delete") {
                 var data = document.createElement("td");
                 var button = createSubmitButton("delete");
-                button.setAttribute("class", imgDict[array[i]]+ " functionButton");
-                
+                button.setAttribute("class", imgDict[array[i]] + " functionButton");
+
                 data.appendChild(button);
 
             } else if (array[i] == "Buy") {
                 var data = document.createElement("td");
                 var button = createSubmitButton("buy");
-                button.setAttribute("class", imgDict[array[i]]+ " functionButton");
-                
+                button.setAttribute("class", imgDict[array[i]] + " functionButton");
+
                 data.appendChild(button);
 
             } else if (array[i] == "Give") {
@@ -188,22 +188,22 @@ function getArrayForForm(view) {
     if (view == "Mentor") {
         formArray.push("Wallet")
 
-        } else if(view =="Classes" || view =="Levels" || view=="Quests" || view == "Artifacts") {
-            formArray=["Name"];
-        }
-        if(view=="Levels") {
-            formArray.push("Level Threshold");
-        }
-        if(view=="Quests") {
-            formArray.push("Category");
-            formArray.push("Description");
-            formArray.push("Award");
-        }
+    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
+        formArray = ["Name"];
+    }
+    if (view == "Levels") {
+        formArray.push("Level Threshold");
+    }
+    if (view == "Quests") {
+        formArray.push("Category");
+        formArray.push("Description");
+        formArray.push("Award");
+    }
 
-        if(view=="Artifacts") {
-            formArray.push("Description");
-            formArray.push("Price");
-        }
+    if (view == "Artifacts") {
+        formArray.push("Description");
+        formArray.push("Price");
+    }
 
 
     return formArray;
@@ -224,7 +224,7 @@ function handleSubmit(actionLabel) {
     textArea.setAttribute("class", "text-area");
     div.appendChild(textArea);
     var info = document.createElement("label");
-    info.textContent="Are you sure you want to "+ actionLabel + "?";
+    info.textContent = "Are you sure you want to " + actionLabel + "?";
     textArea.appendChild(info);
 
     var button1 = createButton("Yes");
@@ -271,27 +271,28 @@ function createForm(name, inputsArray, optionsArray, boolean) {
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
-    if (name.includes("Add")) {
+    container.setAttribute("id", "container");
+
+    if (!name.includes("Add")) {
+        createInputElements(true, container, inputsArray, boolean);
+        fullfillInputs();
+    } else {
         createInputElements(false, container, inputsArray, boolean);
     }
-    else {
-        createInputElements(true, container, inputsArray, boolean);
-    }
     createSelectElements(container, optionsArray);
-
     form.appendChild(container);
 
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
-    
-    
-    if(inputsArray.length==0 && optionsArray.length>0 && optionsArray[0]=="Class") {
-        
-        button.setAttribute("onclick","setStudentList();return false");
+
+
+    if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
+
+        button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
     document.body.appendChild(form);
-    
+
 }
 
 function setStudentList() {
@@ -300,9 +301,9 @@ function setStudentList() {
     var form = document.createElement("form");
     div.appendChild(form);
     form.setAttribute("class", "text-area");
-    
+
     var formArray = ["First Name Last Name"];
-    for(var j = 0; j<10; j++) {
+    for (var j = 0; j < 10; j++) {
         for (var i = 0; i < formArray.length; i++) {
             var label = document.createElement("label");
             label.textContent = formArray[i];
@@ -319,6 +320,7 @@ function setStudentList() {
 }
 
 function createInputElements(isFull, container, inputsArray, boolean) {
+
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
 
@@ -331,7 +333,9 @@ function createInputElements(isFull, container, inputsArray, boolean) {
         div.appendChild(input);
 
         if (isFull) {
-            getElementsData();
+            div.setAttribute("class", "input-container");
+            label.setAttribute("type", "label");
+            input.setAttribute("type", "input");
         }
 
         container.appendChild(div);
@@ -339,10 +343,31 @@ function createInputElements(isFull, container, inputsArray, boolean) {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function() {input.setAttribute('required', true)});
-            input.addEventListener("click", function() {input.value=''});
+            input.addEventListener("click", function () { input.setAttribute('required', true) });
+            input.addEventListener("click", function () { input.value = '' });
         }
     }
+}
+
+function fullfillInputs() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var json = this.responseText;
+            var obj = JSON.parse(json);
+            var div = document.getElementById("container");
+            for (var i = 0; i < div.childNodes.length; i++) {
+                var child = div.childNodes[i].lastChild;
+                if (child.nodeName === "INPUT") {
+                    child.value = obj[div.childNodes[i].firstChild.textContent];
+                }
+
+            }
+        }
+    };
+    xhttp.open("GET", "/Data", true);
+    xhttp.send();
+
 }
 
 function createSelectElements(container, optionsArray) {
@@ -354,14 +379,14 @@ function createSelectElements(container, optionsArray) {
         label.textContent = optionsArray[i];
 
         var select = document.createElement("select");
-        for(var j=0; j<2; j++) {
+        for (var j = 0; j < 2; j++) {
             var option = document.createElement("option");
             option.value = optionsArray[i] + j;
             option.text = optionsArray[i] + j;
             select.appendChild(option);
             div.appendChild(select);
         }
-        
+
         container.appendChild(div);
     }
 }
