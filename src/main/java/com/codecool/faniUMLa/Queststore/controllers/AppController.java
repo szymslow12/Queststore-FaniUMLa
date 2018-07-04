@@ -10,13 +10,11 @@ import java.io.OutputStream;
 import java.util.Scanner;
 
 public class AppController extends Controller implements HttpHandler {
-    DAOAdminInterface daoAdmin;
     DAOMentorInterface daoMentor;
     DAOCodecoolerInterface daoCodecooler;
     //UserInputs inputs;
 
     public AppController() {
-        daoAdmin = new DAOAdmin(connection);
         daoMentor = new DAOMentor(connection);
         daoCodecooler = new DAOCodecooler(connection);
         //inputs = new UserInputs();
@@ -30,7 +28,7 @@ public class AppController extends Controller implements HttpHandler {
         if(method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
-                case "/Admin":
+                case "/Admin": case "/Mentors":
                     response= this.getFile("html/admin/Mentors.html");
                     break;
                 case "/Classes":
@@ -60,9 +58,6 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Store":
                     response= this.getFile("html/student/Store.html");
                     break;
-                case "/Mentors":
-                    response= this.getFile("html/admin/Mentors.html");
-                    break;
             }
         }
         httpExchange.sendResponseHeaders(200, response.length());
@@ -87,6 +82,8 @@ public class AppController extends Controller implements HttpHandler {
         }
         return result.toString();
     }
+
+
 
 //    public void handleMenu(UserPrivilege privilege) {
 //        switch (privilege) {

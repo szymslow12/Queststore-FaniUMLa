@@ -1,5 +1,8 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Level;
+import com.codecool.faniUMLa.Queststore.model.users.Mentor;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +24,11 @@ public class DAOAdminHelper {
 
     private final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private final String ADD_LEVEL = "INSERT INTO levels (name_level) VALUES(?) ";
+    private final String ADD_LEVEL = "INSERT INTO levels (level_name) VALUES(?) ";
+
+    private final String GET_ALL_CLASSES = "SELECT class_name FROM classes";
+
+    private final String GET_ALL_LEVELS = "SELECT * FROM levels";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -36,6 +43,44 @@ public class DAOAdminHelper {
         } catch (SQLException e) {
             System.out.println("There's such class already");
         }
+    }
+
+    public ArrayList<String> getAllClasses() {
+        ArrayList<String> classList = new ArrayList<>();
+        ResultSet rs;
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(GET_ALL_CLASSES);
+            rs = query.executeQuery();
+            while (rs.next()) {
+                String class_name = rs.getString("class_name");
+
+                classList.add(class_name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return classList;
+    }
+
+    public ArrayList<Level> getAllLevels() {
+        ArrayList<Level> levelList = new ArrayList<>();
+        ResultSet rs;
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(GET_ALL_LEVELS);
+            rs = query.executeQuery();
+            while (rs.next()) {
+                Integer id_level = rs.getInt("id_level");
+                String level_name = rs.getString("level_name");
+                Integer threshold_level = rs.getInt("threshold_level");
+
+                levelList.add(new Level(id_level, level_name, threshold_level));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return levelList;
     }
 
     public void addUserToDataBase(ArrayList<String> userData) {

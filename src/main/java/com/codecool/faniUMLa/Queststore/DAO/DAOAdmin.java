@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.sql.Connection;
@@ -19,6 +20,14 @@ public class DAOAdmin implements DAOAdminInterface {
 
     public void createClass(String className) {
         helper.addClass(className);
+    }
+
+    public ArrayList<String> getAllClasses() {
+        return helper.getAllClasses();
+    }
+
+    public ArrayList<Level> getAllLevels() {
+        return helper.getAllLevels();
     }
 
     public ArrayList<Mentor> getAllMentors() {
@@ -43,11 +52,11 @@ public class DAOAdmin implements DAOAdminInterface {
         return mentorsList;
         }
 
-        public Mentor getMentor(int index) {
-            ArrayList<Mentor> mentorsList;
-            mentorsList = getAllMentors();
-            return mentorsList.get(index);
-        }
+    public Mentor getMentor(int index) {
+        ArrayList<Mentor> mentorsList;
+        mentorsList = getAllMentors();
+        return mentorsList.get(index);
+    }
 
     public void createMentor(ArrayList <String> userData) {
         helper.addUserToDataBase(userData);
