@@ -1,11 +1,17 @@
 
 
-function createButtons(array, onClick) {
+function createButtons(array, onClick, isShop) {
     var buttonContainer = document.createElement("DIV");
     buttonContainer.setAttribute("class", "button-container");
     var buttonIDs = ['basic-items', 'magic-items'];
-    for (i = 0; i < array.length; i++) {
-        buttonContainer.appendChild(createButton(array[i], buttonIDs[i], onClick));
+    if (isShop) {
+        for (i = 0; i < array.length; i++) {
+            buttonContainer.appendChild(createButton(array[i], buttonIDs[i], onClick));
+        }
+    } else {
+        for (i = 0; i < array.length; i++) {
+            buttonContainer.appendChild(createButton(array[i], 'discard' + i, onClick));
+        }
     }
 
     document.body.appendChild(buttonContainer);
