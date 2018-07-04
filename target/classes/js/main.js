@@ -55,6 +55,7 @@ function createHiddenMenu(menu) {
 }
 
 function seeProfile() {
+
     var div = document.createElement("div");
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
@@ -63,6 +64,7 @@ function seeProfile() {
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
+    container.setAttribute("id", "profile-container");
     form.appendChild(container);
 
     for (var i = 0; i < formArray.length; i++) {
@@ -72,22 +74,22 @@ function seeProfile() {
         label.textContent = formArray[i];
         labelDiv.appendChild(label);
         var input = document.createElement("input");
-        input.value = formArray[i];
         labelDiv.appendChild(input);
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
-            // input.style.backgroundColor = "grey";
+            input.style.backgroundColor = "grey";
         } else {
             input.addEventListener("click", function () { this.setAttribute('required', true) });
             input.addEventListener("click", function () { this.value = '' });
         }
     }
-
     var button = createButton("Save", );
     form.appendChild(button);
     button.setAttribute("class", "button functionButton");
+    fullfillInputs("profile-container", "/DAOUserController?method=Profile");
 }
+
 
 function includeFooter() {
     var footer = document.createElement("footer");
@@ -149,9 +151,9 @@ function createTable(array, view) {
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true);
+                            var button = createFormButton("", formArray, [], true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false);
+                            var button = createFormButton("", formArray, [], false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
@@ -263,9 +265,9 @@ function handleSubmit(actionLabel) {
     document.body.appendChild(div);
 }
 
-function createFormButton(name, inputsArray, optionsArray, boolean) {
+function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean) })
+    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean, view, index) })
     document.body.appendChild(button);
     return button;
 }
@@ -274,8 +276,8 @@ function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
 
-function handleForm(name, inputsArray, optionsArray, boolean) {
-    createForm(name, inputsArray, optionsArray, boolean);
+function handleForm(name, inputsArray, optionsArray, boolean, view, index) {
+    createForm(name, inputsArray, optionsArray, boolean, view, index);
     displayForm();
 }
 
@@ -287,7 +289,7 @@ function displayForm() {
     document.body.appendChild(div);
 }
 
-function createForm(name, inputsArray, optionsArray, boolean) {
+function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
 
@@ -297,7 +299,7 @@ function createForm(name, inputsArray, optionsArray, boolean) {
 
     if (!name.includes("Add")) {
         createInputElements(true, container, inputsArray, boolean);
-        fullfillInputs();
+        fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
         createInputElements(false, container, inputsArray, boolean);
     }
@@ -371,13 +373,13 @@ function createInputElements(isFull, container, inputsArray, boolean) {
     }
 }
 
-function fullfillInputs() {
+function fullfillInputs(divName, path) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var json = this.responseText;
             var obj = JSON.parse(json);
-            var div = document.getElementById("container");
+            var div = document.getElementById(divName);
             for (var i = 0; i < div.childNodes.length; i++) {
                 var child = div.childNodes[i].lastChild;
                 if (child.nodeName === "INPUT") {
@@ -387,7 +389,7 @@ function fullfillInputs() {
             }
         }
     };
-    xhttp.open("GET", "/Data", true);
+    xhttp.open("GET", path, true);
     xhttp.send();
 
 }
