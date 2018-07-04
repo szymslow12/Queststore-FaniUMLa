@@ -155,34 +155,34 @@ function createTable(array, view) {
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
-                } else if (array[i] == "Delete") {
-                    var data = document.createElement("td");
-                    var button = createSubmitButton("delete");
-                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    } else if (array[i] == "Delete") {
+                        var data = document.createElement("td");
+                        var button = createSubmitButton("delete");
+                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
-                } else if (array[i] == "Buy") {
-                    var data = document.createElement("td");
-                    var button = createSubmitButton("buy");
-                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    } else if (array[i] == "Buy") {
+                        var data = document.createElement("td");
+                        var button = createSubmitButton("buy");
+                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
-                } else if (array[i] == "Give") {
-                    var data = document.createElement("td");
-                    var button = createFormButton("", [], ["Class"]);
-                    button.setAttribute("class", imgDict[array[i]] + " functionButton");
-                    data.appendChild(button);
+                    } else if (array[i] == "Give") {
+                        var data = document.createElement("td");
+                        var button = createFormButton("", [], ["Class"]);
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
+                        data.appendChild(button);
 
-                } else {
-                    var data = document.createElement("td");
-                    data.textContent = entries[x][array[i]];
+                    } else {
+                        var data = document.createElement("td");
+                        data.textContent = entries[x][array[i]];
+                    }
+                    row.appendChild(data);
                 }
-                row.appendChild(data);
-            }
-                table.appendChild(row);
-            }
+                    table.appendChild(row);
+                }
             document.getElementById("table_content").appendChild(table);
         };
     }
@@ -278,6 +278,8 @@ function displayForm() {
 function createForm(name, inputsArray, optionsArray, boolean) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
+    form.method='post';
+
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -295,9 +297,7 @@ function createForm(name, inputsArray, optionsArray, boolean) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
-
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -324,7 +324,8 @@ function setStudentList() {
         }
     }
     var button = createButton("Save");
-    button.setAttribute("class", "button functionButton")
+    button.setAttribute("class", "button functionButton");
+    button.setAttribute("type", "submit");
     form.appendChild(button);
     document.body.appendChild(div);
 }
@@ -340,6 +341,7 @@ function createInputElements(isFull, container, inputsArray, boolean) {
 
         var input = document.createElement("input");
         input.setAttribute("required", "");
+        input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
         if (isFull) {
