@@ -22,4 +22,19 @@ public class Inventory {
     public int getArtifactQuantity(int artifactID) {
         return artifactsQuantity.get(artifactID);
     }
+
+
+    public String toString() {
+        int numberOfItems = calculateNumOfItems();
+        return "Inventory contains " + numberOfItems + " items.";
+    }
+
+
+    private int calculateNumOfItems() {
+        int sum = 0;
+        for (Integer key: artifactsQuantity.keySet()) {
+            sum += artifactsQuantity.get(key);
+        }
+        return sum;
+    }
 }
