@@ -38,7 +38,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                     obj.put("Email", user.getEmail());
                     response = obj.toString();
                     break;
-                case "Mentor":
+                case "Students":
                     User student = daoMentor.getCodecooler(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
                     obj.put("First Name", student.getFirstName());
@@ -92,7 +92,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                 case "deleteArtifacts":
                     daoMentor.deleteArtifact(getParameter(httpExchange.getRequestURI().getQuery()));
                     break;
-                case "deleteStudent":
+                case "deleteStudents":
                     daoMentor.deleteStudent(getParameter(httpExchange.getRequestURI().getQuery()));
                     break;
                 case "deleteQuest":

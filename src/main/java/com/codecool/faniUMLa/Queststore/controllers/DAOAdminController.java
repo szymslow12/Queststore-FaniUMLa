@@ -26,7 +26,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
             JSONArray json;
             JSONObject obj;
             switch(subSiteName) {
-                case "Admin":
+                case "Mentors":
                     ArrayList<Mentor> mentorsList = daoAdmin.getAllMentors();
                     json = new JSONArray();
                     for (Mentor mentor : mentorsList) {
