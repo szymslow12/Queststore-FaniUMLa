@@ -19,4 +19,24 @@ public class Quest {
     public String toString() {
         return questID + ". " + name;
     }
+
+    public int getQuestID() {
+        return questID;
+    }
+
+    public QuestCategory getCategory() {
+        return category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAward() {
+        return award;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
