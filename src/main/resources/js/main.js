@@ -116,7 +116,7 @@ function hideMenu() {
     }
 }
 
-function createTable(array, view) {
+function createTable(array, view, jSon) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
@@ -189,7 +189,8 @@ function createTable(array, view) {
     var container = document.createElement("div");
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
-    xhttp.open("GET", "/daoAdminController?method="+view, true);
+    /*xhttp.open("GET", "/daoAdminController?method="+view, true);*/
+    xhttp.open("GET", jSon+view, true);
     xhttp.send();
 }
 
@@ -198,7 +199,7 @@ function getArrayForForm(view) {
     if (view == "Mentor") {
         formArray.push("Wallet")
 
-    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
+    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
         formArray = ["Name"];
     }
     if (view == "Levels") {
@@ -210,9 +211,13 @@ function getArrayForForm(view) {
         formArray.push("Award");
     }
 
-    if (view == "Artifacts") {
+    if (view == "Artifacts" || view == "Inventory") {
         formArray.push("Description");
         formArray.push("Price");
+    }
+
+    if (view == "Inventory") {
+        formArray.push("Amount");
     }
 
 
@@ -404,21 +409,22 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array, "artifacts");
-        fillStoreTable(id);
+        createTable(array, "Artifacts", "/daoStudentController?method=");
+        //fillStoreTable(id);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "artifacts");
-        fillStoreTable(id);
+        createTable(array, "Artifacts", "/daoStudentController?method=");
+        //fillStoreTable(id);
         moveStoreTableBeforeFooter();
     }
 }
 
 
 function moveStoreTableBeforeFooter() {
-    var table = document.getElementsByTagName("table")[0];
+    var table = document.getElementById("table_content");
+    console.log(table);
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
