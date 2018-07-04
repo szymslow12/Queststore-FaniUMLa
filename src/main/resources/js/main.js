@@ -147,19 +147,19 @@ function createTable(array, view) {
                 row.setAttribute("class", "tableRow");
                 for (var i = 0; i < array.length; i++) {
                     var formArray = getArrayForForm(view);
-
+                    var selectArray = getSelectArray(view);
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true, view, x);
+                            var button = createFormButton("", formArray, selectArray, true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false, view, x);
+                            var button = createFormButton("", formArray, selectArray, false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
-                        var button = createSubmitButton("delete");
+                        var button = createSubmitButton("delete", view);
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
                         data.appendChild(button);
@@ -207,10 +207,24 @@ function createTable(array, view) {
     }
 }
 
+function getSelectArray(view) {
+    var selectArray = [];
+    if (view == "Admin") {
+        selectArray.push("Class");
+    }
+
+    else if (view == "Quests" || view == "Artifacts") {
+        selectArray.push("Category");
+    }
+
+    return selectArray;
+}
+
 function getArrayForForm(view) {
-    var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
+    var formArray = ["First Name", "Last Name", "Phone", "Email"];
     if (view == "Mentor") {
         formArray.push("Wallet")
+        formArray.push("Class");
 
     } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
         formArray = ["Name"];
@@ -219,7 +233,6 @@ function getArrayForForm(view) {
         formArray.push("Level Threshold");
     }
     if (view == "Quests") {
-        formArray.push("Category");
         formArray.push("Description");
         formArray.push("Award");
     }
@@ -233,15 +246,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel) {
+function createSubmitButton(actionLabel, view) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleSubmit(actionLabel) });
+    button.addEventListener("click", function () { handleSubmit(actionLabel, view) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleSubmit(actionLabel) {
+function handleSubmit(actionLabel, view) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -255,12 +268,12 @@ function handleSubmit(actionLabel) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirmAll(div) });
+    button1.addEventListener("click", function () { confirm(div, view) });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
     textArea.appendChild(button2);
-    button2.addEventListener("click", function () { confirmAll(div) });
+    button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
 }
@@ -272,7 +285,16 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
     return button;
 }
 
-function confirmAll(div) {
+function confirm(div, view) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+    };
+    xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + 1, true);
+    xhttp.send();
+    window.location.reload();
+}
+
+function exit(div) {
     div.setAttribute("class", "confirm");
 }
 
@@ -298,10 +320,10 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     container.setAttribute("id", "container");
 
     if (!name.includes("Add")) {
-        createInputElements(true, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean, view);
         fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
-        createInputElements(false, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean);
     }
     createSelectElements(container, optionsArray);
     form.appendChild(container);
@@ -343,7 +365,7 @@ function setStudentList() {
     document.body.appendChild(div);
 }
 
-function createInputElements(isFull, container, inputsArray, boolean) {
+function createInputElements(container, inputsArray, boolean) {
 
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
@@ -356,19 +378,17 @@ function createInputElements(isFull, container, inputsArray, boolean) {
         input.setAttribute("required", "");
         div.appendChild(input);
 
-        if (isFull) {
-            div.setAttribute("class", "input-container");
-            label.setAttribute("type", "label");
-            input.setAttribute("type", "input");
-        }
-
         container.appendChild(div);
+
+        if (view == "Mentor" && inputsArray[i] == "Class") {
+            boolean = true;
+        }
         if (boolean) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = ''});
         }
     }
 }
