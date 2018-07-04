@@ -51,7 +51,8 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     json = new JSONArray();
                     for (String level : levelList) {
                         obj = new JSONObject();
-                        obj.put("Class Name", level);
+                        obj.put("Level Name", level);threshold_level
+                        obj.put("Level Name", level)
                         json.put(obj);
                     }
                     response = json.toString();

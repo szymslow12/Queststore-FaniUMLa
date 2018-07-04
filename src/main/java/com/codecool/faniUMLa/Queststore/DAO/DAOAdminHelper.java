@@ -70,7 +70,7 @@ public class DAOAdminHelper {
             query = connection.prepareStatement(GET_ALL_LEVELS);
             rs = query.executeQuery();
             while (rs.next()) {
-                String level_name = rs.getString("name_level");
+                String level_name = rs.getString("level_name");
 
                 levelList.add(level_name);
             }
