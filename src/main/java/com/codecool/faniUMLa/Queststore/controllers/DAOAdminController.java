@@ -4,6 +4,7 @@ import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
+import com.codecool.faniUMLa.Queststore.utils.StringUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONArray;
@@ -105,8 +106,8 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String last_name = String.valueOf(inputs.get("Surname"));
         String email = String.valueOf(inputs.get("Email"));
         String phone_number = String.valueOf(inputs.get("Surname"));
-        String user_login = "login";
-        String user_password = "password";
+        String user_login = StringUtils.generateString();
+        String user_password = StringUtils.generateString();
 
         ArrayList<String> mentorsData = new ArrayList<>();
         mentorsData.add(first_name);
