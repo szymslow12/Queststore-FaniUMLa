@@ -77,10 +77,10 @@ function seeProfile() {
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
 
@@ -119,20 +119,20 @@ function hideMenu() {
 function createTable(array, view) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 200) {
             var imgDict = {
-                    "See Details": "fas fa-address-book",
-                    "Update": "fas fa-user-edit",
-                    "Delete": "fas fa-trash-alt",
-                    "Buy": "fas fa-shopping-cart",
-                    "Give": "fas fa-gift"
-             };
+                "See Details": "fas fa-address-book",
+                "Update": "fas fa-user-edit",
+                "Delete": "fas fa-trash-alt",
+                "Buy": "fas fa-shopping-cart",
+                "Give": "fas fa-gift"
+            };
             var entries = JSON.parse(this.response);
             var table = document.createElement("table");
             var rowH = document.createElement("tr");
             rowH.setAttribute("class", "tableHeader")
 
-             //set header for table
+            //set header for table
             for (var i = 0; i < array.length; i++) {
                 var col = document.createElement("td");
                 col.textContent = array[i];
@@ -155,32 +155,32 @@ function createTable(array, view) {
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
-                } else if (array[i] == "Delete") {
-                    var data = document.createElement("td");
-                    var button = createSubmitButton("delete");
-                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    } else if (array[i] == "Delete") {
+                        var data = document.createElement("td");
+                        var button = createSubmitButton("delete");
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
-                } else if (array[i] == "Buy") {
-                    var data = document.createElement("td");
-                    var button = createSubmitButton("buy");
-                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    } else if (array[i] == "Buy") {
+                        var data = document.createElement("td");
+                        var button = createSubmitButton("buy");
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
-                } else if (array[i] == "Give") {
-                    var data = document.createElement("td");
-                    var button = createFormButton("", [], ["Class"]);
-                    button.setAttribute("class", imgDict[array[i]] + " functionButton");
-                    data.appendChild(button);
+                    } else if (array[i] == "Give") {
+                        var data = document.createElement("td");
+                        var button = createFormButton("", [], ["Class"]);
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
+                        data.appendChild(button);
 
-                } else {
-                    var data = document.createElement("td");
-                    data.textContent = entries[x][array[i]];
+                    } else {
+                        var data = document.createElement("td");
+                        data.textContent = entries[x][array[i]];
+                    }
+                    row.appendChild(data);
                 }
-                row.appendChild(data);
-            }
                 table.appendChild(row);
             }
             document.getElementById("table_content").appendChild(table);
@@ -189,8 +189,20 @@ function createTable(array, view) {
     var container = document.createElement("div");
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
-    xhttp.open("GET", "/daoAdminController?method="+view, true);
-    xhttp.send();
+    switch (view) {
+        case "Admin":
+        case "Levels":
+        case "Classes":
+            xhttp.open("GET", "/daoAdminController?method=" + view, true);
+            xhttp.send();
+            break;
+        case "Mentor":
+        case "Quests":
+        case "Artifacts":
+            xhttp.open("GET", "/daoMentorController?method=" + view, true);
+            xhttp.send();
+            break;
+    }
 }
 
 function getArrayForForm(view) {

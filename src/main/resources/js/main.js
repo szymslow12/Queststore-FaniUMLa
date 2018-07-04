@@ -77,10 +77,10 @@ function seeProfile() {
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
 
