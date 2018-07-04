@@ -1,23 +1,23 @@
 
 
-function createStoreButtons(array) {
+function createButtons(array, onClick) {
     var buttonContainer = document.createElement("DIV");
     buttonContainer.setAttribute("class", "button-container");
     var buttonIDs = ['basic-items', 'magic-items'];
     for (i = 0; i < array.length; i++) {
-        buttonContainer.appendChild(createButton(array[i], buttonIDs[i]));
+        buttonContainer.appendChild(createButton(array[i], buttonIDs[i], onClick));
     }
 
     document.body.appendChild(buttonContainer);
 }
 
-function createButton(name, id) {
+function createButton(name, id, onClick) {
     var button = document.createElement("BUTTON");
     var text = document.createTextNode(name);
     button.appendChild(text);
     button.setAttribute("class", "button category-button");
     button.setAttribute("id", id);
-    button.setAttribute("onclick", "createStoreTable(['Name', 'Description', 'Price', 'Buy'], this.id)");
+    button.setAttribute("onclick", onClick);
     document.body.appendChild(button);
     return button;
 }
