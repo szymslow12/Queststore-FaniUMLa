@@ -4,10 +4,13 @@ import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.ArtifactCategory;
+import com.codecool.faniUMLa.Queststore.model.store.Inventory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DAOCodecoolerHelper {
 
@@ -26,6 +29,9 @@ public class DAOCodecoolerHelper {
     private final String GET_STUDENT_ARTIFACTS = "SELECT * FROM artifacts_codecooleres WHERE id_artifact = ?;";
     private final String UPDATE_STUDENT_ARTIFACTS = "UPDATE artifacts_codecooleres " +
             "SET quantity = ? WHERE id_codecooler = ? AND id_artifact = ?;";
+    private final String GET_BOUGHT_STUDENT_ARTIFACTS = "SELECT artifacts.id_artifact, category_id, artifact_name, price, description, quantity FROM artifacts\n" +
+            "JOIN artifacts_codecoolers ON artifacts_codecoolers.id_codecooler = ? \n" +
+            "AND artifacts.id_artifact = artifacts_codecoolers.id_artifact;";
 
     public DAOCodecoolerHelper(Connection connection) {
         this.view = new View();
@@ -277,5 +283,29 @@ public class DAOCodecoolerHelper {
         query.setInt(2, artifact.getPrice() - money);
 
         query.executeUpdate();
+    }
+
+    public Inventory getBoughtArtifacts(int codecoolerID) {
+        List<Artifact> boughtArtifacts = new ArrayList<>();
+        Map<Integer, Integer> artifactsQuantity = new HashMap<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_BOUGHT_STUDENT_ARTIFACTS);
+            statement.setInt(1, codecoolerID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int artifactID = resultSet.getInt("id_artifact");
+                int categoryID = resultSet.getInt("category_id");
+                int price = resultSet.getInt("price");
+                int quantity = resultSet.getInt("quantity");
+                String name = resultSet.getString("artifact_name");
+                String description = resultSet.getString("description");
+                boughtArtifacts.add(new Artifact(artifactID, name, new ArtifactCategory(categoryID),price, description));
+                artifactsQuantity.put(artifactID, quantity);
+            }
+
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return new Inventory(boughtArtifacts, artifactsQuantity);
     }
 }
