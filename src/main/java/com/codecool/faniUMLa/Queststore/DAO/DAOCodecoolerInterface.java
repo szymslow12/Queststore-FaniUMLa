@@ -1,5 +1,9 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+
+import java.util.List;
+
 public interface DAOCodecoolerInterface {
 
     int getCoolcoins(int id);
@@ -8,5 +12,5 @@ public interface DAOCodecoolerInterface {
 
     void buyArtifact(int idUser, int idArtifact);
 
-    void showArtifacts();
+    List<Artifact> showArtifacts();
 }

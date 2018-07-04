@@ -128,9 +128,10 @@ public class DAOCodecoolerHelper {
         return artifact.getCategory().getCategoryID() == 1;
     }
 
-    public void showArtifacts() {
+    public List<Artifact> showArtifacts() {
         List<Artifact> artifacts = getArtifacts();
         view.displayList(artifacts, "Welcome in a shop!");
+        return artifacts;
     }
 
     private List<Artifact> getArtifacts() {

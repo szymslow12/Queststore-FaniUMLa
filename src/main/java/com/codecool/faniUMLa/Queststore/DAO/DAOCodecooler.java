@@ -1,6 +1,9 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+
 import java.sql.Connection;
+import java.util.List;
 
 public class DAOCodecooler implements DAOCodecoolerInterface {
 
@@ -28,7 +31,7 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     }
 
     @Override
-    public void showArtifacts() {
-        helper.showArtifacts();
+    public List<Artifact> showArtifacts() {
+        return helper.showArtifacts();
     }
 }
