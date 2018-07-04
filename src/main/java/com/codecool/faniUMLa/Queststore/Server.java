@@ -14,13 +14,12 @@ public class Server {
         server.createContext("/Admin", new AppController());
         server.createContext("/Classes", new AppController());
         server.createContext("/Levels", new AppController());
-        server.createContext("/Student", new AppController());
+        server.createContext("/Store", new AppController());
         server.createContext("/Mentors", new AppController());
         server.createContext("/Inventory", new AppController());
         server.createContext("/QuestsMentor", new AppController());
         server.createContext("/Artifacts", new AppController());
         server.createContext("/Quests", new AppController());
-        server.createContext("/Store", new AppController());
         server.createContext("/Discard", new AppController());
         server.createContext("/js/main.js", new Static());
         server.createContext("/js/login-button.js", new Static());
