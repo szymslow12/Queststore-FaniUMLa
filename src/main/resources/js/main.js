@@ -60,7 +60,7 @@ function seeProfile() {
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
     div.appendChild(form);
-    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password"];
+    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password", "Confirm Password"];
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -78,10 +78,14 @@ function seeProfile() {
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
+        } else if (i != 5) {
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         } else {
             input.addEventListener("click", function () { this.setAttribute('required', true) });
             input.addEventListener("click", function () { this.value = '' });
+            input.addEventListener("click", function () {  });
         }
     }
     var button = createButton("Save", );
@@ -144,6 +148,7 @@ function createTable(array, view) {
 
             for (x in entries) {
                 var row = document.createElement("tr");
+                row.setAttribute("id", "row" + x);
                 row.setAttribute("class", "tableRow");
                 for (var i = 0; i < array.length; i++) {
                     var formArray = getArrayForForm(view);
@@ -159,7 +164,7 @@ function createTable(array, view) {
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
-                        var button = createSubmitButton("delete", view);
+                        var button = createSubmitButton("delete", view, row.firstChild.textContent);
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
                         data.appendChild(button);
@@ -192,13 +197,13 @@ function createTable(array, view) {
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
     switch (view) {
-        case "Admin":
+        case "Mentors":
         case "Levels":
         case "Classes":
             xhttp.open("GET", "/daoAdminController?method=" + view, true);
             xhttp.send();
             break;
-        case "Mentor":
+        case "Students":
         case "Quests":
         case "Artifacts":
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
@@ -209,7 +214,7 @@ function createTable(array, view) {
 
 function getSelectArray(view) {
     var selectArray = [];
-    if (view == "Admin") {
+    if (view == "Mentors") {
         selectArray.push("Class");
     }
 
@@ -222,7 +227,7 @@ function getSelectArray(view) {
 
 function getArrayForForm(view) {
     var formArray = ["First Name", "Last Name", "Phone", "Email"];
-    if (view == "Mentor") {
+    if (view == "Students") {
         formArray.push("Wallet")
         formArray.push("Class");
 
@@ -246,15 +251,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel, view) {
+function createSubmitButton(actionLabel, view, index) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleSubmit(actionLabel, view) });
+    button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleSubmit(actionLabel, view) {
+function handleSubmit(actionLabel, view, index) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -268,7 +273,7 @@ function handleSubmit(actionLabel, view) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirm(div, view) });
+    button1.addEventListener("click", function () { confirm(div, view, index) });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
@@ -285,11 +290,14 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
     return button;
 }
 
-function confirm(div, view) {
+function confirm(div, view, index) {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+
+    xhttp.onreadystatechange = function()  {
+        if (this.readyState == 4 && this.status == 200) {
+        }
     };
-    xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + 1, true);
+    xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
     xhttp.send();
     window.location.reload();
 }
@@ -380,7 +388,7 @@ function createInputElements(container, inputsArray, boolean) {
 
         container.appendChild(div);
 
-        if (view == "Mentor" && inputsArray[i] == "Class") {
+        if (view == "Students" && inputsArray[i] == "Class") {
             boolean = true;
         }
         if (boolean) {
@@ -388,7 +396,7 @@ function createInputElements(container, inputsArray, boolean) {
             // input.style.backgroundColor = "grey";
         } else {
             input.addEventListener("click", function () { this.setAttribute('required', true) });
-            input.addEventListener("click", function () { this.value = ''});
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
 }
@@ -405,7 +413,6 @@ function fullfillInputs(divName, path) {
                 if (child.nodeName === "INPUT") {
                     child.value = obj[div.childNodes[i].firstChild.textContent];
                 }
-
             }
         }
     };
