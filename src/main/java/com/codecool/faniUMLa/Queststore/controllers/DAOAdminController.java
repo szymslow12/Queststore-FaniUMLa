@@ -2,6 +2,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -47,12 +48,12 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Levels":
-                    ArrayList<String> levelList = daoAdmin.getAllLevels();
+                    ArrayList<Level> levelList = daoAdmin.getAllLevels();
                     json = new JSONArray();
-                    for (String level : levelList) {
+                    for (Level level : levelList) {
                         obj = new JSONObject();
-                        obj.put("Level Name", level);threshold_level
-                        obj.put("Level Name", level)
+                        obj.put("Level Name", level.getLevel_name());
+                        obj.put("Level Threshold", level.getThreshold_level());
                         json.put(obj);
                     }
                     response = json.toString();
