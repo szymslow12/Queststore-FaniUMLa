@@ -24,7 +24,7 @@ public class DAOAdminHelper {
 
     private final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private final String ADD_LEVEL = "INSERT INTO levels (level_name) VALUES(?) ";
+    private final String ADD_LEVEL = "INSERT INTO levels (level_name, threshold_level) VALUES(?,?) ";
 
     private final String GET_ALL_CLASSES = "SELECT class_name FROM classes";
 
@@ -158,11 +158,12 @@ public class DAOAdminHelper {
         return query;
     }
 
-    public void addLevel(String level_name) {
+    public void addLevel(String level_name, Integer threshold_level) {
         PreparedStatement query;
         try {
             query = connection.prepareStatement(ADD_LEVEL);
             query.setString(1, level_name);
+            query.setInt(2, threshold_level);
             query.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There's such level already");

@@ -292,13 +292,13 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
 
 function confirm(div, view, index) {
     var xhttp = new XMLHttpRequest();
-
     xhttp.onreadystatechange = function()  {
         if (this.readyState == 4 && this.status == 200) {
         }
     };
     xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
     xhttp.send();
+    exit(div);
     window.location.reload();
 }
 

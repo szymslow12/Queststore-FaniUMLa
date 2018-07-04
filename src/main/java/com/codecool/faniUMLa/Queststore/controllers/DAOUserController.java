@@ -41,6 +41,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                 case "Students":
                     User student = daoMentor.getCodecooler(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
+                    obj.put("ID", student.getIdUser());
                     obj.put("First Name", student.getFirstName());
                     obj.put("Last Name", student.getLastName());
                     obj.put("Phone", student.getPhoneNumber());
@@ -49,9 +50,10 @@ public class DAOUserController extends UriController implements HttpHandler {
                     obj.put("Wallet", ((Codecooler) student).getCoolcoins());
                     response = obj.toString();
                     break;
-                case "Admin":
+                case "Mentors":
                     User mentor = daoAdmin.getMentor(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
+                    obj.put("ID", mentor.getIdUser());
                     obj.put("First Name", mentor.getFirstName());
                     obj.put("Last Name", mentor.getLastName());
                     obj.put("Phone", mentor.getPhoneNumber());
@@ -61,6 +63,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                 case "Quests":
                     Quest quest = daoMentor.getQuest(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
+                    obj.put("ID", quest.getQuestID());
                     obj.put("Name", quest.getName());
                     obj.put("Category", quest.getCategory());
                     obj.put("Description", quest.getDescription());
@@ -70,6 +73,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                 case "Artifacts":
                     Artifact artifact = daoMentor.getArtifact(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
+                    obj.put("ID", artifact.getArtifactID());
                     obj.put("Name", artifact.getName());
                     obj.put("Price", artifact.getPrice());
                     obj.put("Description", artifact.getDescription());
@@ -95,7 +99,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                 case "deleteStudents":
                     daoMentor.deleteStudent(getParameter(httpExchange.getRequestURI().getQuery()));
                     break;
-                case "deleteQuest":
+                case "deleteQuests":
                     daoMentor.deleteQuest(getParameter(httpExchange.getRequestURI().getQuery()));
                     break;
             }
