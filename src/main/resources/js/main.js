@@ -404,13 +404,13 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array);
+        createTable(array, "artifacts");
         fillStoreTable(id);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array);
+        createTable(array, "artifacts");
         fillStoreTable(id);
         moveStoreTableBeforeFooter();
     }
@@ -442,8 +442,10 @@ function fillStoreTable(id) {
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
+    console.log(rows + " - " + rows.length);
     for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
+        console.log(row);
         var columns = row.getElementsByTagName("td");
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];
