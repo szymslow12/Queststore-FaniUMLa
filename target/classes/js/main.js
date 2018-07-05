@@ -60,7 +60,7 @@ function seeProfile() {
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
     div.appendChild(form);
-    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password"];
+    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password", "Confirm Password"];
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -148,28 +148,27 @@ function createTable(array, view) {
                 row.setAttribute("class", "tableRow");
                 for (var i = 0; i < array.length; i++) {
                     var formArray = getArrayForForm(view);
-
+                    var selectArray = getSelectArray(view);
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true, view, x);
+                            var button = createFormButton("", formArray, selectArray, true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false, view, x);
+                            var button = createFormButton("", formArray, selectArray, false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
-                        var button = createSubmitButton("delete");
+                        var button = createSubmitButton("delete", view, row.firstChild.textContent);
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
-
 
                         data.appendChild(button);
 
-                } else if (array[i] == "Buy") {
-                    var data = document.createElement("td");
-                    var button = createSubmitButton("buy");
-                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    } else if (array[i] == "Buy") {
+                        var data = document.createElement("td");
+                        var button = createSubmitButton("buy");
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
                     data.appendChild(button);
 
@@ -194,13 +193,13 @@ function createTable(array, view) {
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
     switch (view) {
-        case "Admin":
+        case "Mentors":
         case "Levels":
         case "Classes":
             xhttp.open("GET", "/daoAdminController?method=" + view, true);
             xhttp.send();
             break;
-        case "Mentor":
+        case "Students":
         case "Quests":
         case "Artifacts":
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
@@ -216,9 +215,22 @@ function createTable(array, view) {
     }
 }
 
+function getSelectArray(view) {
+    var selectArray = [];
+    if (view == "Mentors") {
+        selectArray.push("Class");
+    }
+
+    else if (view == "Quests" || view == "Artifacts") {
+        selectArray.push("Category");
+    }
+
+    return selectArray;
+}
+
 function getArrayForForm(view) {
-    var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
-    if (view == "Mentor") {
+    var formArray = ["First Name", "Last Name", "Phone", "Email"];
+    if (view == "Students") {
         formArray.push("Wallet")
 
     } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
@@ -246,15 +258,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel) {
+function createSubmitButton(actionLabel, view, index) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleSubmit(actionLabel) });
+    button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleSubmit(actionLabel) {
+function handleSubmit(actionLabel, view, index) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -268,12 +280,12 @@ function handleSubmit(actionLabel) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirmAll(div) });
+    button1.addEventListener("click", function () { confirm(div, view, index) });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
     textArea.appendChild(button2);
-    button2.addEventListener("click", function () { confirmAll(div) });
+    button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
 }
@@ -285,7 +297,20 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
     return button;
 }
 
-function confirmAll(div) {
+function confirm(div, view, index) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function()  {
+        if (this.readyState == 4 && this.status == 200) {
+            document.body = this.response;
+        }
+    };
+    xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
+    xhttp.send();
+    exit(div);
+
+}
+
+function exit(div) {
     div.setAttribute("class", "confirm");
 }
 
@@ -313,10 +338,10 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     container.setAttribute("id", "container");
 
     if (!name.includes("Add")) {
-        createInputElements(true, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean, view);
         fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
-        createInputElements(false, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean);
     }
     createSelectElements(container, optionsArray);
     form.appendChild(container);
@@ -359,7 +384,7 @@ function setStudentList() {
     document.body.appendChild(div);
 }
 
-function createInputElements(isFull, container, inputsArray, boolean) {
+function createInputElements(container, inputsArray, boolean) {
 
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
@@ -373,19 +398,13 @@ function createInputElements(isFull, container, inputsArray, boolean) {
         input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
-        if (isFull) {
-            div.setAttribute("class", "input-container");
-            label.setAttribute("type", "label");
-            input.setAttribute("type", "input");
-        }
-
         container.appendChild(div);
         if (boolean) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
 }
@@ -402,7 +421,6 @@ function fullfillInputs(divName, path) {
                 if (child.nodeName === "INPUT") {
                     child.value = obj[div.childNodes[i].firstChild.textContent];
                 }
-
             }
         }
     };
@@ -471,10 +489,8 @@ function fillStoreTable(id) {
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
-    console.log(rows + " - " + rows.length);
     for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
-        console.log(row);
         var columns = row.getElementsByTagName("td");
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];

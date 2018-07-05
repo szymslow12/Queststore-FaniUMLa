@@ -36,14 +36,19 @@ public class DAOMentorHelper {
     private final String UPDATE_QUEST = "UPDATE quests SET %s = ? WHERE id_quest = ?";
     private final String UPDATE_ARTIFACT = "UPDATE artifacts SET %s = ? WHERE id_artifact = ?";
     private final String MARK_QUEST_DONE = "INSERT INTO quests_codecoolers (id_quest, id_codecooler) VALUES(?, ?)";
-    private final String GET_CODECOOLERS = "SELECT users.id_user, id_codecooler, first_name, last_name, coolcoins, id_level, id_class FROM users \n" +
-            "\t JOIN codecoolers ON users.id_user = codecoolers.id_user\n " +
-            "\t\tORDER BY users.id_user";
+        private final String GET_CODECOOLERS = "SELECT * FROM users \n" +
+                "\t JOIN codecoolers ON users.id_user = codecoolers.id_user\n " +
+                "\t\tORDER BY users.id_user";
     private final String GET_QUEST_AWARD = "SELECT award FROM quests WHERE id_quest = ?";
     private final String ADD_COOLCOINS_TO_WALLET = "UPDATE codecoolers SET coolcoins = coolcoins + ?" +
             "WHERE id_codecooler = ?";
     private final String MARK_BOUGHT_ARTIFACT = "INSERT INTO artifacts_codecoolers (id_artifact, id_codecooler)" +
             "VALUES(?, ?)";
+    private final String DELETE_STUDENT = "DELETE FROM users WHERE id_user = ?";
+    private final String DELETE_QUEST = "DELETE FROM quests WHERE id_quest = ?";
+    private final String DELETE_ARTIFACT = "DELETE FROM artifacts WHERE id_artifact = ?";
+
+
     private Connection connection;
 
     public DAOMentorHelper(Connection connection) {
@@ -218,13 +223,15 @@ public class DAOMentorHelper {
         List<Codecooler> objectList = new ArrayList<>();
         while (resultSet.next()) {
             int userID = resultSet.getInt(1);
-            int codecoolerID = resultSet.getInt(2);
-            String firstName = resultSet.getString(3);
-            String lastName = resultSet.getString(4);
-            int coolcoins = resultSet.getInt(5);
-            int idLevel = resultSet.getInt(6);
-            int idClass = resultSet.getInt(7);
-            objectList.add(new Codecooler(userID, firstName, lastName, idLevel, coolcoins, codecoolerID, idClass));
+            int codecoolerID = resultSet.getInt(9);
+            String firstName = resultSet.getString(5);
+            String lastName = resultSet.getString(6);
+            String phoneNumber = resultSet.getString(8);
+            String email = resultSet.getString(7);
+            int coolcoins = resultSet.getInt(11);
+            int idLevel = resultSet.getInt(12);
+            int idClass = resultSet.getInt(13);
+            objectList.add(new Codecooler(userID, firstName, lastName, email, phoneNumber, idClass, idLevel, coolcoins, codecoolerID));
         }
         return objectList;
     }
@@ -306,6 +313,36 @@ public class DAOMentorHelper {
         statement.executeUpdate();
     }
 
+    public void deleteStudent(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteQuest(int index) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_QUEST);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteArtifact(int index) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_ARTIFACT);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private int getAward(PreparedStatement statement, Integer questID) throws SQLException {
         statement.setInt(1, questID);
