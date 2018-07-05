@@ -34,17 +34,13 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     json.put(jsonObject);
                     response = json.toString();
                     break;
-                case "Store":
-                    List<Artifact> artifactList = daoCodecooler.showArtifacts();
-                    json = new JSONArray();
-                    for (Artifact artifact: artifactList) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put("Name", artifact.getName());
-                        jsonObject.put("Description", artifact.getDescription());
-                        jsonObject.put("Price", artifact.getPrice());
-                        json.put(jsonObject);
-                    }
-                    response = json.toString();
+                case "Store2":
+                    response = getArtifactsByCategory(2);
+                    System.out.println(response);
+                    break;
+                case "Store1":
+                    response = getArtifactsByCategory(1);
+                    System.out.println(response);
                     break;
                 case "Inventory":
                     // for test and presentation is passed codecoolerID = 1
@@ -77,7 +73,10 @@ public class DAOStudentController extends UriController implements HttpHandler {
             }
 
             try {
-                httpExchange.sendResponseHeaders(200, response.length());
+                if (subSiteName.equals("Store2"))
+                    httpExchange.sendResponseHeaders(200, response.length() + 1);
+                else
+                    httpExchange.sendResponseHeaders(200, response.length());
                 OutputStream os = httpExchange.getResponseBody();
                 os.write(response.getBytes());
                 os.close();
@@ -85,5 +84,19 @@ public class DAOStudentController extends UriController implements HttpHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private String getArtifactsByCategory(int categoryID) {
+        List<Artifact> artifactList = daoCodecooler.showArtifacts(categoryID);
+        JSONArray json = new JSONArray();
+        for (Artifact artifact: artifactList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Name", artifact.getName());
+            jsonObject.put("Description", artifact.getDescription());
+            jsonObject.put("Price", artifact.getPrice());
+            json.put(jsonObject);
+        }
+        return  json.toString();
     }
 }
