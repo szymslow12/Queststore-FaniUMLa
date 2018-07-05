@@ -428,16 +428,37 @@ function createSelectElements(container, optionsArray) {
         div.appendChild(label);
         label.textContent = optionsArray[i];
 
-        var select = document.createElement("select");
-        for (var j = 0; j < 2; j++) {
-            var option = document.createElement("option");
-            option.value = optionsArray[i] + j;
-            option.text = optionsArray[i] + j;
-            select.appendChild(option);
-            div.appendChild(select);
-        }
+        var pickList = document.createElement("select");
+        pickList.multiple = true;
+         var xhttp = new XMLHttpRequest();
+         var optionList = [];
 
-        container.appendChild(div);
+         xhttp.onreadystatechange = function() {
+
+             if(this.readyState == 4 && this.status == 200) {
+                 var entries = JSON.parse(this.response);
+                 for(x in entries) {
+                     for(y in entries[x]) {
+                         optionList.push(entries[x][y]);
+                     }
+                }
+                 for (var j = 0; j < optionList.length; j++) {
+                     var option = document.createElement("option");
+                     option.value = optionList[j];
+                     option.textContent = optionList[j];
+                     if(!Number.isInteger(optionList[j])) {
+                        pickList.appendChild(option);
+                     }
+
+
+                 }
+             }
+         };
+         xhttp.open("GET", "/daoAdminController?method=" + optionsArray[i], true);
+         xhttp.send();
+
+     div.appendChild(pickList);
+     container.appendChild(div);
     }
 }
 

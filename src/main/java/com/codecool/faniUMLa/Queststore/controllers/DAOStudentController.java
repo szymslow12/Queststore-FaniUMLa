@@ -26,34 +26,34 @@ public class DAOStudentController extends UriController implements HttpHandler {
             JSONArray json;
             JSONObject jsonObject;
             switch (subSiteName) {
-                case "Artifacts":
-                    List<Artifact> artifactList = daoCodecooler.showArtifacts();
-                    json = new JSONArray();
-                    for (Artifact artifact: artifactList) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put("Name", artifact.getName());
-                        jsonObject.put("Description", artifact.getDescription());
-                        jsonObject.put("Price", artifact.getPrice());
-                        json.put(jsonObject);
-                    }
-                    response = json.toString();
-                    break;
-                case "Inventory":
-                    // for test and presentation is passed codecoolerID = 1
-                    Inventory inv = daoCodecooler.getBoughtArtifacts(1);
-                    List<Artifact> boughtArtifacts = inv.getArtifacts();
-                    json = new JSONArray();
-                    for (Artifact artifact: boughtArtifacts) {
-                        int quantity = inv.getArtifactQuantity(artifact.getArtifactID());
-                        jsonObject = new JSONObject();
-                        jsonObject.put("Name", artifact.getName());
-                        jsonObject.put("Description", artifact.getDescription());
-                        jsonObject.put("Price", artifact.getPrice());
-                        jsonObject.put("Amount", quantity);
-                        json.put(jsonObject);
-                    }
-                    response = json.toString();
-                    break;
+//                case "Artifacts":
+//                    List<Artifact> artifactList = daoCodecooler.showArtifacts();
+//                    json = new JSONArray();
+//                    for (Artifact artifact: artifactList) {
+//                        jsonObject = new JSONObject();
+//                        jsonObject.put("Name", artifact.getName());
+//                        jsonObject.put("Description", artifact.getDescription());
+//                        jsonObject.put("Price", artifact.getPrice());
+//                        json.put(jsonObject);
+//                    }
+//                    response = json.toString();
+//                    break;
+//                case "Inventory":
+//                    // for test and presentation is passed codecoolerID = 1
+//                    Inventory inv = daoCodecooler.getBoughtArtifacts(1);
+//                    List<Artifact> boughtArtifacts = inv.getArtifacts();
+//                    json = new JSONArray();
+//                    for (Artifact artifact: boughtArtifacts) {
+//                        int quantity = inv.getArtifactQuantity(artifact.getArtifactID());
+//                        jsonObject = new JSONObject();
+//                        jsonObject.put("Name", artifact.getName());
+//                        jsonObject.put("Description", artifact.getDescription());
+//                        jsonObject.put("Price", artifact.getPrice());
+//                        jsonObject.put("Amount", quantity);
+//                        json.put(jsonObject);
+//                    }
+//                    response = json.toString();
+//                    break;
             }
 
             try {

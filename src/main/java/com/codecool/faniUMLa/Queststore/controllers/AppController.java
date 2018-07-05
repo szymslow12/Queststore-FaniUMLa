@@ -17,8 +17,7 @@ public class AppController extends Controller implements HttpHandler {
     public AppController() {
         daoMentor = new DAOMentor(connection);
         daoCodecooler = new DAOCodecooler(connection);
-        //inputs = new UserInputs();
-        //signIn();
+
     }
 
     @Override
