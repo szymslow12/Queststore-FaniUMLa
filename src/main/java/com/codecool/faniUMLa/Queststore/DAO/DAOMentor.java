@@ -9,6 +9,7 @@ import com.sun.org.apache.bcel.internal.classfile.Code;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DAOMentor implements DAOMentorInterface {
 
@@ -78,6 +79,23 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
 
+    public void createQuest(String name, String description, int award, int category) {
+        try {
+            helper.createQuest(name, description, award, category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createArtifact(String name, int category, int price, String description) {
+        try {
+            helper.createArtifact(name, category, price, description);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void addNewQuest() {
         try {
             helper.addQuest(connection);
@@ -122,6 +140,26 @@ public class DAOMentor implements DAOMentorInterface {
         helper.deleteArtifact(index);
     }
 
+    public void editQuest(Map<String, String> inputs) {
+        helper.editQuest(inputs);
+    }
+
+    public void editArtifact(Map<String, String> inputs) {
+        helper.editArtifact(inputs);
+    }
+
+    public void editStudent(String column_name, String changedWord, Integer idUser) {
+        PreparedStatement mentorUpdate = helper.prepareQueryForUpdatedMentor(column_name, changedWord, idUser);
+        try {
+            mentorUpdate.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createStudent(List<String> studentData) {
+        helper.addUserToDatabase((ArrayList)studentData);
+        helper.updateStudents((ArrayList)studentData);}
 
     public boolean markQuestDone() {
         try {
