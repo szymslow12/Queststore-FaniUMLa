@@ -74,6 +74,7 @@ function seeProfile() {
         label.textContent = formArray[i];
         labelDiv.appendChild(label);
         var input = document.createElement("input");
+        input.value = formArray[i];
         labelDiv.appendChild(input);
 
         if (i === 0 || i === 1 || i === 4) {
@@ -160,24 +161,17 @@ function createTable(array, view) {
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("delete");
-<<<<<<< HEAD
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
-=======
-                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
->>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
+
 
                         data.appendChild(button);
 
-                    } else if (array[i] == "Buy") {
-                        var data = document.createElement("td");
-                        var button = createSubmitButton("buy");
-<<<<<<< HEAD
-                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
-=======
-                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
->>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
+                } else if (array[i] == "Buy") {
+                    var data = document.createElement("td");
+                    var button = createSubmitButton("buy");
+                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
 
-                        data.appendChild(button);
+                    data.appendChild(button);
 
                     } else if (array[i] == "Give") {
                         var data = document.createElement("td");
@@ -190,15 +184,9 @@ function createTable(array, view) {
                         data.textContent = entries[x][array[i]];
                     }
                     row.appendChild(data);
-<<<<<<< HEAD
                 }
                 table.appendChild(row);
             }
-=======
-                }
-                    table.appendChild(row);
-                }
->>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
             document.getElementById("table_content").appendChild(table);
         };
     }
@@ -218,6 +206,13 @@ function createTable(array, view) {
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
             xhttp.send();
             break;
+        case "Inventory":
+        case "Quests":
+        case "Store":
+        case "Discard":
+            xhttp.open("GET", "/daoStudentController?method=" + view, true);
+            xhttp.send();
+            break;
     }
 }
 
@@ -226,7 +221,7 @@ function getArrayForForm(view) {
     if (view == "Mentor") {
         formArray.push("Wallet")
 
-    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
+    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
         formArray = ["Name"];
     }
     if (view == "Levels") {
@@ -238,9 +233,13 @@ function getArrayForForm(view) {
         formArray.push("Award");
     }
 
-    if (view == "Artifacts") {
+    if (view == "Artifacts" || view == "Inventory") {
         formArray.push("Description");
         formArray.push("Price");
+    }
+
+    if (view == "Inventory") {
+        formArray.push("Amount");
     }
 
 
@@ -325,7 +324,9 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
+
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
+
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -434,21 +435,19 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array);
-        fillStoreTable(id);
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array);
-        fillStoreTable(id);
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     }
 }
 
 
 function moveStoreTableBeforeFooter() {
-    var table = document.getElementsByTagName("table")[0];
+    var table = document.getElementById("table_content");
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
@@ -472,8 +471,10 @@ function fillStoreTable(id) {
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
+    console.log(rows + " - " + rows.length);
     for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
+        console.log(row);
         var columns = row.getElementsByTagName("td");
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];
