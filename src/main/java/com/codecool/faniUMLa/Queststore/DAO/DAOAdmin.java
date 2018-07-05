@@ -62,6 +62,7 @@ public class DAOAdmin implements DAOAdminInterface {
     public void createMentor(ArrayList <String> userData) {
         helper.addUserToDataBase(userData);
         helper.updateMentors(userData);
+        helper.updateMentors_classes(userData);
     }
 
     public void editMentor(String column_name, String changedWord, Integer idUser) {

@@ -28,7 +28,21 @@ function createButton(name, id, onClick) {
     return button;
 }
 
-function createStoreHeader(coolcoins) {
+function createStoreHeader() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            storeHeader(this.responseText);
+        }
+    }
+    xhttp.open("GET", "/daoStudentController?method=Coolcoins", true);
+    xhttp.send();
+}
+
+
+function storeHeader(json) {
+    var jsonObject = JSON.parse(json);
+    var coolcoins = jsonObject[0]["Coolcoins"];
     var storeHeader = document.createElement("h3");
     storeHeader.setAttribute("class", "store-header")
     var coinSymbol = document.createElement("i");
@@ -37,5 +51,5 @@ function createStoreHeader(coolcoins) {
     storeHeader.appendChild(headerText);
     storeHeader.appendChild(coinSymbol);
     storeHeader.appendChild(document.createTextNode(" , you can buy following items:"));
-    document.body.appendChild(storeHeader);
+    document.getElementById("store_header").appendChild(storeHeader);
 }

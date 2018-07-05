@@ -2,6 +2,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.DAOCodecooler;
 import com.codecool.faniUMLa.Queststore.DAO.DAOCodecoolerInterface;
+import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.Inventory;
 import com.sun.net.httpserver.HttpExchange;
@@ -26,17 +27,20 @@ public class DAOStudentController extends UriController implements HttpHandler {
             JSONArray json;
             JSONObject jsonObject;
             switch (subSiteName) {
-                case "Artifacts":
-                    List<Artifact> artifactList = daoCodecooler.showArtifacts();
+                case "Coolcoins":
                     json = new JSONArray();
-                    for (Artifact artifact: artifactList) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put("Name", artifact.getName());
-                        jsonObject.put("Description", artifact.getDescription());
-                        jsonObject.put("Price", artifact.getPrice());
-                        json.put(jsonObject);
-                    }
+                    jsonObject = new JSONObject();
+                    jsonObject.put("Coolcoins", daoCodecooler.getCoolcoins(1));
+                    json.put(jsonObject);
                     response = json.toString();
+                    break;
+                case "Store2":
+                    response = getArtifactsByCategory(2);
+                    System.out.println(response);
+                    break;
+                case "Store1":
+                    response = getArtifactsByCategory(1);
+                    System.out.println(response);
                     break;
                 case "Inventory":
                     // for test and presentation is passed codecoolerID = 1
@@ -54,16 +58,50 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     }
                     response = json.toString();
                     break;
+                case "Quests":
+                    // for test and presentation is passed codecoolerID = 1
+                    List<Quest> quests = daoCodecooler.getDoneQuests(1);
+                    json = new JSONArray();
+                    for (Quest quest: quests) {
+                        jsonObject = new JSONObject();
+                        jsonObject.put("Name", quest.getName());
+                        jsonObject.put("Description", quest.getDescription());
+                        jsonObject.put("Award", quest.getAward());
+                    }
+                    response = json.toString();
+                    break;
             }
 
             try {
-                httpExchange.sendResponseHeaders(200, response.length());
+                System.out.println(response.length() + "--" + response.getBytes().length);
+                if (response.length() < response.getBytes().length)
+                    httpExchange.sendResponseHeaders(200, response.length() + 1);
+                else
+                    httpExchange.sendResponseHeaders(200, response.length());
                 OutputStream os = httpExchange.getResponseBody();
                 os.write(response.getBytes());
                 os.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (method.equals("POST")) {
+            int artifactID = getParameter(httpExchange.getRequestURI().getQuery());
+            daoCodecooler.buyArtifact(1, artifactID);
         }
+    }
+
+
+    private String getArtifactsByCategory(int categoryID) {
+        List<Artifact> artifactList = daoCodecooler.showArtifacts(categoryID);
+        JSONArray json = new JSONArray();
+        for (Artifact artifact: artifactList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("artifact_id", artifact.getArtifactID());
+            jsonObject.put("Name", artifact.getName());
+            jsonObject.put("Description", artifact.getDescription());
+            jsonObject.put("Price", artifact.getPrice());
+            json.put(jsonObject);
+        }
+        return  json.toString();
     }
 }

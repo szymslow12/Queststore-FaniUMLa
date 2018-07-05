@@ -105,6 +105,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String phone_number = String.valueOf(inputs.get("Phone "));
         String user_login = StringUtils.generateString();
         String user_password = StringUtils.generateString();
+        String classes = String.valueOf(inputs.get("Classes"));
 
         ArrayList<String> mentorsData = new ArrayList<>();
         mentorsData.add(first_name);
@@ -113,6 +114,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         mentorsData.add(phone_number);
         mentorsData.add(user_login);
         mentorsData.add(user_password);
+        mentorsData.add(classes);
 
         daoAdmin.createMentor(mentorsData);
         return this.getFile("html/admin/Mentors.html");
@@ -155,32 +157,5 @@ public class DAOAdminController extends UriController implements HttpHandler {
         return dictionary.get(key);
     }
 
-    public String getFile(String filepath) {
-        StringBuilder result = new StringBuilder("");
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(filepath).getFile());
 
-        try (Scanner scanner = new Scanner(file)) {
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                result.append(line).append("\n");
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
-    public static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
-        Map<String, String> map = new HashMap<>();
-        String[] pairs = formData.split("&");
-        for(String pair : pairs){
-            String[] keyValue = pair.split("=");
-            // We have to decode the value because it's urlencoded. see: https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms
-            String value = new URLDecoder().decode(keyValue[1], "UTF-8");
-            map.put(keyValue[0], value);
-        }
-        return map;
-    }
 }

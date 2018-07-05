@@ -1,11 +1,7 @@
 package com.codecool.faniUMLa.Queststore;
-import com.codecool.faniUMLa.Queststore.controllers.DAOAdminController;
-import com.codecool.faniUMLa.Queststore.controllers.DAOStudentController;
-import com.codecool.faniUMLa.Queststore.controllers.DAOMentorController;
-import com.codecool.faniUMLa.Queststore.controllers.DAOUserController;
+import com.codecool.faniUMLa.Queststore.controllers.*;
 import com.codecool.faniUMLa.Queststore.server.*;
 
-import com.codecool.faniUMLa.Queststore.controllers.AppController;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -34,8 +30,10 @@ public class Server {
         server.createContext("/js/login-button.js", new Static());
         server.createContext("/daoAdminController", new DAOAdminController());
         server.createContext("/daoMentorController", new DAOMentorController());
+        server.createContext("/daoStudentController", new DAOStudentController());
         server.createContext("/DAOUserController", new DAOUserController());
         server.createContext("/js/store.js", new Static());
+        server.createContext("/Login", new LoginController());
         server.createContext("/css/main.css", new Static());
         server.setExecutor(null);
         server.start();

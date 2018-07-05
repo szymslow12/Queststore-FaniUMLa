@@ -169,12 +169,11 @@ function createTable(array, view) {
 
                         data.appendChild(button);
 
-                    } else if (array[i] == "Buy") {
-                        var data = document.createElement("td");
-                        var button = createSubmitButton("buy");
-                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
-
-                        data.appendChild(button);
+                } else if (array[i] == "Buy") {
+                    var data = document.createElement("td");
+                    var button = createStoreButton("buy", entries[x]["artifact_id"]);
+                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                    data.appendChild(button);
 
                     } else if (array[i] == "Give") {
                         var data = document.createElement("td");
@@ -213,6 +212,14 @@ function createTable(array, view) {
         case "Quests":
         case "Artifacts":
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
+            xhttp.send();
+            break;
+        case "Inventory":
+        case "Quests":
+        case "Store1":
+        case "Store2":
+        case "Discard":
+            xhttp.open("GET", "/daoStudentController?method=" + view, true);
             xhttp.send();
             break;
     }
@@ -261,6 +268,14 @@ function getArrayForForm(view) {
     return formArray;
 }
 
+function createStoreButton(actionLabel, itemID) {
+    var button = createButton(name);
+    button.addEventListener("click", function () { createBuyButton(actionLabel, itemID) });
+    document.body.appendChild(button);
+
+    return button;
+}
+
 function createSubmitButton(actionLabel, view, index) {
     var button = createButton(name);
     button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
@@ -283,7 +298,9 @@ function handleSubmit(actionLabel, view, index) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirm(div, view, index) });
+    button1.addEventListener("click", function () {
+        confirm(div, view, index);
+    });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
@@ -291,6 +308,36 @@ function handleSubmit(actionLabel, view, index) {
     button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
+}
+
+function createBuyButton(actionLabel, itemID) {
+    var div = document.createElement("div");
+        div.setAttribute("class", "text-container");
+        var textArea = document.createElement("div");
+        textArea.setAttribute("class", "text-area");
+        div.appendChild(textArea);
+        var info = document.createElement("label");
+        info.textContent = "Are you sure you want to " + actionLabel + "?";
+        textArea.appendChild(info);
+
+        var button1 = createButton("Yes");
+        textArea.appendChild(button1);
+        button1.setAttribute("class", "button functionButton item"+itemID);
+        button1.setAttribute("id", "confirm-button");
+        textArea.appendChild(button1);
+        button1.addEventListener("click", function () {
+            exit(div);
+            var artifactID = this.className.charAt(this.className.length - 1);
+            console.log("item bought, item id = " + artifactID);
+            purchaseArtifact(artifactID);
+        });
+
+        var button2 = createButton("No");
+        button2.setAttribute("class", "button functionButton");
+        textArea.appendChild(button2);
+        button2.addEventListener("click", function () { exit(div) });
+
+        document.body.appendChild(div);
 }
 
 function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
@@ -305,7 +352,7 @@ function createEditFormButton(inputsArray, optionsArray, view, index) {
     button.addEventListener("click", function () { createEditForm(inputsArray, optionsArray, view, index)});
     document.body.appendChild(button);
     return button;
-}  
+}
 
 function createEditForm(inputsArray, optionsArray, view, index) {
     var div = document.createElement("div");
@@ -405,38 +452,38 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     }
     button.setAttribute("class", "button save-button form-button");
 
-    // if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-    //     button.setAttribute("onclick", "setStudentList();return false");
-    // }
+    if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
+        button.setAttribute("onclick", "setStudentList();return false");
+    }
     form.appendChild(button);
     document.body.appendChild(form);
 
 }
 
-// function setStudentList() {
-//     var div = document.createElement("div")
-//     div.setAttribute("class", "text-container");
-//     var form = document.createElement("form");
-//     div.appendChild(form);
-//     form.setAttribute("class", "text-area");
+function setStudentList() {
+    var div = document.createElement("div")
+    div.setAttribute("class", "text-container");
+    var form = document.createElement("form");
+    div.appendChild(form);
+    form.setAttribute("class", "text-area");
 
-//     var formArray = ["First Name Last Name"];
-//     for (var j = 0; j < 10; j++) {
-//         for (var i = 0; i < formArray.length; i++) {
-//             var label = document.createElement("label");
-//             label.textContent = formArray[i];
-//             form.appendChild(label);
-//             var checkbox = document.createElement("input");
-//             checkbox.setAttribute("type", "checkbox");
-//             form.appendChild(checkbox);
-//         }
-//     }
-//     var button = createButton("Save");
-//     button.setAttribute("class", "button functionButton");
-//     button.setAttribute("type", "submit");
-//     form.appendChild(button);
-//     document.body.appendChild(div);
-// }
+    var formArray = ["First Name Last Name"];
+    for (var j = 0; j < 10; j++) {
+        for (var i = 0; i < formArray.length; i++) {
+            var label = document.createElement("label");
+            label.textContent = formArray[i];
+            form.appendChild(label);
+            var checkbox = document.createElement("input");
+            checkbox.setAttribute("type", "checkbox");
+            form.appendChild(checkbox);
+        }
+    }
+    var button = createButton("Save");
+    button.setAttribute("class", "button functionButton");
+    button.setAttribute("type", "submit");
+    form.appendChild(button);
+    document.body.appendChild(div);
+}
 
 function createInputElements(container, inputsArray, boolean, form) {
 
@@ -494,58 +541,71 @@ function createSelectElements(container, optionsArray) {
         div.appendChild(label);
         label.textContent = optionsArray[i];
 
-        var select = document.createElement("select");
-        for (var j = 0; j < 2; j++) {
-            var option = document.createElement("option");
-            option.value = optionsArray[i] + j;
-            option.text = optionsArray[i] + j;
-            select.appendChild(option);
-            div.appendChild(select);
-        }
+        var pickList = document.createElement("select");
+        pickList.setAttribute("name", "Classes");
+        pickList.multiple = true;
+         var xhttp = new XMLHttpRequest();
+         var optionList = [];
 
-        container.appendChild(div);
+         xhttp.onreadystatechange = function() {
+
+             if(this.readyState == 4 && this.status == 200) {
+                 var entries = JSON.parse(this.response);
+                 for(x in entries) {
+                     for(y in entries[x]) {
+                         optionList.push(entries[x][y]);
+                     }
+                }
+                 for (var j = 0; j < optionList.length; j++) {
+                     var option = document.createElement("option");
+                     option.value = optionList[j];
+                     option.textContent = optionList[j];
+                     if(!Number.isInteger(optionList[j])) {
+                        pickList.appendChild(option);
+                     }
+
+
+                 }
+             }
+         };
+         xhttp.open("GET", "/daoAdminController?method=" + optionsArray[i], true);
+         xhttp.send();
+
+     div.appendChild(pickList);
+     container.appendChild(div);
     }
 }
 
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
+    var categoryID = getCategoryID(id);
     if (tables.length == 0) {
-        createTable(array, "Artifacts", "/daoStudentController?method=");
-        //fillStoreTable(id);
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "Artifacts", "/daoStudentController?method=");
-        //fillStoreTable(id);
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
+    }
+}
+
+
+function getCategoryID(buttonID) {
+    if (buttonID == 'basic-items') {
+        return 1;
+    } else {
+        return 2;
     }
 }
 
 
 function moveStoreTableBeforeFooter() {
     var table = document.getElementById("table_content");
-    console.log(table);
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
 
-
-function fillStoreTable(id) {
-    if (id == "basic-items") {
-        var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
-        ['Sanctuary', 'You can spend a day in home office', '300 cc'],
-        ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
-        fillRows(basicItems, basicItems[0].length);
-    } else {
-        var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
-        ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
-        ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
-        ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
-        ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
-        fillRows(magicItems, magicItems[0].length);
-    }
-}
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
@@ -558,4 +618,10 @@ function fillRows(columnsData, columnsToFill) {
             columns[j].textContent = columnsData[i][j];
         }
     }
+}
+
+function purchaseArtifact(artifactID) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/daoStudentController?method="+artifactID, true);
+    xhttp.send();
 }

@@ -12,8 +12,9 @@
           crossorigin="anonymous">
     <script src="../../js/main.js"></script>
     <script src="../../js/store.js"></script>
-    <style>table {
-                margin-top: 50px;
+    <style>#table_content {
+                display: flex;
+                justify-content: center;
            }
     </style>
 </head>
@@ -21,7 +22,7 @@
 <script>var view = "Quests";</script>
 <script>createHeader("Student!")</script>
 <script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Quests")</script>
-<script>createTable(['Name', 'Category', 'Description','Award'])</script>
+<script>createTable(['Name', 'Description','Award'], "Quests")</script>
 <script>includeFooter()</script>
 
 </body>

@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.Inventory;
 
@@ -27,17 +28,22 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     }
 
     @Override
-    public void buyArtifact(int idUser, int idArtifact) {
-        helper.buyArtifact(idUser, idArtifact);
+    public boolean buyArtifact(int idUser, int idArtifact) {
+        return helper.buyArtifact(idUser, idArtifact);
     }
 
     @Override
-    public List<Artifact> showArtifacts() {
-        return helper.showArtifacts();
+    public List<Artifact> showArtifacts(int categoryID) {
+        return helper.showArtifacts(categoryID);
     }
 
     @Override
     public Inventory getBoughtArtifacts(int codecoolerID) {
         return helper.getBoughtArtifacts(codecoolerID);
+    }
+
+    @Override
+    public List<Quest> getDoneQuests(int codecoolerID) {
+        return helper.getDoneQuests(codecoolerID);
     }
 }
