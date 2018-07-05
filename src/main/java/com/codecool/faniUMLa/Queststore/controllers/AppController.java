@@ -17,8 +17,7 @@ public class AppController extends Controller implements HttpHandler {
     public AppController() {
         daoMentor = new DAOMentor(connection);
         daoCodecooler = new DAOCodecooler(connection);
-        //inputs = new UserInputs();
-        //signIn();
+
     }
 
     @Override
@@ -28,7 +27,7 @@ public class AppController extends Controller implements HttpHandler {
         if (method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
-                case "/Admin": case "/Mentors":
+                case "/Mentors":
                     response= this.getFile("html/admin/Mentors.html");
                     break;
                 case "/Classes":
@@ -37,7 +36,7 @@ public class AppController extends Controller implements HttpHandler {
                 case "/Levels":
                     response= this.getFile("html/admin/Levels.html");
                     break;
-                case "/Mentor": case"/Students":
+                case"/Students":
                     response= this.getFile("html/mentor/Students.html");
                     break;
                 case "/Artifacts":
@@ -79,7 +78,7 @@ public class AppController extends Controller implements HttpHandler {
         os.close();
     }
 
-    private String getFile(String filepath) {
+    public String getFile(String filepath) {
         StringBuilder result = new StringBuilder("");
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(filepath).getFile());

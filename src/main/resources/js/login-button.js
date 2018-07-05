@@ -50,25 +50,13 @@ function activateSubmitButton() {
 
 
 function loginToQuestStore() {
-    var login, password, lol;
+    var login, password;
     var form = document.getElementById("login");
     login = document.forms["login"]["login"].value;
     password = document.forms["login"]["password"].value;
-    // if (login != "test" && password != "test") {
-    //     document.getElementById("input-container").style.top = "0px";
-    //     document.getElementById("login-head").getElementsByTagName("h5")[0].innerText = "Bad login or password!";
-    //     return false;
-    // } else
-    if (login == "admin" && password == "admin") {
-        form.setAttribute("action", "../html/admin/Mentors.html");
-        return true;
-    }
-    else if (login == "mentor" && password == "mentor") {
-        form.setAttribute("action", "../html/mentor/Students.html");
-        return true;
-    } else if (login == "student" && password == "student") {
-        form.setAttribute("action", "../html/student/Store.html");
-        return true;
+    if (login != "test" && password != "test") {
+
+
     } else {
         document.getElementById("input-container").style.top = "0px";
         document.getElementById("login-head").getElementsByTagName("h5")[0].innerText = "Bad login or password!";

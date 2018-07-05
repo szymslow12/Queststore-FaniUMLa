@@ -60,7 +60,7 @@ function seeProfile() {
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
     div.appendChild(form);
-    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password"];
+    var formArray = ["First Name", "Last Name", "Phone", "Email", "Login", "Password", "Confirm Password"];
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -74,7 +74,6 @@ function seeProfile() {
         label.textContent = formArray[i];
         labelDiv.appendChild(label);
         var input = document.createElement("input");
-        input.value = formArray[i];
         labelDiv.appendChild(input);
 
         if (i === 0 || i === 1 || i === 4) {
@@ -148,19 +147,19 @@ function createTable(array, view) {
                 row.setAttribute("class", "tableRow");
                 for (var i = 0; i < array.length; i++) {
                     var formArray = getArrayForForm(view);
-
+                    var selectArray = getSelectArray(view);
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true, view, x);
+                            var button = createFormButton("", formArray, selectArray, true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false, view, x);
+                            var button = createFormButton("", formArray, selectArray, false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
-                        var button = createSubmitButton("delete");
+                        var button = createSubmitButton("delete", view, row.firstChild.textContent);
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
 
@@ -193,13 +192,13 @@ function createTable(array, view) {
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
     switch (view) {
-        case "Admin":
+        case "Mentors":
         case "Levels":
         case "Classes":
             xhttp.open("GET", "/daoAdminController?method=" + view, true);
             xhttp.send();
             break;
-        case "Mentor":
+        case "Students":
         case "Quests":
         case "Artifacts":
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
@@ -216,10 +215,24 @@ function createTable(array, view) {
     }
 }
 
+function getSelectArray(view) {
+    var selectArray = [];
+    if (view == "Mentors") {
+        selectArray.push("Class");
+    }
+
+    else if (view == "Quests" || view == "Artifacts") {
+        selectArray.push("Category");
+    }
+
+    return selectArray;
+}
+
 function getArrayForForm(view) {
-    var formArray = ["First Name", "Last Name", "Phone", "Class", "Email"];
-    if (view == "Mentor") {
+    var formArray = ["First Name", "Last Name", "Phone", "Email"];
+    if (view == "Students") {
         formArray.push("Wallet")
+        formArray.push("Class");
 
     } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
         formArray = ["Name"];
@@ -246,15 +259,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel, itemID) {
+function createSubmitButton(actionLabel, view, index, itemID) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleSubmit(actionLabel, itemID) });
+    button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleSubmit(actionLabel, itemID) {
+function handleSubmit(actionLabel, view, index, itemID) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -270,7 +283,7 @@ function handleSubmit(actionLabel, itemID) {
     button1.setAttribute("id", "confirm-button");
     textArea.appendChild(button1);
     button1.addEventListener("click", function () {
-        confirmAll(div);
+        confirm(div, view, index);
         var artifactID = this.className.charAt(this.className.length - 1);
         console.log("item bought, item id = " + artifactID);
         purchaseArtifact(artifactID);
@@ -279,7 +292,7 @@ function handleSubmit(actionLabel, itemID) {
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
     textArea.appendChild(button2);
-    button2.addEventListener("click", function () { confirmAll(div) });
+    button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
 }
@@ -291,7 +304,20 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
     return button;
 }
 
-function confirmAll(div) {
+function confirm(div, view, index) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function()  {
+        if (this.readyState == 4 && this.status == 200) {
+            document.body = this.response;
+        }
+    };
+    xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
+    xhttp.send();
+    exit(div);
+
+}
+
+function exit(div) {
     div.setAttribute("class", "confirm");
 }
 
@@ -320,10 +346,10 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     container.setAttribute("id", "container");
 
     if (!name.includes("Add")) {
-        createInputElements(true, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean, view);
         fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
-        createInputElements(false, container, inputsArray, boolean);
+        createInputElements(container, inputsArray, boolean);
     }
     createSelectElements(container, optionsArray);
     form.appendChild(container);
@@ -331,9 +357,7 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
-
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -366,7 +390,7 @@ function setStudentList() {
     document.body.appendChild(div);
 }
 
-function createInputElements(isFull, container, inputsArray, boolean) {
+function createInputElements(container, inputsArray, boolean) {
 
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
@@ -380,19 +404,13 @@ function createInputElements(isFull, container, inputsArray, boolean) {
         input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
-        if (isFull) {
-            div.setAttribute("class", "input-container");
-            label.setAttribute("type", "label");
-            input.setAttribute("type", "input");
-        }
-
         container.appendChild(div);
         if (boolean) {
             input.setAttribute("readOnly", true);
-            input.style.backgroundColor = "grey";
+            // input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
 }
@@ -409,7 +427,6 @@ function fullfillInputs(divName, path) {
                 if (child.nodeName === "INPUT") {
                     child.value = obj[div.childNodes[i].firstChild.textContent];
                 }
-
             }
         }
     };
@@ -426,16 +443,37 @@ function createSelectElements(container, optionsArray) {
         div.appendChild(label);
         label.textContent = optionsArray[i];
 
-        var select = document.createElement("select");
-        for (var j = 0; j < 2; j++) {
-            var option = document.createElement("option");
-            option.value = optionsArray[i] + j;
-            option.text = optionsArray[i] + j;
-            select.appendChild(option);
-            div.appendChild(select);
-        }
+        var pickList = document.createElement("select");
+        pickList.multiple = true;
+         var xhttp = new XMLHttpRequest();
+         var optionList = [];
 
-        container.appendChild(div);
+         xhttp.onreadystatechange = function() {
+
+             if(this.readyState == 4 && this.status == 200) {
+                 var entries = JSON.parse(this.response);
+                 for(x in entries) {
+                     for(y in entries[x]) {
+                         optionList.push(entries[x][y]);
+                     }
+                }
+                 for (var j = 0; j < optionList.length; j++) {
+                     var option = document.createElement("option");
+                     option.value = optionList[j];
+                     option.textContent = optionList[j];
+                     if(!Number.isInteger(optionList[j])) {
+                        pickList.appendChild(option);
+                     }
+
+
+                 }
+             }
+         };
+         xhttp.open("GET", "/daoAdminController?method=" + optionsArray[i], true);
+         xhttp.send();
+
+     div.appendChild(pickList);
+     container.appendChild(div);
     }
 }
 

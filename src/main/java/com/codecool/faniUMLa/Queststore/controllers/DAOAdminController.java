@@ -29,12 +29,13 @@ public class DAOAdminController extends UriController implements HttpHandler {
         if (method.equals("GET")) {
             JSONArray json;
             JSONObject obj;
-            switch (subSiteName) {
-                case "Admin":
+            switch(subSiteName) {
+                case "Mentors":
                     ArrayList<Mentor> mentorsList = daoAdmin.getAllMentors();
                     json = new JSONArray();
                     for (Mentor mentor : mentorsList) {
                         obj = new JSONObject();
+                        obj.put("ID", mentor.getIdUser());
                         obj.put("First Name", mentor.getFirstName());
                         obj.put("Last Name", mentor.getLastName());
                         json.put(obj);
@@ -42,11 +43,12 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Classes":
-                    ArrayList<String> classList = daoAdmin.getAllClasses();
+                    Map<String, Integer> classList = daoAdmin.getAllClasses();
                     json = new JSONArray();
-                    for (String c : classList) {
+                    for (String key : classList.keySet()) {
                         obj = new JSONObject();
-                        obj.put("Class Name", c);
+                        obj.put("Class Name", key);
+                        obj.put("ID", classList.get(key));
                         json.put(obj);
                     }
                     response = json.toString();
@@ -56,6 +58,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     json = new JSONArray();
                     for (Level level : levelList) {
                         obj = new JSONObject();
+                        obj.put("ID", level.getId_level());
                         obj.put("Level Name", level.getLevel_name());
                         obj.put("Level Threshold", level.getThreshold_level());
                         json.put(obj);
@@ -123,33 +126,5 @@ public class DAOAdminController extends UriController implements HttpHandler {
 
 
 
-    private String getFile(String filepath) {
-        StringBuilder result = new StringBuilder("");
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(filepath).getFile());
 
-        try (Scanner scanner = new Scanner(file)) {
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                result.append(line).append("\n");
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
-    private static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
-        Map<String, String> map = new HashMap<>();
-        String[] pairs = formData.split("&");
-        for(String pair : pairs){
-            String[] keyValue = pair.split("=");
-            // We have to decode the value because it's urlencoded. see: https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms
-            String value = new URLDecoder().decode(keyValue[1], "UTF-8");
-            map.put(keyValue[0], value);
-        }
-        return map;
-    }
 }
-

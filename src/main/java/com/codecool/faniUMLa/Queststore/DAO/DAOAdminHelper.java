@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DAOAdminHelper {
@@ -26,9 +28,13 @@ public class DAOAdminHelper {
 
     private final String ADD_LEVEL = "INSERT INTO levels (level_name, threshold_level) VALUES(?,?) ";
 
-    private final String GET_ALL_CLASSES = "SELECT class_name FROM classes";
+    private final String GET_ALL_CLASSES = "SELECT * FROM classes";
 
     private final String GET_ALL_LEVELS = "SELECT * FROM levels";
+
+    private final String DELETE_MENTOR = "DELETE FROM users WHERE id_user = ?";
+    private final String DELETE_CLASS = "DELETE FROM classes WHERE id_class = ?";
+    private final String DELETE_LEVEL = "DELETE FROM levels WHERE id_level = ?";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -45,8 +51,8 @@ public class DAOAdminHelper {
         }
     }
 
-    public ArrayList<String> getAllClasses() {
-        ArrayList<String> classList = new ArrayList<>();
+    public Map<String, Integer> getAllClasses() {
+        Map<String, Integer> classList = new HashMap<>();
         ResultSet rs;
         PreparedStatement query;
         try {
@@ -54,8 +60,8 @@ public class DAOAdminHelper {
             rs = query.executeQuery();
             while (rs.next()) {
                 String class_name = rs.getString("class_name");
-
-                classList.add(class_name);
+                Integer class_id = rs.getInt("id_class");
+                classList.put(class_name, class_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,6 +173,39 @@ public class DAOAdminHelper {
             query.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There's such level already");
+        }
+    }
+
+    public void deleteMentor(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_MENTOR);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteClass(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_CLASS);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteLevel(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_LEVEL);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

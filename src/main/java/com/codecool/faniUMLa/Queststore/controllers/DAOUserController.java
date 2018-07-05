@@ -1,13 +1,12 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
-import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
-import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
-import com.codecool.faniUMLa.Queststore.DAO.DAOUser;
-import com.codecool.faniUMLa.Queststore.DAO.DAOUserInterface;
+import com.codecool.faniUMLa.Queststore.DAO.*;
+import com.codecool.faniUMLa.Queststore.model.Quest;
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
 import com.codecool.faniUMLa.Queststore.model.users.User;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ public class DAOUserController extends UriController implements HttpHandler {
 
     DAOUserInterface daoUser = new DAOUser(connection);
     DAOAdminInterface daoAdmin = new DAOAdmin(connection);
+    DAOMentorInterface daoMentor = new DAOMentor(connection);
 
     @Override
     public void handle(HttpExchange httpExchange) {
@@ -38,28 +38,83 @@ public class DAOUserController extends UriController implements HttpHandler {
                     obj.put("Email", user.getEmail());
                     response = obj.toString();
                     break;
-                case "Mentor":
-
+                case "Students":
+                    User student = daoMentor.getCodecooler(getParameter(httpExchange.getRequestURI().getQuery()));
+                    obj = new JSONObject();
+                    obj.put("ID", student.getIdUser());
+                    obj.put("First Name", student.getFirstName());
+                    obj.put("Last Name", student.getLastName());
+                    obj.put("Phone", student.getPhoneNumber());
+                    obj.put("Email", student.getEmail());
+                    obj.put("Class", ((Codecooler) student).getClassID());
+                    obj.put("Wallet", ((Codecooler) student).getCoolcoins());
+                    response = obj.toString();
                     break;
-                case "Admin":
+                case "Mentors":
                     User mentor = daoAdmin.getMentor(getParameter(httpExchange.getRequestURI().getQuery()));
                     obj = new JSONObject();
+                    obj.put("ID", mentor.getIdUser());
                     obj.put("First Name", mentor.getFirstName());
                     obj.put("Last Name", mentor.getLastName());
                     obj.put("Phone", mentor.getPhoneNumber());
                     obj.put("Email", mentor.getEmail());
                     response = obj.toString();
                     break;
+                case "Quests":
+                    Quest quest = daoMentor.getQuest(getParameter(httpExchange.getRequestURI().getQuery()));
+                    obj = new JSONObject();
+                    obj.put("ID", quest.getQuestID());
+                    obj.put("Name", quest.getName());
+                    obj.put("Category", quest.getCategory());
+                    obj.put("Description", quest.getDescription());
+                    obj.put("Award", quest.getAward());
+                    response = obj.toString();
+                    break;
+                case "Artifacts":
+                    Artifact artifact = daoMentor.getArtifact(getParameter(httpExchange.getRequestURI().getQuery()));
+                    obj = new JSONObject();
+                    obj.put("ID", artifact.getArtifactID());
+                    obj.put("Name", artifact.getName());
+                    obj.put("Price", artifact.getPrice());
+                    obj.put("Description", artifact.getDescription());
+                    obj.put("Category", artifact.getCategory());
+                    response = obj.toString();
+                    break;
+
             }
 
-            try {
-                httpExchange.sendResponseHeaders(200, response.length());
-                OutputStream os = httpExchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        } if (method.equals("POST")) {
+            switch (subSiteName) {
+                case "deleteArtifacts":
+                    daoMentor.deleteArtifact(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Artifacts.html");
+                    break;
+                case "deleteStudents":
+                    daoMentor.deleteStudent(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Students.html");
+                    break;
+                case "deleteQuests":
+                    daoMentor.deleteQuest(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Quests.html");
+                    break;
+                case "deleteMentors":
+                    daoAdmin.deleteMentor(getParameter(httpExchange.getRequestURI().getQuery()));
+                    break;
+                case "deleteClasses":
+                    daoAdmin.deleteClass(getParameter(httpExchange.getRequestURI().getQuery()));
+                    break;
+                case "deleteLevels":
+                    daoAdmin.deleteLevel(getParameter(httpExchange.getRequestURI().getQuery()));
+                    break;
             }
+        }
+        try {
+            httpExchange.sendResponseHeaders(200, response.length());
+            OutputStream os = httpExchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

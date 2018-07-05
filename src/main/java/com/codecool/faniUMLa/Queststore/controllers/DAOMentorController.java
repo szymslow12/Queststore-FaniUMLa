@@ -29,11 +29,12 @@ public class DAOMentorController extends  UriController implements HttpHandler {
             JSONArray json;
             JSONObject obj;
             switch (subSiteName) {
-                case "Mentor":
+                case "Students":
                     ArrayList<Codecooler> studentsList = (ArrayList<Codecooler>)daoMentor.getAllStudents();
                     json = new JSONArray();
                     for (Codecooler student : studentsList) {
                         obj = new JSONObject();
+                        obj.put("ID", student.getIdUser());
                         obj.put("First Name", student.getFirstName());
                         obj.put("Last Name", student.getLastName());
                         json.put(obj);
@@ -45,6 +46,7 @@ public class DAOMentorController extends  UriController implements HttpHandler {
                     json = new JSONArray();
                     for (Quest quest : quests) {
                         obj = new JSONObject();
+                        obj.put("ID", quest.getQuestID());
                         obj.put("Name", quest.getName());
                         obj.put("Award", quest.getAward());
                         obj.put("Description", quest.getDescription());
@@ -58,6 +60,7 @@ public class DAOMentorController extends  UriController implements HttpHandler {
                     json = new JSONArray();
                     for (Artifact artifact : artifacts) {
                        obj = new JSONObject();
+                       obj.put("ID", artifact.getArtifactID());
                        obj.put("Name", artifact.getName());
                        obj.put("Price", artifact.getPrice());
                        obj.put("Description", artifact.getDescription());
