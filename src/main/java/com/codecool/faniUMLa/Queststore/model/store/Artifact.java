@@ -37,9 +37,6 @@ public class Artifact {
         return price;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
     public String toString() {
 
