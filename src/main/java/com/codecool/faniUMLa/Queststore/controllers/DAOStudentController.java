@@ -56,6 +56,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Quests":
+                    // for test and presentation is passed codecoolerID = 1
                     List<Quest> quests = daoCodecooler.getDoneQuests(1);
                     json = new JSONArray();
                     for (Quest quest: quests) {
