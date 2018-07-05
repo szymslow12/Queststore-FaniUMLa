@@ -53,12 +53,3 @@ function storeHeader(json) {
     storeHeader.appendChild(document.createTextNode(" , you can buy following items:"));
     document.getElementById("store_header").appendChild(storeHeader);
 }
-
-function awaitForPurchase() {
-    var button = document.getElementById("confirm-button");
-    var artifactID = button.className.charAt(button.className.length - 1);
-    button.addEventListener("click", function () { console.log("bought");
-    });
-    console.log(artifactID);
-
-}
