@@ -162,13 +162,13 @@ function createTable(array, view) {
                         var button = createSubmitButton("delete", view, row.firstChild.textContent);
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
+
                         data.appendChild(button);
 
-                    } else if (array[i] == "Buy") {
-                        var data = document.createElement("td");
-                        var button = createSubmitButton("buy");
-                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
-
+                } else if (array[i] == "Buy") {
+                    var data = document.createElement("td");
+                    var button = createStoreButton("buy", entries[x]["artifact_id"]);
+                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                     data.appendChild(button);
 
                     } else if (array[i] == "Give") {
@@ -206,7 +206,8 @@ function createTable(array, view) {
             break;
         case "Inventory":
         case "Quests":
-        case "Store":
+        case "Store1":
+        case "Store2":
         case "Discard":
             xhttp.open("GET", "/daoStudentController?method=" + view, true);
             xhttp.send();
@@ -258,6 +259,14 @@ function getArrayForForm(view) {
     return formArray;
 }
 
+function createStoreButton(actionLabel, itemID) {
+    var button = createButton(name);
+    button.addEventListener("click", function () { createBuyButton(actionLabel, itemID) });
+    document.body.appendChild(button);
+
+    return button;
+}
+
 function createSubmitButton(actionLabel, view, index) {
     var button = createButton(name);
     button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
@@ -280,7 +289,9 @@ function handleSubmit(actionLabel, view, index) {
     textArea.appendChild(button1);
     button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirm(div, view, index) });
+    button1.addEventListener("click", function () {
+        confirm(div, view, index);
+    });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
@@ -288,6 +299,36 @@ function handleSubmit(actionLabel, view, index) {
     button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
+}
+
+function createBuyButton(actionLabel, itemID) {
+    var div = document.createElement("div");
+        div.setAttribute("class", "text-container");
+        var textArea = document.createElement("div");
+        textArea.setAttribute("class", "text-area");
+        div.appendChild(textArea);
+        var info = document.createElement("label");
+        info.textContent = "Are you sure you want to " + actionLabel + "?";
+        textArea.appendChild(info);
+
+        var button1 = createButton("Yes");
+        textArea.appendChild(button1);
+        button1.setAttribute("class", "button functionButton item"+itemID);
+        button1.setAttribute("id", "confirm-button");
+        textArea.appendChild(button1);
+        button1.addEventListener("click", function () {
+            exit(div);
+            var artifactID = this.className.charAt(this.className.length - 1);
+            console.log("item bought, item id = " + artifactID);
+            purchaseArtifact(artifactID);
+        });
+
+        var button2 = createButton("No");
+        button2.setAttribute("class", "button functionButton");
+        textArea.appendChild(button2);
+        button2.addEventListener("click", function () { exit(div) });
+
+        document.body.appendChild(div);
 }
 
 function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
@@ -313,6 +354,7 @@ function confirm(div, view, index) {
 function exit(div) {
     div.setAttribute("class", "confirm");
 }
+
 
 function handleForm(name, inputsArray, optionsArray, boolean, view, index) {
     createForm(name, inputsArray, optionsArray, boolean, view, index);
@@ -472,14 +514,24 @@ function createSelectElements(container, optionsArray) {
 
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
+    var categoryID = getCategoryID(id);
     if (tables.length == 0) {
-        createTable(array, "Store");
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "Store");
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
+    }
+}
+
+
+function getCategoryID(buttonID) {
+    if (buttonID == 'basic-items') {
+        return 1;
+    } else {
+        return 2;
     }
 }
 
@@ -490,22 +542,6 @@ function moveStoreTableBeforeFooter() {
     buttonContainer.appendChild(table);
 }
 
-
-function fillStoreTable(id) {
-    if (id == "basic-items") {
-        var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
-        ['Sanctuary', 'You can spend a day in home office', '300 cc'],
-        ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
-        fillRows(basicItems, basicItems[0].length);
-    } else {
-        var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
-        ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
-        ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
-        ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
-        ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
-        fillRows(magicItems, magicItems[0].length);
-    }
-}
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
@@ -518,4 +554,10 @@ function fillRows(columnsData, columnsToFill) {
             columns[j].textContent = columnsData[i][j];
         }
     }
+}
+
+function purchaseArtifact(artifactID) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/daoStudentController?method="+artifactID, true);
+    xhttp.send();
 }

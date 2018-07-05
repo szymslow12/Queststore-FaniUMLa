@@ -16,7 +16,7 @@ public class UriController extends AppController {
 
     public int getParameter(String query) {
         String[] array = query.split("[?=]");
-        return Integer.parseInt(array[3]);
+        return Integer.parseInt(array[1]);
         }
 
     public String getFile(String filepath) {
