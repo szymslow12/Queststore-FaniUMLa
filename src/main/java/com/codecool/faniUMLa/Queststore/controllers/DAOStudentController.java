@@ -83,6 +83,10 @@ public class DAOStudentController extends UriController implements HttpHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (method.equals("POST")) {
+            int artifactID = getParameter(httpExchange.getRequestURI().getQuery());
+            System.out.println(artifactID);
+            daoCodecooler.buyArtifact(1, artifactID);
         }
     }
 
