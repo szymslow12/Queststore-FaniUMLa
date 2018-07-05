@@ -168,7 +168,7 @@ function createTable(array, view) {
 
                 } else if (array[i] == "Buy") {
                     var data = document.createElement("td");
-                    var button = createSubmitButton("buy");
+                    var button = createSubmitButton("buy", entries[x]["artifact_id"]);
                     button.setAttribute("class", imgDict[array[i]]+ " functionButton");
 
                     data.appendChild(button);
@@ -247,15 +247,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel) {
+function createSubmitButton(actionLabel, itemID) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleSubmit(actionLabel) });
+    button.addEventListener("click", function () { handleSubmit(actionLabel, itemID) });
     document.body.appendChild(button);
 
     return button;
 }
 
-function handleSubmit(actionLabel) {
+function handleSubmit(actionLabel, itemID) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -267,7 +267,8 @@ function handleSubmit(actionLabel) {
 
     var button1 = createButton("Yes");
     textArea.appendChild(button1);
-    button1.setAttribute("class", "button functionButton");
+    button1.setAttribute("class", "button functionButton item"+itemID);
+    button1.setAttribute("id", "confirm-button");
     textArea.appendChild(button1);
     button1.addEventListener("click", function () { confirmAll(div) });
 
@@ -289,6 +290,7 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
 function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
+
 
 function handleForm(name, inputsArray, optionsArray, boolean, view, index) {
     createForm(name, inputsArray, optionsArray, boolean, view, index);
