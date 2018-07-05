@@ -435,12 +435,12 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array, "Store", "/daoStudentController?method=");
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "Store", "/daoStudentController?method=");
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     }
 }
