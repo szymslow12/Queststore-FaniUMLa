@@ -1,6 +1,8 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.Quest;
+import com.codecool.faniUMLa.Queststore.model.QuestCategory;
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.ArtifactCategory;
@@ -32,6 +34,9 @@ public class DAOCodecoolerHelper {
     private final String GET_BOUGHT_STUDENT_ARTIFACTS = "SELECT artifacts.id_artifact, category_id, artifact_name, price, description, quantity FROM artifacts\n" +
             "JOIN artifacts_codecoolers ON artifacts_codecoolers.id_codecooler = ? \n" +
             "AND artifacts.id_artifact = artifacts_codecoolers.id_artifact;";
+    private final String GET_DONE_QUESTS = "SELECT quests.id_quest, id_category, quest_name, award, description FROM quests\n" +
+            "JOIN quests_codecoolers ON quests_codecoolers.id_codecooler = ?\n" +
+            "AND quests.id_quest = quests_codecoolers.id_quest;";
 
     public DAOCodecoolerHelper(Connection connection) {
         this.view = new View();
@@ -307,5 +312,26 @@ public class DAOCodecoolerHelper {
             err.printStackTrace();
         }
         return new Inventory(boughtArtifacts, artifactsQuantity);
+    }
+
+
+    public List<Quest> getDoneQuests(int codecoolerID) {
+        List<Quest> doneQuests = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_DONE_QUESTS);
+            statement.setInt(1, codecoolerID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int questID = resultSet.getInt("id_quest");
+                int categoryID = resultSet.getInt("id_category");
+                int award = resultSet.getInt("award");
+                String name = resultSet.getString("quest_name");
+                String description = resultSet.getString("description");
+                doneQuests.add(new Quest(questID, new QuestCategory(categoryID), name, award, description));
+            }
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+        return doneQuests;
     }
 }
