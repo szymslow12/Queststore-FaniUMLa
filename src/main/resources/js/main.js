@@ -167,7 +167,7 @@ function createTable(array, view) {
 
                 } else if (array[i] == "Buy") {
                     var data = document.createElement("td");
-                    var button = createSubmitButton("buy", entries[x]["artifact_id"]);
+                    var button = createStoreButton("buy", entries[x]["artifact_id"]);
                     button.setAttribute("class", imgDict[array[i]]+ " functionButton");
                     data.appendChild(button);
 
@@ -259,7 +259,15 @@ function getArrayForForm(view) {
     return formArray;
 }
 
-function createSubmitButton(actionLabel, view, index, itemID) {
+function createStoreButton(actionLabel, itemID) {
+    var button = createButton(name);
+    button.addEventListener("click", function () { createBuyButton(actionLabel, itemID) });
+    document.body.appendChild(button);
+
+    return button;
+}
+
+function createSubmitButton(actionLabel, view, index) {
     var button = createButton(name);
     button.addEventListener("click", function () { handleSubmit(actionLabel, view, index) });
     document.body.appendChild(button);
@@ -267,7 +275,7 @@ function createSubmitButton(actionLabel, view, index, itemID) {
     return button;
 }
 
-function handleSubmit(actionLabel, view, index, itemID) {
+function handleSubmit(actionLabel, view, index) {
     var div = document.createElement("div");
     div.setAttribute("class", "text-container");
     var textArea = document.createElement("div");
@@ -279,14 +287,10 @@ function handleSubmit(actionLabel, view, index, itemID) {
 
     var button1 = createButton("Yes");
     textArea.appendChild(button1);
-    button1.setAttribute("class", "button functionButton item"+itemID);
-    button1.setAttribute("id", "confirm-button");
+    button1.setAttribute("class", "button functionButton");
     textArea.appendChild(button1);
     button1.addEventListener("click", function () {
         confirm(div, view, index);
-        var artifactID = this.className.charAt(this.className.length - 1);
-        console.log("item bought, item id = " + artifactID);
-        purchaseArtifact(artifactID);
     });
 
     var button2 = createButton("No");
@@ -295,6 +299,36 @@ function handleSubmit(actionLabel, view, index, itemID) {
     button2.addEventListener("click", function () { exit(div) });
 
     document.body.appendChild(div);
+}
+
+function createBuyButton(actionLabel, itemID) {
+    var div = document.createElement("div");
+        div.setAttribute("class", "text-container");
+        var textArea = document.createElement("div");
+        textArea.setAttribute("class", "text-area");
+        div.appendChild(textArea);
+        var info = document.createElement("label");
+        info.textContent = "Are you sure you want to " + actionLabel + "?";
+        textArea.appendChild(info);
+
+        var button1 = createButton("Yes");
+        textArea.appendChild(button1);
+        button1.setAttribute("class", "button functionButton item"+itemID);
+        button1.setAttribute("id", "confirm-button");
+        textArea.appendChild(button1);
+        button1.addEventListener("click", function () {
+            exit(div);
+            var artifactID = this.className.charAt(this.className.length - 1);
+            console.log("item bought, item id = " + artifactID);
+            purchaseArtifact(artifactID);
+        });
+
+        var button2 = createButton("No");
+        button2.setAttribute("class", "button functionButton");
+        textArea.appendChild(button2);
+        button2.addEventListener("click", function () { exit(div) });
+
+        document.body.appendChild(div);
 }
 
 function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
