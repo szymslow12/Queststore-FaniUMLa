@@ -12,13 +12,19 @@ import java.net.InetSocketAddress;
 
 public class Server {
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8001),0);
         server.createContext("/Admin", new AppController());
         server.createContext("/Classes", new AppController());
         server.createContext("/Levels", new AppController());
         server.createContext("/Students", new AppController());
         server.createContext("/Store", new AppController());
         server.createContext("/Mentors", new AppController());
+        server.createContext("/editMentors", new AppController());
+        server.createContext("/editStudents", new AppController());
+        server.createContext("/editQuests" , new AppController());
+        server.createContext("/editArtifacts" , new AppController());
+        server.createContext("/editClasses" , new AppController());
+        server.createContext("/editLevel" , new AppController());
         server.createContext("/Inventory", new AppController());
         server.createContext("/QuestsMentor", new AppController());
         server.createContext("/Artifacts", new AppController());
