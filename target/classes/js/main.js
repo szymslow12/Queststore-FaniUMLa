@@ -55,6 +55,7 @@ function createHiddenMenu(menu) {
 }
 
 function seeProfile() {
+
     var div = document.createElement("div");
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
@@ -63,6 +64,7 @@ function seeProfile() {
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
+    container.setAttribute("id", "profile-container");
     form.appendChild(container);
 
     for (var i = 0; i < formArray.length; i++) {
@@ -72,22 +74,22 @@ function seeProfile() {
         label.textContent = formArray[i];
         labelDiv.appendChild(label);
         var input = document.createElement("input");
-        input.value = formArray[i];
         labelDiv.appendChild(input);
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
-
     var button = createButton("Save", );
     form.appendChild(button);
     button.setAttribute("class", "button functionButton");
+    fullfillInputs("profile-container", "/DAOUserController?method=Profile");
 }
+
 
 function includeFooter() {
     var footer = document.createElement("footer");
@@ -119,20 +121,20 @@ function hideMenu() {
 function createTable(array, view) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 200) {
             var imgDict = {
-                    "See Details": "fas fa-address-book",
-                    "Update": "fas fa-user-edit",
-                    "Delete": "fas fa-trash-alt",
-                    "Buy": "fas fa-shopping-cart",
-                    "Give": "fas fa-gift"
-             };
+                "See Details": "fas fa-address-book",
+                "Update": "fas fa-user-edit",
+                "Delete": "fas fa-trash-alt",
+                "Buy": "fas fa-shopping-cart",
+                "Give": "fas fa-gift"
+            };
             var entries = JSON.parse(this.response);
             var table = document.createElement("table");
             var rowH = document.createElement("tr");
             rowH.setAttribute("class", "tableHeader")
 
-             //set header for table
+            //set header for table
             for (var i = 0; i < array.length; i++) {
                 var col = document.createElement("td");
                 col.textContent = array[i];
@@ -149,23 +151,31 @@ function createTable(array, view) {
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true);
+                            var button = createFormButton("", formArray, [], true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false);
+                            var button = createFormButton("", formArray, [], false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("delete");
+<<<<<<< HEAD
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
+=======
                         button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
 
                         data.appendChild(button);
 
                     } else if (array[i] == "Buy") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("buy");
+<<<<<<< HEAD
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
+=======
                         button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
 
                         data.appendChild(button);
 
@@ -180,17 +190,35 @@ function createTable(array, view) {
                         data.textContent = entries[x][array[i]];
                     }
                     row.appendChild(data);
+<<<<<<< HEAD
+                }
+                table.appendChild(row);
+            }
+=======
                 }
                     table.appendChild(row);
                 }
+>>>>>>> b7999cebe8e4f9b46f5741eafc124da49d0d6899
             document.getElementById("table_content").appendChild(table);
         };
     }
     var container = document.createElement("div");
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
-    xhttp.open("GET", "/daoAdminController?method="+view, true);
-    xhttp.send();
+    switch (view) {
+        case "Admin":
+        case "Levels":
+        case "Classes":
+            xhttp.open("GET", "/daoAdminController?method=" + view, true);
+            xhttp.send();
+            break;
+        case "Mentor":
+        case "Quests":
+        case "Artifacts":
+            xhttp.open("GET", "/daoMentorController?method=" + view, true);
+            xhttp.send();
+            break;
+    }
 }
 
 function getArrayForForm(view) {
@@ -251,9 +279,9 @@ function handleSubmit(actionLabel) {
     document.body.appendChild(div);
 }
 
-function createFormButton(name, inputsArray, optionsArray, boolean) {
+function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean) })
+    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean, view, index) })
     document.body.appendChild(button);
     return button;
 }
@@ -262,8 +290,8 @@ function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
 
-function handleForm(name, inputsArray, optionsArray, boolean) {
-    createForm(name, inputsArray, optionsArray, boolean);
+function handleForm(name, inputsArray, optionsArray, boolean, view, index) {
+    createForm(name, inputsArray, optionsArray, boolean, view, index);
     displayForm();
 }
 
@@ -275,7 +303,7 @@ function displayForm() {
     document.body.appendChild(div);
 }
 
-function createForm(name, inputsArray, optionsArray, boolean) {
+function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
     form.method='post';
@@ -287,7 +315,7 @@ function createForm(name, inputsArray, optionsArray, boolean) {
 
     if (!name.includes("Add")) {
         createInputElements(true, container, inputsArray, boolean);
-        fullfillInputs();
+        fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
         createInputElements(false, container, inputsArray, boolean);
     }
@@ -361,13 +389,13 @@ function createInputElements(isFull, container, inputsArray, boolean) {
     }
 }
 
-function fullfillInputs() {
+function fullfillInputs(divName, path) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var json = this.responseText;
             var obj = JSON.parse(json);
-            var div = document.getElementById("container");
+            var div = document.getElementById(divName);
             for (var i = 0; i < div.childNodes.length; i++) {
                 var child = div.childNodes[i].lastChild;
                 if (child.nodeName === "INPUT") {
@@ -377,7 +405,7 @@ function fullfillInputs() {
             }
         }
     };
-    xhttp.open("GET", "/Data", true);
+    xhttp.open("GET", path, true);
     xhttp.send();
 
 }

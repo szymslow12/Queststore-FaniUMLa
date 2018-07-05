@@ -55,6 +55,7 @@ function createHiddenMenu(menu) {
 }
 
 function seeProfile() {
+
     var div = document.createElement("div");
     div.setAttribute("class", "form-container");
     var form = document.createElement("form");
@@ -63,6 +64,7 @@ function seeProfile() {
     document.body.appendChild(div);
     var container = document.createElement("div");
     container.setAttribute("class", "container");
+    container.setAttribute("id", "profile-container");
     form.appendChild(container);
 
     for (var i = 0; i < formArray.length; i++) {
@@ -79,15 +81,16 @@ function seeProfile() {
             input.setAttribute("readOnly", true);
             input.style.backgroundColor = "grey";
         } else {
-            input.addEventListener("click", function () { input.setAttribute('required', true) });
-            input.addEventListener("click", function () { input.value = '' });
+            input.addEventListener("click", function () { this.setAttribute('required', true) });
+            input.addEventListener("click", function () { this.value = '' });
         }
     }
-
     var button = createButton("Save", );
     form.appendChild(button);
     button.setAttribute("class", "button functionButton");
+    fullfillInputs("profile-container", "/DAOUserController?method=Profile");
 }
+
 
 function includeFooter() {
     var footer = document.createElement("footer");
@@ -119,20 +122,20 @@ function hideMenu() {
 function createTable(array, view) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 200) {
             var imgDict = {
-                    "See Details": "fas fa-address-book",
-                    "Update": "fas fa-user-edit",
-                    "Delete": "fas fa-trash-alt",
-                    "Buy": "fas fa-shopping-cart",
-                    "Give": "fas fa-gift"
-             };
+                "See Details": "fas fa-address-book",
+                "Update": "fas fa-user-edit",
+                "Delete": "fas fa-trash-alt",
+                "Buy": "fas fa-shopping-cart",
+                "Give": "fas fa-gift"
+            };
             var entries = JSON.parse(this.response);
             var table = document.createElement("table");
             var rowH = document.createElement("tr");
             rowH.setAttribute("class", "tableHeader")
 
-             //set header for table
+            //set header for table
             for (var i = 0; i < array.length; i++) {
                 var col = document.createElement("td");
                 col.textContent = array[i];
@@ -149,25 +152,26 @@ function createTable(array, view) {
                     if (array[i] in imgDict && array[i] != "Delete" && array[i] != "Buy" && array[i] != "Give") {
                         var data = document.createElement("td");
                         if (array[i] == "See Details") {
-                            var button = createFormButton("", formArray, [], true);
+                            var button = createFormButton("", formArray, [], true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, [], false);
+                            var button = createFormButton("", formArray, [], false, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
                     } else if (array[i] == "Delete") {
                         var data = document.createElement("td");
                         var button = createSubmitButton("delete");
-                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                        button.setAttribute("class", imgDict[array[i]] + " functionButton");
+
 
                         data.appendChild(button);
 
-                    } else if (array[i] == "Buy") {
-                        var data = document.createElement("td");
-                        var button = createSubmitButton("buy");
-                        button.setAttribute("class", imgDict[array[i]]+ " functionButton");
+                } else if (array[i] == "Buy") {
+                    var data = document.createElement("td");
+                    var button = createSubmitButton("buy");
+                    button.setAttribute("class", imgDict[array[i]]+ " functionButton");
 
-                        data.appendChild(button);
+                    data.appendChild(button);
 
                     } else if (array[i] == "Give") {
                         var data = document.createElement("td");
@@ -181,16 +185,28 @@ function createTable(array, view) {
                     }
                     row.appendChild(data);
                 }
-                    table.appendChild(row);
-                }
+                table.appendChild(row);
+            }
             document.getElementById("table_content").appendChild(table);
         };
     }
     var container = document.createElement("div");
     container.setAttribute("id", "table_content");
     document.body.appendChild(container);
-    xhttp.open("GET", "/daoAdminController?method="+view, true);
-    xhttp.send();
+    switch (view) {
+        case "Admin":
+        case "Levels":
+        case "Classes":
+            xhttp.open("GET", "/daoAdminController?method=" + view, true);
+            xhttp.send();
+            break;
+        case "Mentor":
+        case "Quests":
+        case "Artifacts":
+            xhttp.open("GET", "/daoMentorController?method=" + view, true);
+            xhttp.send();
+            break;
+    }
 }
 
 function getArrayForForm(view) {
@@ -198,7 +214,7 @@ function getArrayForForm(view) {
     if (view == "Mentor") {
         formArray.push("Wallet")
 
-    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
+    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
         formArray = ["Name"];
     }
     if (view == "Levels") {
@@ -210,9 +226,13 @@ function getArrayForForm(view) {
         formArray.push("Award");
     }
 
-    if (view == "Artifacts") {
+    if (view == "Artifacts" || view == "Inventory") {
         formArray.push("Description");
         formArray.push("Price");
+    }
+
+    if (view == "Inventory") {
+        formArray.push("Amount");
     }
 
 
@@ -251,9 +271,9 @@ function handleSubmit(actionLabel) {
     document.body.appendChild(div);
 }
 
-function createFormButton(name, inputsArray, optionsArray, boolean) {
+function createFormButton(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton(name);
-    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean) })
+    button.addEventListener("click", function () { handleForm(name, inputsArray, optionsArray, boolean, view, index) })
     document.body.appendChild(button);
     return button;
 }
@@ -262,8 +282,8 @@ function confirmAll(div) {
     div.setAttribute("class", "confirm");
 }
 
-function handleForm(name, inputsArray, optionsArray, boolean) {
-    createForm(name, inputsArray, optionsArray, boolean);
+function handleForm(name, inputsArray, optionsArray, boolean, view, index) {
+    createForm(name, inputsArray, optionsArray, boolean, view, index);
     displayForm();
 }
 
@@ -275,7 +295,7 @@ function displayForm() {
     document.body.appendChild(div);
 }
 
-function createForm(name, inputsArray, optionsArray, boolean) {
+function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
     form.method='post';
@@ -287,7 +307,7 @@ function createForm(name, inputsArray, optionsArray, boolean) {
 
     if (!name.includes("Add")) {
         createInputElements(true, container, inputsArray, boolean);
-        fullfillInputs();
+        fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
         createInputElements(false, container, inputsArray, boolean);
     }
@@ -297,7 +317,9 @@ function createForm(name, inputsArray, optionsArray, boolean) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
+
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
+
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -361,13 +383,13 @@ function createInputElements(isFull, container, inputsArray, boolean) {
     }
 }
 
-function fullfillInputs() {
+function fullfillInputs(divName, path) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var json = this.responseText;
             var obj = JSON.parse(json);
-            var div = document.getElementById("container");
+            var div = document.getElementById(divName);
             for (var i = 0; i < div.childNodes.length; i++) {
                 var child = div.childNodes[i].lastChild;
                 if (child.nodeName === "INPUT") {
@@ -377,7 +399,7 @@ function fullfillInputs() {
             }
         }
     };
-    xhttp.open("GET", "/Data", true);
+    xhttp.open("GET", path, true);
     xhttp.send();
 
 }
@@ -430,21 +452,22 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array);
-        fillStoreTable(id);
+        createTable(array, "Artifacts", "/daoStudentController?method=");
+        //fillStoreTable(id);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array);
-        fillStoreTable(id);
+        createTable(array, "Artifacts", "/daoStudentController?method=");
+        //fillStoreTable(id);
         moveStoreTableBeforeFooter();
     }
 }
 
 
 function moveStoreTableBeforeFooter() {
-    var table = document.getElementsByTagName("table")[0];
+    var table = document.getElementById("table_content");
+    console.log(table);
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
@@ -468,8 +491,10 @@ function fillStoreTable(id) {
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
+    console.log(rows + " - " + rows.length);
     for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
+        console.log(row);
         var columns = row.getElementsByTagName("td");
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];

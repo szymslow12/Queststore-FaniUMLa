@@ -29,11 +29,17 @@ public class Artifact {
         return category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public int getPrice() {
         return price;
     }
 
+
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
         sb.append(artifactID);
         sb.append(" ");

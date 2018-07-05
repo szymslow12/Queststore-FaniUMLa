@@ -37,16 +37,17 @@ public class DAOMentorHelper {
     private final String UPDATE_ARTIFACT = "UPDATE artifacts SET %s = ? WHERE id_artifact = ?";
     private final String MARK_QUEST_DONE = "INSERT INTO quests_codecoolers (id_quest, id_codecooler) VALUES(?, ?)";
     private final String GET_CODECOOLERS = "SELECT users.id_user, id_codecooler, first_name, last_name, coolcoins, id_level, id_class FROM users \n" +
-            "\tJOIN codecoolers ON users.id_user = codecoolers.id_user\n" +
-            "\t\tORDER BY users.id_user ";
+            "\t JOIN codecoolers ON users.id_user = codecoolers.id_user\n " +
+            "\t\tORDER BY users.id_user";
     private final String GET_QUEST_AWARD = "SELECT award FROM quests WHERE id_quest = ?";
     private final String ADD_COOLCOINS_TO_WALLET = "UPDATE codecoolers SET coolcoins = coolcoins + ?" +
             "WHERE id_codecooler = ?";
     private final String MARK_BOUGHT_ARTIFACT = "INSERT INTO artifacts_codecoolers (id_artifact, id_codecooler)" +
             "VALUES(?, ?)";
+    private Connection connection;
 
-
-    public DAOMentorHelper() {
+    public DAOMentorHelper(Connection connection) {
+        this.connection = connection;
         userInputs = new UserInputs();
     }
 
@@ -171,18 +172,19 @@ public class DAOMentorHelper {
     private void printAll(PreparedStatement statement, String tableName) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
         if (tableName.equalsIgnoreCase("quests")) {
-            new View().displayList(getAllQuests(resultSet), "");
+            new View().displayList(getAllQuests(), "");
         } else if (tableName.equalsIgnoreCase("artifacts")) {
-            new View().displayList(getAllArtifacts(resultSet), "");
+            new View().displayList(getAllArtifacts(), "");
         } else {
-            new View().displayList(getAllCodecoolers(resultSet), "");
+            new View().displayList(getAllCodecoolers(), "");
         }
 
 
     }
 
 
-    private List<Quest> getAllQuests(ResultSet resultSet) throws SQLException {
+    public List<Quest> getAllQuests() throws SQLException {
+        ResultSet resultSet = connection.prepareStatement(GET_ALL_QUESTS).executeQuery();
         List<Quest> objectList = new ArrayList<>();
         while (resultSet.next()) {
             int ID = resultSet.getInt(1);
@@ -196,7 +198,8 @@ public class DAOMentorHelper {
     }
 
 
-    private List<Artifact> getAllArtifacts(ResultSet resultSet) throws SQLException {
+    public List<Artifact> getAllArtifacts() throws SQLException {
+        ResultSet resultSet = connection.prepareStatement(GET_ALL_ARTIFACTS).executeQuery();
         List<Artifact> objectList = new ArrayList<>();
         while (resultSet.next()) {
             int ID = resultSet.getInt(1);
@@ -210,7 +213,8 @@ public class DAOMentorHelper {
     }
 
 
-    private List<Codecooler> getAllCodecoolers(ResultSet resultSet) throws SQLException {
+    public List<Codecooler> getAllCodecoolers() throws SQLException {
+        ResultSet resultSet = connection.prepareStatement(GET_CODECOOLERS).executeQuery();
         List<Codecooler> objectList = new ArrayList<>();
         while (resultSet.next()) {
             int userID = resultSet.getInt(1);

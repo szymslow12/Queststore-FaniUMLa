@@ -1,7 +1,10 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.Quest;
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,8 +17,42 @@ public class DAOMentor implements DAOMentorInterface {
 
     public DAOMentor(Connection connection) {
         this.connection = connection;
-        this.helper = new DAOMentorHelper();
+        this.helper = new DAOMentorHelper(connection);
     }
+
+    public List<Codecooler> getAllStudents() {
+        List<Codecooler> students = new ArrayList<>();
+        try {
+            students = helper.getAllCodecoolers();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+
+    public List<Quest> getAllQuests() {
+        List<Quest> quests = new ArrayList<>();
+        try {
+            quests = helper.getAllQuests();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quests;
+    }
+
+    public List<Artifact> getAllArtifacts() {
+        List<Artifact> artifacts = new ArrayList<>();
+        try {
+            artifacts = helper.getAllArtifacts();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return artifacts;
+    }
+
 
 
     public void addNewCodecooler() {

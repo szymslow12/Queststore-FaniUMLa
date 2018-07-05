@@ -7,19 +7,18 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/store.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
           crossorigin="anonymous">
     <script src="../../js/main.js"></script>
     <script src="../../js/store.js"></script>
 </head>
 <body>
-<script>var view = "Store";</script>
+<script>var view = "Discard";</script>
 <script>createHeader("Student!")</script>
-<script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Store")</script>
-<script>createStoreHeader(200)</script>
-<script>createButtons(["Basic items", "Magic items"],
-"createStoreTable(['Name', 'Description', 'Price', 'Buy'], this.id)", true)
-</script>
+<script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Discard")</script>
+<script>createButtons(['first', 'second', 'third', 'fourth', 'fifth'],
+ "createStoreTable(['Name', 'Description', 'Price', 'Buy'], this.id)", false)</script>
 <script>includeFooter()</script>
 
 </body>
