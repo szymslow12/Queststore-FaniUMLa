@@ -485,11 +485,6 @@ function fillRows(columnsData, columnsToFill) {
 
 function purchaseArtifact(artifactID) {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if(xhttp.readyState == 4 && xhttp.status == 200) {
-            alert(xhttp.responseText);
-        }
-    };
-    xhttp.open("POST", "/daoStudentController?method=Buy", true);
-    xhttp.send(artifactID);
+    xhttp.open("POST", "/daoStudentController?method="+artifactID, true);
+    xhttp.send();
 }
