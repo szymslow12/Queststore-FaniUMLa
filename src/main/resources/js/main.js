@@ -436,6 +436,7 @@ function createSelectElements(container, optionsArray) {
         label.textContent = optionsArray[i];
 
         var pickList = document.createElement("select");
+        pickList.setAttribute("name", "Classes");
         pickList.multiple = true;
          var xhttp = new XMLHttpRequest();
          var optionList = [];

@@ -35,6 +35,9 @@ public class DAOAdminHelper {
     private final String DELETE_MENTOR = "DELETE FROM users WHERE id_user = ?";
     private final String DELETE_CLASS = "DELETE FROM classes WHERE id_class = ?";
     private final String DELETE_LEVEL = "DELETE FROM levels WHERE id_level = ?";
+    private final String UPDATE_MENTORS_CLASSES = "INSERT INTO mentors_classes (id_mentor, id_class) " +
+            "VALUES(?,?)";
+    private final String FIND_CLASS_ID = "Select id_class FROM classes WHERE class_name = ?";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -102,7 +105,7 @@ public class DAOAdminHelper {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(ADD_MENTOR);
-            for(int i = 0; i< userData.size(); i++) {
+            for(int i = 0; i< 6; i++) {
                 query.setString(i+1, userData.get(i));
             }
             query.setString(7, "MENTOR");
@@ -111,6 +114,43 @@ public class DAOAdminHelper {
         }
         return query;
     }
+
+
+    public void updateMentors_classes(ArrayList<String> userData) {
+        ArrayList<Integer> idClassesList = getClassesID(userData);
+        Integer mentorId = getMentorID(userData);
+        try {
+            for(int i = 0; i < idClassesList.size(); i++) {
+                PreparedStatement query = connection.prepareStatement(UPDATE_MENTORS_CLASSES);
+                query.setInt(1, mentorId);
+                query.setInt(2, idClassesList.get(i));
+                query.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Integer getMentorID(ArrayList<String> userData) {
+        int id = getUserId(userData);
+        ResultSet rs;
+
+
+        Integer id_mentor = null;
+        try {
+            PreparedStatement query = connection.prepareStatement("Select id_mentor FROM mentors WHERE ? = id_user");
+            query.setInt(1,id);
+            rs = query.executeQuery();
+            while(rs.next()) {
+                id_mentor = rs.getInt("id_mentor");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id_mentor;
+    }
+
 
     public void updateMentors(ArrayList<String> userData) {
         Integer user_id = getUserId(userData);
@@ -138,11 +178,30 @@ public class DAOAdminHelper {
         return user_id;
     }
 
+    private ArrayList<Integer> getClassesID (ArrayList<String> userData) {
+        ResultSet rs;
+        ArrayList<Integer> idClassList = new ArrayList<>();
+        PreparedStatement query = null;
+        for (int i = 6; i < userData.size(); i++) {
+            try {
+                query = connection.prepareStatement(FIND_CLASS_ID);
+                query.setString(1, userData.get(i));
+                rs = query.executeQuery();
+                while (rs.next()) {
+                    Integer id_class = rs.getInt("id_class");
+                    idClassList.add(id_class);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return idClassList;
+    }
     private PreparedStatement prepareQuerryForGetUserID(ArrayList<String>userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(FIND_ID);
-            for(int i = 0; i< userData.size(); i++) {
+            for(int i = 0; i< 6; i++) {
                 query.setString(i+1, userData.get(i));
             }
         } catch (SQLException e) {
@@ -151,6 +210,18 @@ public class DAOAdminHelper {
         return query;
     }
 
+    private PreparedStatement prepareQuerryForGetClassID(ArrayList<String>userData) {
+        PreparedStatement query = null;
+        try {
+            query = connection.prepareStatement(FIND_CLASS_ID);
+            for(int i = 6; i< userData.size(); i++) {
+                query.setString(i+1, userData.get(i));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return query;
+    }
     public PreparedStatement prepareQueryForUpdatedMentor(String column_name, String changedWord, Integer idUser) {
         PreparedStatement query = null;
         String UPDATE_COLUMN = "UPDATE users SET "+ column_name + " = " + "?" +  " WHERE id_user=" + idUser +";";
@@ -208,5 +279,6 @@ public class DAOAdminHelper {
             e.printStackTrace();
         }
     }
+
 }
 

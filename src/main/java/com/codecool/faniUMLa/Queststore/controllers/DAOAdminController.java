@@ -111,6 +111,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String phone_number = String.valueOf(inputs.get("Surname"));
         String user_login = StringUtils.generateString();
         String user_password = StringUtils.generateString();
+        String classes = String.valueOf(inputs.get("Classes"));
 
         ArrayList<String> mentorsData = new ArrayList<>();
         mentorsData.add(first_name);
@@ -119,6 +120,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         mentorsData.add(phone_number);
         mentorsData.add(user_login);
         mentorsData.add(user_password);
+        mentorsData.add(classes);
 
         daoAdmin.createMentor(mentorsData);
         return this.getFile("html/admin/Mentors.html");
