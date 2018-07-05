@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.Inventory;
 
@@ -39,5 +40,10 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     @Override
     public Inventory getBoughtArtifacts(int codecoolerID) {
         return helper.getBoughtArtifacts(codecoolerID);
+    }
+
+    @Override
+    public List<Quest> getDoneQuests(int codecoolerID) {
+        return helper.getDoneQuests(codecoolerID);
     }
 }
