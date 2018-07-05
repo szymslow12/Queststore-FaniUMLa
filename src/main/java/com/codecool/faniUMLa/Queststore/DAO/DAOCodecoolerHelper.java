@@ -21,6 +21,7 @@ public class DAOCodecoolerHelper {
     private Connection connection;
     private final String GET_COOLCOINS = "SELECT coolcoins FROM codecoolers WHERE id_user = ?;";
     private final String GET_LEVEL = "SELECT id_level FROM codecoolers WHERE id_codecooler = ?;";
+    private final String GET_ARTIFACTS_BY_CATEGORY = "SELECT * FROM artifacts WHERE category_id = ?";
     private final String GET_ARTIFACTS = "SELECT * FROM artifacts";
     private final String ADD_ITEM = "INSERT INTO artifacts_codecooleres VALUES (?, ?, ?);";
     private final String GET_GROUP = "SELECT * FROM groups WHERE id_artifact = ?;";
@@ -139,9 +140,32 @@ public class DAOCodecoolerHelper {
         return artifact.getCategory().getCategoryID() == 1;
     }
 
-    public List<Artifact> showArtifacts() {
-        List<Artifact> artifacts = getArtifacts();
+    public List<Artifact> showArtifacts(int categoryID) {
+        List<Artifact> artifacts = getArtifacts(categoryID);
         view.displayList(artifacts, "Welcome in a shop!");
+        return artifacts;
+    }
+
+    private List<Artifact> getArtifacts(int categoryID) {
+        List<Artifact> artifacts = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(GET_ARTIFACTS_BY_CATEGORY);
+            ((PreparedStatement) stmt).setInt(1, categoryID);
+            rs =  ((PreparedStatement) stmt).executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_artifact");
+                String name = rs.getString("artifact_name");
+                int category_id = rs.getInt("category_id");
+                int price = rs.getInt("price");
+                String description = rs.getString("description");
+                artifacts.add(new Artifact(id, name, new ArtifactCategory(category_id), price, description));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return artifacts;
     }
 
@@ -151,7 +175,7 @@ public class DAOCodecoolerHelper {
         ResultSet rs = null;
         try {
             stmt = connection.createStatement();
-            rs = stmt.executeQuery(GET_ARTIFACTS);
+            rs =  stmt.executeQuery(GET_ARTIFACTS);
 
             while (rs.next()) {
                 int id = rs.getInt("id_artifact");

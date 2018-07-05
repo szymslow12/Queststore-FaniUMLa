@@ -33,8 +33,8 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     }
 
     @Override
-    public List<Artifact> showArtifacts() {
-        return helper.showArtifacts();
+    public List<Artifact> showArtifacts(int categoryID) {
+        return helper.showArtifacts(categoryID);
     }
 
     @Override

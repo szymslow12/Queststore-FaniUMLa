@@ -14,7 +14,7 @@ public interface DAOCodecoolerInterface {
 
     void buyArtifact(int idUser, int idArtifact);
 
-    List<Artifact> showArtifacts();
+    List<Artifact> showArtifacts(int categoryID);
 
     Inventory getBoughtArtifacts(int codecoolerID);
 
