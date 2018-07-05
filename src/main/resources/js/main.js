@@ -433,6 +433,7 @@ function createSelectElements(container, optionsArray) {
 }
 
 function createStoreTable(array, id) {
+    var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
         createTable(array, "Store");
         moveStoreTableBeforeFooter();
