@@ -170,7 +170,6 @@ function createTable(array, view) {
                     var data = document.createElement("td");
                     var button = createSubmitButton("buy", entries[x]["artifact_id"]);
                     button.setAttribute("class", imgDict[array[i]]+ " functionButton");
-
                     data.appendChild(button);
 
                     } else if (array[i] == "Give") {
@@ -270,7 +269,12 @@ function handleSubmit(actionLabel, itemID) {
     button1.setAttribute("class", "button functionButton item"+itemID);
     button1.setAttribute("id", "confirm-button");
     textArea.appendChild(button1);
-    button1.addEventListener("click", function () { confirmAll(div) });
+    button1.addEventListener("click", function () {
+        confirmAll(div);
+        var artifactID = this.className.charAt(this.className.length - 1);
+        console.log("item bought, item id = " + artifactID);
+        purchaseArtifact(artifactID);
+    });
 
     var button2 = createButton("No");
     button2.setAttribute("class", "button functionButton");
@@ -477,4 +481,15 @@ function fillRows(columnsData, columnsToFill) {
             columns[j].textContent = columnsData[i][j];
         }
     }
+}
+
+function purchaseArtifact(artifactID) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if(xhttp.readyState == 4 && xhttp.status == 200) {
+            alert(xhttp.responseText);
+        }
+    };
+    xhttp.open("POST", "/daoStudentController?method=Buy", true);
+    xhttp.send(artifactID);
 }
