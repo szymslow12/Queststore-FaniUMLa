@@ -139,6 +139,10 @@ function createTable(array, view) {
                 var col = document.createElement("td");
                 col.textContent = array[i];
                 rowH.appendChild(col);
+
+                if (array[i] == "ID") {
+                    col.style.display = "none";
+                }
             }
             table.appendChild(rowH);
 
@@ -153,7 +157,8 @@ function createTable(array, view) {
                         if (array[i] == "See Details") {
                             var button = createFormButton("", formArray, selectArray, true, view, x);
                         } else {
-                            var button = createFormButton("", formArray, selectArray, false, view, x);
+                            formArray.push("ID");
+                            var button = createEditFormButton(formArray, selectArray, view, x);
                         }
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
@@ -169,7 +174,7 @@ function createTable(array, view) {
                         var button = createSubmitButton("buy");
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
                     } else if (array[i] == "Give") {
                         var data = document.createElement("td");
@@ -177,7 +182,13 @@ function createTable(array, view) {
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
                         data.appendChild(button);
 
-                    } else {
+                    } else if (array[i] == "ID") {
+                        var data = document.createElement("td");
+                        data.textContent = entries[x][array[i]];
+                        data.setAttribute("id", "id");
+                        data.style.display = "none";
+                    }
+                     else {
                         var data = document.createElement("td");
                         data.textContent = entries[x][array[i]];
                     }
@@ -223,7 +234,6 @@ function getSelectArray(view) {
 function getArrayForForm(view) {
     var formArray = ["First Name", "Last Name", "Phone", "Email"];
     if (view == "Students") {
-        formArray.push("Wallet")
         formArray.push("Class");
 
     } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
@@ -290,9 +300,59 @@ function createFormButton(name, inputsArray, optionsArray, boolean, view, index)
     return button;
 }
 
+function createEditFormButton(inputsArray, optionsArray, view, index) {
+    var button = createButton("");
+    button.addEventListener("click", function () { createEditForm(inputsArray, optionsArray, view, index)});
+    document.body.appendChild(button);
+    return button;
+}  
+
+function createEditForm(inputsArray, optionsArray, view, index) {
+    var div = document.createElement("div");
+    div.setAttribute("class", "form-container");
+    var form = document.createElement("form");
+    form.setAttribute("id", "form");
+    var container = document.createElement("div");
+    container.setAttribute("class", "container");
+    container.setAttribute("id", "container");
+
+    for (var i = 0; i < inputsArray.length; i++) {
+        var labelContainer = document.createElement("div");
+        var label = document.createElement("label");
+        labelContainer.appendChild(label);
+        label.textContent = inputsArray[i];
+        var input = document.createElement("input");
+        labelContainer.appendChild(input);
+            input.addEventListener("click", function () {
+                this.setAttribute('required', true);
+                document.getElementById("accept").setAttribute("type", "submit");
+                document.getElementById("form").setAttribute("method", "post");
+                var formInputs = document.getElementById("form").getElementsByTagName("input");
+                for (var j = 0; j < formInputs.length; j++) {
+                    formInputs[j].setAttribute("name", inputsArray[j]);
+                }
+                this.value = '';
+                history.replaceState(null, null, '/edit' + view);
+            });
+        container.appendChild(labelContainer);
+
+        if (inputsArray[i] == "ID") {
+            labelContainer.style.display = "none";
+        }
+    }
+    form.appendChild(container);
+    fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
+    div.appendChild(form);
+    var button = createButton("Save");
+    button.setAttribute("id", "accept");
+    // button.addEventListener("click", function() { history.pushState(null, null, '/' + view) });
+    form.appendChild(button);
+    document.body.appendChild(div);
+}
+
 function confirm(div, view, index) {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function()  {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.body = this.response;
         }
@@ -323,15 +383,14 @@ function displayForm() {
 function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
-    form.method='post';
-
+    form.method = 'post';
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
     container.setAttribute("id", "container");
 
     if (!name.includes("Add")) {
-        createInputElements(container, inputsArray, boolean, view);
+        createInputElements(container, inputsArray, boolean, form);
         fullfillInputs("container", "/DAOUserController?method=" + view + "?id=" + index);
     } else {
         createInputElements(container, inputsArray, boolean);
@@ -339,43 +398,47 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     createSelectElements(container, optionsArray);
     form.appendChild(container);
 
-    var button = createButton("Save");
+    if (name != "") {
+        var button = createButton("Add");
+    } else {
+        var button = createButton("Close");
+    }
     button.setAttribute("class", "button save-button form-button");
 
-    if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-        button.setAttribute("onclick", "setStudentList();return false");
-    }
+    // if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
+    //     button.setAttribute("onclick", "setStudentList();return false");
+    // }
     form.appendChild(button);
     document.body.appendChild(form);
 
 }
 
-function setStudentList() {
-    var div = document.createElement("div")
-    div.setAttribute("class", "text-container");
-    var form = document.createElement("form");
-    div.appendChild(form);
-    form.setAttribute("class", "text-area");
+// function setStudentList() {
+//     var div = document.createElement("div")
+//     div.setAttribute("class", "text-container");
+//     var form = document.createElement("form");
+//     div.appendChild(form);
+//     form.setAttribute("class", "text-area");
 
-    var formArray = ["First Name Last Name"];
-    for (var j = 0; j < 10; j++) {
-        for (var i = 0; i < formArray.length; i++) {
-            var label = document.createElement("label");
-            label.textContent = formArray[i];
-            form.appendChild(label);
-            var checkbox = document.createElement("input");
-            checkbox.setAttribute("type", "checkbox");
-            form.appendChild(checkbox);
-        }
-    }
-    var button = createButton("Save");
-    button.setAttribute("class", "button functionButton");
-    button.setAttribute("type", "submit");
-    form.appendChild(button);
-    document.body.appendChild(div);
-}
+//     var formArray = ["First Name Last Name"];
+//     for (var j = 0; j < 10; j++) {
+//         for (var i = 0; i < formArray.length; i++) {
+//             var label = document.createElement("label");
+//             label.textContent = formArray[i];
+//             form.appendChild(label);
+//             var checkbox = document.createElement("input");
+//             checkbox.setAttribute("type", "checkbox");
+//             form.appendChild(checkbox);
+//         }
+//     }
+//     var button = createButton("Save");
+//     button.setAttribute("class", "button functionButton");
+//     button.setAttribute("type", "submit");
+//     form.appendChild(button);
+//     document.body.appendChild(div);
+// }
 
-function createInputElements(container, inputsArray, boolean) {
+function createInputElements(container, inputsArray, boolean, form) {
 
     for (var i = 0; i < inputsArray.length; i++) {
         var div = document.createElement("div");
@@ -386,16 +449,19 @@ function createInputElements(container, inputsArray, boolean) {
 
         var input = document.createElement("input");
         input.setAttribute("required", "");
-        input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
         container.appendChild(div);
         if (boolean) {
             input.setAttribute("readOnly", true);
+            form.removeAttribute("method");
             // input.style.backgroundColor = "grey";
         } else {
+            input.setAttribute("name", inputsArray[i]);
             input.addEventListener("click", function () { this.setAttribute('required', true) });
-            input.addEventListener("click", function () { this.value = '' });
+            input.addEventListener("click", function () {
+                this.value = '';
+            });
         }
     }
 }
