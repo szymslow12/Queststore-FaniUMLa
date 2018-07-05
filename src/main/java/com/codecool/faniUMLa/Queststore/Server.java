@@ -27,6 +27,7 @@ public class Server {
         server.createContext("/js/login-button.js", new Static());
         server.createContext("/daoAdminController", new DAOAdminController());
         server.createContext("/daoMentorController", new DAOMentorController());
+        server.createContext("/daoStudentController", new DAOStudentController());
         server.createContext("/DAOUserController", new DAOUserController());
         server.createContext("/js/store.js", new Static());
         server.createContext("/css/main.css", new Static());
