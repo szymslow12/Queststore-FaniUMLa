@@ -26,7 +26,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
             JSONArray json;
             JSONObject jsonObject;
             switch (subSiteName) {
-                case "Artifacts":
+                case "Store":
                     List<Artifact> artifactList = daoCodecooler.showArtifacts();
                     json = new JSONArray();
                     for (Artifact artifact: artifactList) {
