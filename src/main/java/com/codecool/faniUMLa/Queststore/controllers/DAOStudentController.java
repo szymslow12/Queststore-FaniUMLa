@@ -92,6 +92,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
         JSONArray json = new JSONArray();
         for (Artifact artifact: artifactList) {
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("artifact_id", artifact.getArtifactID());
             jsonObject.put("Name", artifact.getName());
             jsonObject.put("Description", artifact.getDescription());
             jsonObject.put("Price", artifact.getPrice());
