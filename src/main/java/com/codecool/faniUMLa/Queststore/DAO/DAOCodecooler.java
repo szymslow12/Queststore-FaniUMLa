@@ -28,8 +28,8 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     }
 
     @Override
-    public void buyArtifact(int idUser, int idArtifact) {
-        helper.buyArtifact(idUser, idArtifact);
+    public boolean buyArtifact(int idUser, int idArtifact) {
+        return helper.buyArtifact(idUser, idArtifact);
     }
 
     @Override

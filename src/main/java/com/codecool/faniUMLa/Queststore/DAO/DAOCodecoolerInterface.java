@@ -12,7 +12,7 @@ public interface DAOCodecoolerInterface {
 
     String getLevel(int id);
 
-    void buyArtifact(int idUser, int idArtifact);
+    boolean buyArtifact(int idUser, int idArtifact);
 
     List<Artifact> showArtifacts(int categoryID);
 
