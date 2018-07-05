@@ -83,26 +83,38 @@ public class DAOUserController extends UriController implements HttpHandler {
 
             }
 
-            try {
-                httpExchange.sendResponseHeaders(200, response.length());
-                OutputStream os = httpExchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } if (method.equals("POST")) {
             switch (subSiteName) {
                 case "deleteArtifacts":
                     daoMentor.deleteArtifact(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Artifacts.html");
                     break;
                 case "deleteStudents":
                     daoMentor.deleteStudent(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Students.html");
                     break;
                 case "deleteQuests":
                     daoMentor.deleteQuest(getParameter(httpExchange.getRequestURI().getQuery()));
+                    response = getFile("html/mentor/Quests.html");
+                    break;
+                case "deleteMentors":
+                    daoAdmin.deleteMentor(getParameter(httpExchange.getRequestURI().getQuery()));
+                    break;
+                case "deleteClasses":
+                    daoAdmin.deleteClass(getParameter(httpExchange.getRequestURI().getQuery()));
+                    break;
+                case "deleteLevels":
+                    daoAdmin.deleteLevel(getParameter(httpExchange.getRequestURI().getQuery()));
                     break;
             }
+        }
+        try {
+            httpExchange.sendResponseHeaders(200, response.length());
+            OutputStream os = httpExchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

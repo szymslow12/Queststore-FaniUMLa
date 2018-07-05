@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DAOAdmin implements DAOAdminInterface {
     private DAOAdminHelper helper;
@@ -22,7 +23,7 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
-    public ArrayList<String> getAllClasses() {
+    public Map<String, Integer> getAllClasses() {
         return helper.getAllClasses();
     }
 
@@ -73,6 +74,18 @@ public class DAOAdmin implements DAOAdminInterface {
     }
     public void createLevel(String levelName, Integer thresholdLevel){
         helper.addLevel(levelName, thresholdLevel);
+    }
+
+    public void deleteMentor(int index) {
+        helper.deleteMentor(index);
+    }
+
+    public void deleteClass(int index) {
+        helper.deleteClass(index);
+    }
+
+    public void deleteLevel(int index) {
+        helper.deleteLevel(index);
     }
 }
 

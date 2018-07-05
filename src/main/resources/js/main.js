@@ -78,14 +78,10 @@ function seeProfile() {
 
         if (i === 0 || i === 1 || i === 4) {
             input.setAttribute("readOnly", true);
-            // input.style.backgroundColor = "grey";
-        } else if (i != 5) {
-            input.addEventListener("click", function () { this.setAttribute('required', true) });
-            input.addEventListener("click", function () { this.value = '' });
+            input.style.backgroundColor = "grey";
         } else {
             input.addEventListener("click", function () { this.setAttribute('required', true) });
             input.addEventListener("click", function () { this.value = '' });
-            input.addEventListener("click", function () {  });
         }
     }
     var button = createButton("Save", );
@@ -148,7 +144,6 @@ function createTable(array, view) {
 
             for (x in entries) {
                 var row = document.createElement("tr");
-                row.setAttribute("id", "row" + x);
                 row.setAttribute("class", "tableRow");
                 for (var i = 0; i < array.length; i++) {
                     var formArray = getArrayForForm(view);
@@ -294,12 +289,13 @@ function confirm(div, view, index) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function()  {
         if (this.readyState == 4 && this.status == 200) {
+            document.body = this.response;
         }
     };
     xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
     xhttp.send();
     exit(div);
-    window.location.reload();
+    
 }
 
 function exit(div) {
@@ -322,6 +318,8 @@ function displayForm() {
 function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var form = document.createElement("form");
     form.setAttribute("id", "form");
+    form.method='post';
+
 
     var container = document.createElement("div");
     container.setAttribute("class", "container");
@@ -339,9 +337,7 @@ function createForm(name, inputsArray, optionsArray, boolean, view, index) {
     var button = createButton("Save");
     button.setAttribute("class", "button save-button form-button");
 
-
     if (inputsArray.length == 0 && optionsArray.length > 0 && optionsArray[0] == "Class") {
-
         button.setAttribute("onclick", "setStudentList();return false");
     }
     form.appendChild(button);
@@ -368,7 +364,8 @@ function setStudentList() {
         }
     }
     var button = createButton("Save");
-    button.setAttribute("class", "button functionButton")
+    button.setAttribute("class", "button functionButton");
+    button.setAttribute("type", "submit");
     form.appendChild(button);
     document.body.appendChild(div);
 }
@@ -384,13 +381,10 @@ function createInputElements(container, inputsArray, boolean) {
 
         var input = document.createElement("input");
         input.setAttribute("required", "");
+        input.setAttribute("name", inputsArray[i]);
         div.appendChild(input);
 
         container.appendChild(div);
-
-        if (view == "Students" && inputsArray[i] == "Class") {
-            boolean = true;
-        }
         if (boolean) {
             input.setAttribute("readOnly", true);
             // input.style.backgroundColor = "grey";

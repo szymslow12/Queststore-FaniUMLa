@@ -79,7 +79,7 @@ public class AppController extends Controller implements HttpHandler {
         os.close();
     }
 
-    private String getFile(String filepath) {
+    public String getFile(String filepath) {
         StringBuilder result = new StringBuilder("");
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(filepath).getFile());

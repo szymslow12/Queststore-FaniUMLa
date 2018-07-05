@@ -11,7 +11,7 @@ import java.net.InetSocketAddress;
 
 public class Server {
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8001),0);
         server.createContext("/Admin", new AppController());
         server.createContext("/Classes", new AppController());
         server.createContext("/Levels", new AppController());
