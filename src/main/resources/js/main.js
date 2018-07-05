@@ -433,7 +433,6 @@ function createSelectElements(container, optionsArray) {
 }
 
 function createStoreTable(array, id) {
-    var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
         createTable(array, "Store");
         moveStoreTableBeforeFooter();
@@ -448,7 +447,6 @@ function createStoreTable(array, id) {
 
 function moveStoreTableBeforeFooter() {
     var table = document.getElementById("table_content");
-    console.log(table);
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
