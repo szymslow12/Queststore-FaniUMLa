@@ -73,7 +73,8 @@ public class DAOStudentController extends UriController implements HttpHandler {
             }
 
             try {
-                if (subSiteName.equals("Store2"))
+                System.out.println(response.length() + "--" + response.getBytes().length);
+                if (response.length() < response.getBytes().length)
                     httpExchange.sendResponseHeaders(200, response.length() + 1);
                 else
                     httpExchange.sendResponseHeaders(200, response.length());
@@ -85,7 +86,6 @@ public class DAOStudentController extends UriController implements HttpHandler {
             }
         } else if (method.equals("POST")) {
             int artifactID = getParameter(httpExchange.getRequestURI().getQuery());
-            System.out.println(artifactID);
             daoCodecooler.buyArtifact(1, artifactID);
         }
     }
