@@ -208,7 +208,8 @@ function createTable(array, view) {
             break;
         case "Inventory":
         case "Quests":
-        case "Store":
+        case "Store1":
+        case "Store2":
         case "Discard":
             xhttp.open("GET", "/daoStudentController?method=" + view, true);
             xhttp.send();
@@ -434,14 +435,24 @@ function createSelectElements(container, optionsArray) {
 
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
+    var categoryID = getCategoryID(id);
     if (tables.length == 0) {
-        createTable(array, "Store");
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "Store");
+        createTable(array, "Store" + categoryID);
         moveStoreTableBeforeFooter();
+    }
+}
+
+
+function getCategoryID(buttonID) {
+    if (buttonID == 'basic-items') {
+        return 1;
+    } else {
+        return 2;
     }
 }
 
@@ -452,22 +463,6 @@ function moveStoreTableBeforeFooter() {
     buttonContainer.appendChild(table);
 }
 
-
-function fillStoreTable(id) {
-    if (id == "basic-items") {
-        var basicItems = [['Combat training', 'Private mentoring', '50 cc'],
-        ['Sanctuary', 'You can spend a day in home office', '300 cc'],
-        ['Time Travel', 'Extend SI week assignment deadline by one day', '500 cc']];
-        fillRows(basicItems, basicItems[0].length);
-    } else {
-        var magicItems = [['Circle of Sorcery', '60 min workshop by a mentor(s) of the chosen topic', '1000 cc'],
-        ['Summon Code Elemental', "Mentor joins a students' team for a one hour", '1000 cc'],
-        ['Tome of knowledge', 'Extra material for the current topic', '500 cc'],
-        ['Transform mentors', 'All mentors should dress up as pirates (or just funny) for the day', '5000 cc'],
-        ['Teleport', 'The whole course goes to an off-school program instead for a day', '30000 cc']];
-        fillRows(magicItems, magicItems[0].length);
-    }
-}
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
