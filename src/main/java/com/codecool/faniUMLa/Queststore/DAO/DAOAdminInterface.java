@@ -13,9 +13,11 @@ public interface DAOAdminInterface {
     void createMentor(ArrayList<String> userData);
     void editMentor(String column_name, String changedWord, Integer idUser);
     void createLevel(String levelName, Integer thresholdLevel);
-    Map<String, Integer> getAllClasses();
+    Map<Integer, String> getAllClasses();
     ArrayList<Level> getAllLevels();
     void deleteMentor(int index);
     void deleteClass(int index);
     void deleteLevel(int index);
+    void editClass(int index, String name);
+    void editLevel(int index, String name, int exps);
 }

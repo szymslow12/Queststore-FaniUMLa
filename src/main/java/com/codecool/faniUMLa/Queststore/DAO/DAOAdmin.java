@@ -23,7 +23,7 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
-    public Map<String, Integer> getAllClasses() {
+    public Map<Integer, String> getAllClasses() {
         return helper.getAllClasses();
     }
 
@@ -87,5 +87,9 @@ public class DAOAdmin implements DAOAdminInterface {
     public void deleteLevel(int index) {
         helper.deleteLevel(index);
     }
+
+    public void editClass(int index, String name) { helper.editClass(index, name);}
+
+    public void editLevel(int index, String name, int exp) { helper.editLevel(index, name, exp);}
 }
 

@@ -36,6 +36,9 @@ public class DAOAdminHelper {
     private final String DELETE_CLASS = "DELETE FROM classes WHERE id_class = ?";
     private final String DELETE_LEVEL = "DELETE FROM levels WHERE id_level = ?";
 
+    private final String UPDATE_CLASS = "UPDATE classes SET class_name= ? WHERE id_class = ?";
+    private final String UPDATE_LEVEL = "UPDATE levels SET level_name  = ?, threshold_level= ? WHERE id_level = ?";
+
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
     }
@@ -51,8 +54,8 @@ public class DAOAdminHelper {
         }
     }
 
-    public Map<String, Integer> getAllClasses() {
-        Map<String, Integer> classList = new HashMap<>();
+    public Map<Integer, String> getAllClasses() {
+        Map<Integer, String> classList = new HashMap<>();
         ResultSet rs;
         PreparedStatement query;
         try {
@@ -61,7 +64,7 @@ public class DAOAdminHelper {
             while (rs.next()) {
                 String class_name = rs.getString("class_name");
                 Integer class_id = rs.getInt("id_class");
-                classList.put(class_name, class_id);
+                classList.put(class_id, class_name);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -162,6 +165,32 @@ public class DAOAdminHelper {
             e.printStackTrace();
         }
         return query;
+    }
+
+    public void editClass(int index, String name) {
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(UPDATE_CLASS);
+            query.setString(1, name);
+            query.setInt(2, index);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editLevel(int index, String name, int exp) {
+        PreparedStatement query;
+
+        try {
+            query = connection.prepareStatement(UPDATE_LEVEL);
+            query.setString(1, name);
+            query.setInt(2, exp);
+            query.setInt(3, index);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addLevel(String level_name, Integer threshold_level) {
