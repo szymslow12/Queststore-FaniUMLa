@@ -74,6 +74,7 @@ function seeProfile() {
         label.textContent = formArray[i];
         labelDiv.appendChild(label);
         var input = document.createElement("input");
+        input.value = formArray[i];
         labelDiv.appendChild(input);
 
         if (i === 0 || i === 1 || i === 4) {
@@ -169,7 +170,7 @@ function createTable(array, view) {
                         var button = createSubmitButton("buy");
                         button.setAttribute("class", imgDict[array[i]] + " functionButton");
 
-                    data.appendChild(button);
+                        data.appendChild(button);
 
                     } else if (array[i] == "Give") {
                         var data = document.createElement("td");
@@ -204,6 +205,13 @@ function createTable(array, view) {
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
             xhttp.send();
             break;
+        case "Inventory":
+        case "Quests":
+        case "Store":
+        case "Discard":
+            xhttp.open("GET", "/daoStudentController?method=" + view, true);
+            xhttp.send();
+            break;
     }
 }
 
@@ -226,14 +234,13 @@ function getArrayForForm(view) {
         formArray.push("Wallet")
         formArray.push("Class");
 
-    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
+    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts") {
         formArray = ["Name"];
     }
     if (view == "Levels") {
         formArray.push("Level Threshold");
     }
     if (view == "Quests") {
-        formArray.push("Category");
         formArray.push("Description");
         formArray.push("Award");
     }
@@ -300,7 +307,7 @@ function confirm(div, view, index) {
     xhttp.open("POST", "/DAOUserController?method=delete" + view + "?id=" + index, true);
     xhttp.send();
     exit(div);
-
+    
 }
 
 function exit(div) {
@@ -465,14 +472,12 @@ function createSelectElements(container, optionsArray) {
 function createStoreTable(array, id) {
     var tables = document.getElementsByTagName("table");
     if (tables.length == 0) {
-        createTable(array, "Artifacts", "/daoStudentController?method=");
-        //fillStoreTable(id);
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     } else {
         var table = tables[0];
         table.remove();
-        createTable(array, "Artifacts", "/daoStudentController?method=");
-        //fillStoreTable(id);
+        createTable(array, "Store");
         moveStoreTableBeforeFooter();
     }
 }
@@ -480,7 +485,6 @@ function createStoreTable(array, id) {
 
 function moveStoreTableBeforeFooter() {
     var table = document.getElementById("table_content");
-    console.log(table);
     var buttonContainer = document.getElementsByClassName("button-container")[0];
     buttonContainer.appendChild(table);
 }
@@ -504,10 +508,8 @@ function fillStoreTable(id) {
 
 function fillRows(columnsData, columnsToFill) {
     var rows = document.getElementsByClassName("tableRow");
-    console.log(rows + " - " + rows.length);
     for (i = 0; i < columnsData.length; i++) {
         var row = rows[i];
-        console.log(row);
         var columns = row.getElementsByTagName("td");
         for (j = 0; j < columnsToFill; j++) {
             columns[j].textContent = columnsData[i][j];

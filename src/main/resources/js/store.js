@@ -28,7 +28,26 @@ function createButton(name, id, onClick) {
     return button;
 }
 
-function createStoreHeader(coolcoins) {
+function createStoreHeader() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            storeHeader();
+        }
+    }
+    /*var storeHeader = document.createElement("h3");
+    storeHeader.setAttribute("class", "store-header")
+    var coinSymbol = document.createElement("i");
+    coinSymbol.setAttribute('class', "fas fa-dollar-sign");
+    var headerText = document.createTextNode("You have " + coolcoins + " ");
+    storeHeader.appendChild(headerText);
+    storeHeader.appendChild(coinSymbol);
+    storeHeader.appendChild(document.createTextNode(" , you can buy following items:"));
+    document.body.appendChild(storeHeader);*/
+}
+
+
+function storeHeader() {
     var storeHeader = document.createElement("h3");
     storeHeader.setAttribute("class", "store-header")
     var coinSymbol = document.createElement("i");

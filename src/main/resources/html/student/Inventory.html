@@ -13,7 +13,8 @@
     <script src="../../js/main.js"></script>
     <script src="../../js/store.js"></script>
     <style>#table_content {
-                margin-left: 30%;
+                display: flex;
+                justify-content: center;
            }
     </style>
 </head>
@@ -21,7 +22,7 @@
 <script>var view = "Inventory";</script>
 <script>createHeader("Student!")</script>
 <script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Inventory")</script>
-<script>createTable(['Name', 'Description', 'Price', 'Amount'], "Inventory", "/daoStudentController?method=")</script>
+<script>createTable(['Name', 'Description', 'Price', 'Amount'], "Inventory")</script>
 <script>includeFooter()</script>
 
 </body>

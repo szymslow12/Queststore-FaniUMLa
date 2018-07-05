@@ -12,16 +12,17 @@
           crossorigin="anonymous">
     <script src="../../js/main.js"></script>
     <script src="../../js/store.js"></script>
-    <style>table {
-                margin-top: 50px;
+    <style>#table_content {
+                display: flex;
+                justify-content: center;
            }
     </style>
 </head>
 <body>
 <script>var view = "Inventory";</script>
 <script>createHeader("Student!")</script>
-<script>createMenu(['Store', 'Inventory', 'Quests'], "Inventory")</script>
-<script>createTable(['Name', 'Category', 'Description', 'Amount'])</script>
+<script>createMenu(['Store', 'Inventory', 'Quests', 'Discard'], "Inventory")</script>
+<script>createTable(['Name', 'Description', 'Price', 'Amount'], "Inventory")</script>
 <script>includeFooter()</script>
 
 </body>
