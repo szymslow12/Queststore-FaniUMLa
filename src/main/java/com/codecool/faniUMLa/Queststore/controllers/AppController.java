@@ -26,7 +26,6 @@ public class AppController extends Controller implements HttpHandler {
     public void handle (HttpExchange httpExchange) throws IOException {
         String response = "";
         String method = httpExchange.getRequestMethod();
-        System.out.println(httpExchange.getRequestURI().toString());
         if (method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {

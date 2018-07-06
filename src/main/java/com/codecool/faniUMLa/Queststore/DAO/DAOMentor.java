@@ -133,7 +133,8 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void deleteQuest(int index) {
-        helper.deleteQuest(index);
+
+        System.out.println(index);helper.deleteQuest(index);
     }
 
     public void deleteArtifact(int index) {

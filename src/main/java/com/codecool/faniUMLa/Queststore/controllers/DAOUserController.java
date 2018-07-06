@@ -1,6 +1,7 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.*;
+import com.codecool.faniUMLa.Queststore.model.Classroom;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,17 +86,18 @@ public class DAOUserController extends UriController implements HttpHandler {
                     response = obj.toString();
                     break;
                 case "Classes":
-                    Map<Integer, String> classes = daoAdmin.getAllClasses();
+                    List<Classroom> classes = daoAdmin.getAllClasses();
                     obj = new JSONObject();
-                    for (Integer key : classes.keySet()) {
-                        obj.put("ID", key);
-                        obj.put("Name", classes.get(key));
+                    for (Classroom classroom : classes) {
+                        obj.put("ID", classroom.getClass_id());
+                        obj.put("Class Name", classroom.getClass_name());
                     }
                     response = obj.toString();
                     break;
                 case "Levels":
                     List<Level> levels = daoAdmin.getAllLevels();
                     obj = new JSONObject();
+                    obj.put("ID", levels.get(getParameter(httpExchange.getRequestURI().getQuery())).getId_level());
                     obj.put("Name", levels.get(getParameter(httpExchange.getRequestURI().getQuery())).getLevel_name());
                     obj.put("Level Threshold", levels.get(getParameter(httpExchange.getRequestURI().getQuery())).getThreshold_level());
                     response = obj.toString();

@@ -84,7 +84,7 @@ function seeProfile() {
             input.addEventListener("click", function () { this.value = '' });
         }
     }
-    var button = createButton("Save", );
+    var button = createButton("Save");
     form.appendChild(button);
     button.setAttribute("class", "button functionButton");
     fullfillInputs("profile-container", "/DAOUserController?method=Profile");

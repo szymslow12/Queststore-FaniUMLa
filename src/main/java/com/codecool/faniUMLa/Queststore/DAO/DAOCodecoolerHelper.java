@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+
 import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.QuestCategory;
@@ -219,7 +220,7 @@ public class DAOCodecoolerHelper {
                 int category_id = rs.getInt("category_id");
                 int price = rs.getInt("price");
                 String description = rs.getString("description");
-                artifacts.add(new Artifact(id, name, new ArtifactCategory(category_id), price, description));
+                artifacts.add(new Artifact(id, name, category_id, price, description));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -409,7 +410,7 @@ public class DAOCodecoolerHelper {
                 int award = resultSet.getInt("award");
                 String name = resultSet.getString("quest_name");
                 String description = resultSet.getString("description");
-                doneQuests.add(new Quest(questID, new QuestCategory(categoryID), name, award, description));
+                doneQuests.add(new Quest(questID, categoryID, name, award, description));
             }
         } catch (SQLException err) {
             err.printStackTrace();
