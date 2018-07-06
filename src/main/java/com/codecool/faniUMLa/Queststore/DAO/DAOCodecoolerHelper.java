@@ -99,7 +99,7 @@ public class DAOCodecoolerHelper {
             try {
                 rs = studentArtQuery(idUser).executeQuery();
                 if (rs.next()) {
-                    if (rs.getInt("id_artifact") != artifact.getCategory().getCategoryID()) {
+                    if (rs.getInt("id_artifact") != artifact.getCategory()) {
                         int price = artifact.getPrice();
                         int money = getCoolcoins(idUser);
                         if (isAvailable(price, money)) {
@@ -195,7 +195,7 @@ public class DAOCodecoolerHelper {
     }
 
     private boolean isSingleBuyer(Artifact artifact) {
-        return artifact.getCategory().getCategoryID() == 1;
+        return artifact.getCategory() == 1;
     }
 
     public List<Artifact> showArtifacts(int categoryID) {
@@ -241,7 +241,7 @@ public class DAOCodecoolerHelper {
                 int category_id = rs.getInt("category_id");
                 int price = rs.getInt("price");
                 String description = rs.getString("description");
-                artifacts.add(new Artifact(id, name, new ArtifactCategory(category_id), price, description));
+                artifacts.add(new Artifact(id, name, category_id, price, description));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -386,7 +386,7 @@ public class DAOCodecoolerHelper {
                 int quantity = resultSet.getInt("quantity");
                 String name = resultSet.getString("artifact_name");
                 String description = resultSet.getString("description");
-                boughtArtifacts.add(new Artifact(artifactID, name, new ArtifactCategory(categoryID),price, description));
+                boughtArtifacts.add(new Artifact(artifactID, name, categoryID,price, description));
                 artifactsQuantity.put(artifactID, quantity);
             }
 

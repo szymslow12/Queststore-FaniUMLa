@@ -43,12 +43,12 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Classes":
-                    Map<String, Integer> classList = daoAdmin.getAllClasses();
+                    Map<Integer, String> classList = daoAdmin.getAllClasses();
                     json = new JSONArray();
-                    for (String key : classList.keySet()) {
+                    for (Integer key : classList.keySet()) {
                         obj = new JSONObject();
-                        obj.put("Class Name", key);
-                        obj.put("ID", classList.get(key));
+                        obj.put("ID", key);
+                        obj.put("Class Name", classList.get(key));
                         json.put(obj);
                     }
                     response = json.toString();
@@ -75,10 +75,8 @@ public class DAOAdminController extends UriController implements HttpHandler {
         }
 
         public String createLevel(HttpExchange httpExchange) throws IOException {
-            InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String formData = br.readLine();
-            Map inputs = parseFormData(formData);
+
+            Map inputs = getInputs(httpExchange);
 
             String levelName = String.valueOf(inputs.get("Level+Name"));
             Integer thresholdLevel = Integer.valueOf((String)inputs.get("Level+Threshold"));
@@ -88,10 +86,8 @@ public class DAOAdminController extends UriController implements HttpHandler {
         }
 
     public String createClass(HttpExchange httpExchange) throws IOException {
-        InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        String formData = br.readLine();
-        Map inputs = parseFormData(formData);
+
+        Map inputs = getInputs(httpExchange);
 
         String className = String.valueOf(inputs.get("Class+Name"));
 
@@ -100,15 +96,13 @@ public class DAOAdminController extends UriController implements HttpHandler {
     }
 
     public String createMentor(HttpExchange httpExchange) throws IOException {
-        InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        String formData = br.readLine();
-        Map inputs = parseFormData(formData);
+
+        Map inputs = getInputs(httpExchange);
 
         String first_name = String.valueOf(inputs.get("Name"));
         String last_name = String.valueOf(inputs.get("Surname"));
         String email = String.valueOf(inputs.get("Email"));
-        String phone_number = String.valueOf(inputs.get("Phone"));
+        String phone_number = String.valueOf(inputs.get("Phone "));
         String user_login = StringUtils.generateString();
         String user_password = StringUtils.generateString();
         String classes = String.valueOf(inputs.get("Classes"));
@@ -126,7 +120,42 @@ public class DAOAdminController extends UriController implements HttpHandler {
         return this.getFile("html/admin/Mentors.html");
     }
 
+    public String editMentor(HttpExchange httpExchange) throws IOException {
 
+        Map<String, String> inputs = getInputs(httpExchange);
+        int id = Integer.parseInt(inputs.get("ID"));
+        for(String key : inputs.keySet()) {
+            if (!key.equals("ID"))
+            daoAdmin.editMentor(transform(key), inputs.get(key), id);
+        }
+
+        return getFile("html/admin/Mentors.html");
+    }
+
+    public String editClass(HttpExchange httpExchange) throws IOException {
+
+        Map<String, String> inputs = getInputs(httpExchange);
+        daoAdmin.editClass(Integer.parseInt(inputs.get("ID")), inputs.get("Name"));
+
+        return getFile("html/admin/Classes.html");
+    }
+
+    public String editLevel(HttpExchange httpExchange) throws IOException {
+
+        Map<String, String> inputs = getInputs(httpExchange);
+        daoAdmin.editLevel(Integer.parseInt(inputs.get("ID")), inputs.get("Name"), Integer.parseInt(inputs.get("Level+Threshold")));
+
+        return getFile("html/admin/Levels.html");
+    }
+
+    private String transform(String key) {
+        Map<String, String> dictionary = new HashMap<>();
+        dictionary.put("Phone", "phone_number");
+        dictionary.put("First+Name", "first_name");
+        dictionary.put("Last+Name", "last_name");
+        dictionary.put("Email", "email");
+        return dictionary.get(key);
+    }
 
 
 }

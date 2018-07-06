@@ -3,12 +3,12 @@ package com.codecool.faniUMLa.Queststore.model;
 public class Quest {
 
     private int questID;
-    private QuestCategory category;
+    private int category;
     private String name;
     private int award;
     private String description;
 
-    public Quest(int questID, QuestCategory category, String name, int award, String description) {
+    public Quest(int questID, int category, String name, int award, String description) {
         this.questID = questID;
         this.category = category;
         this.name = name;
@@ -24,7 +24,7 @@ public class Quest {
         return questID;
     }
 
-    public QuestCategory getCategory() {
+    public int getCategory() {
         return category;
     }
 

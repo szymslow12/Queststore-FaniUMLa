@@ -6,6 +6,7 @@ import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
 import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DAOMentorInterface {
 
@@ -25,6 +26,10 @@ public interface DAOMentorInterface {
 
     void seeCodecoolersWallet();
 
+    void createQuest(String name, String description, int award, int category);
+
+    void createArtifact(String name, int category, int price, String description);
+
     Codecooler getCodecooler(int index);
 
     Quest getQuest(int index);
@@ -42,4 +47,12 @@ public interface DAOMentorInterface {
     void deleteQuest(int index);
 
     void deleteArtifact(int index);
+
+    void editQuest(Map<String, String> inputs);
+
+    void editArtifact(Map<String, String> inputs);
+
+    void createStudent(List<String> studentData);
+
+    void editStudent(String column_name, String changedWord, Integer idUser);
 }

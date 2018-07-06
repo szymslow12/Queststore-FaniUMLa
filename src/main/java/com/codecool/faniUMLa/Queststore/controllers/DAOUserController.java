@@ -3,6 +3,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 import com.codecool.faniUMLa.Queststore.DAO.*;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
 import com.codecool.faniUMLa.Queststore.model.users.User;
 import com.sun.net.httpserver.HttpExchange;
@@ -11,6 +12,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 
 public class DAOUserController extends UriController implements HttpHandler {
 
@@ -80,7 +83,22 @@ public class DAOUserController extends UriController implements HttpHandler {
                     obj.put("Category", artifact.getCategory());
                     response = obj.toString();
                     break;
-
+                case "Classes":
+                    Map<Integer, String> classes = daoAdmin.getAllClasses();
+                    obj = new JSONObject();
+                    for (Integer key : classes.keySet()) {
+                        obj.put("ID", key);
+                        obj.put("Name", classes.get(key));
+                    }
+                    response = obj.toString();
+                    break;
+                case "Levels":
+                    List<Level> levels = daoAdmin.getAllLevels();
+                    obj = new JSONObject();
+                    obj.put("Name", levels.get(getParameter(httpExchange.getRequestURI().getQuery())).getLevel_name());
+                    obj.put("Level Threshold", levels.get(getParameter(httpExchange.getRequestURI().getQuery())).getThreshold_level());
+                    response = obj.toString();
+                    break;
             }
 
         } if (method.equals("POST")) {
@@ -95,7 +113,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                     break;
                 case "deleteQuests":
                     daoMentor.deleteQuest(getParameter(httpExchange.getRequestURI().getQuery()));
-                    response = getFile("html/mentor/Quests.html");
+                    response = getFile("html/mentor/QuestsMentor.html");
                     break;
                 case "deleteMentors":
                     daoAdmin.deleteMentor(getParameter(httpExchange.getRequestURI().getQuery()));

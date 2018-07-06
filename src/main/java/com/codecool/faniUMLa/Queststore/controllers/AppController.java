@@ -1,12 +1,14 @@
 package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.*;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AppController extends Controller implements HttpHandler {
@@ -24,6 +26,7 @@ public class AppController extends Controller implements HttpHandler {
     public void handle (HttpExchange httpExchange) throws IOException {
         String response = "";
         String method = httpExchange.getRequestMethod();
+        System.out.println(httpExchange.getRequestURI().toString());
         if (method.equals("GET")) {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
@@ -75,7 +78,7 @@ public class AppController extends Controller implements HttpHandler {
             }
         } else if (method.equals("POST")) {
             DAOAdminController daoAdminController = new DAOAdminController();
-
+            DAOMentorController daoMentorController = new DAOMentorController();
             switch(httpExchange.getRequestURI().toString()) {
                 case "/Levels":
                     response = daoAdminController.createLevel(httpExchange);
@@ -85,6 +88,40 @@ public class AppController extends Controller implements HttpHandler {
                     break;
                 case "/Mentors":
                     response = daoAdminController.createMentor(httpExchange);
+                    break;
+                case "/Students":
+                    response = daoMentorController.createStudent(httpExchange);
+                    break;
+                case "/QuestsMentor":
+                    response = daoMentorController.createQuest(httpExchange);
+                    break;
+                case "/Artifacts":
+                    response = daoMentorController.createArtifact(httpExchange);
+                    break;
+                case "/editMentors":
+                    response = daoAdminController.editMentor(httpExchange);
+                    redirect(httpExchange, "/Mentors");
+                    break;
+                case "/editClasses":
+                    response = daoAdminController.editClass(httpExchange);
+                    redirect(httpExchange, "/Classes");
+                    break;
+                case "/editLevels":
+                    response = daoAdminController.editLevel(httpExchange);
+                    redirect(httpExchange, "/Levels");
+                    break;
+                case "/editStudents":
+                    response = daoMentorController.editStudent(httpExchange);
+                    redirect(httpExchange, "/Students");
+                    break;
+                case "/editQuests":
+                    response = daoMentorController.editQuest(httpExchange);
+                    redirect(httpExchange, "/QuestsMentor");
+                    break;
+                case "/editArtifacts":
+                    response = daoMentorController.editArtifact(httpExchange);
+                    redirect(httpExchange, "/Artifacts");
+                    break;
             }
         }
         httpExchange.sendResponseHeaders(200, response.length());
@@ -110,6 +147,32 @@ public class AppController extends Controller implements HttpHandler {
         return result.toString();
     }
 
+    public void redirect(HttpExchange httpExchange, String location) throws IOException {
+        Headers headers = httpExchange.getResponseHeaders();
+        headers.add("Location", location);
+        httpExchange.sendResponseHeaders(302, -1);
+        httpExchange.close();
+    }
+
+    public static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
+        Map<String, String> map = new HashMap<>();
+        String[] pairs = formData.split("&");
+        for(String pair : pairs){
+            String[] keyValue = pair.split("=");
+            // We have to decode the value because it's urlencoded. see: https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms
+            String value = new URLDecoder().decode(keyValue[1], "UTF-8");
+            map.put(keyValue[0], value);
+        }
+        return map;
+    }
+
+    public Map<String, String> getInputs(HttpExchange httpExchange) throws IOException{
+
+        InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+        BufferedReader br = new BufferedReader(isr);
+        String formData = br.readLine();
+        return parseFormData(formData);
+    }
 
 
 //    public void handleMenu(UserPrivilege privilege) {
