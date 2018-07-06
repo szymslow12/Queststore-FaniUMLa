@@ -29,6 +29,7 @@ public class Server {
         server.createContext("/js/store.js", new Static());
         server.createContext("/Login", new LoginController());
         server.createContext("/css/main.css", new Static());
+        server.createContext("/logOut", new LoginController());
         server.setExecutor(null);
         server.start();
         System.out.println("Connected");

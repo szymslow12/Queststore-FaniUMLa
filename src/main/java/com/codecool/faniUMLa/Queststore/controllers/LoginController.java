@@ -10,12 +10,12 @@ import java.io.*;
 import java.net.HttpCookie;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class LoginController extends UriController implements HttpHandler {
     User user = null;
     DAOLogin daoLogin = new DAOLogin(connection);
+    static HashSet<String> activeSessions = new HashSet<String>();
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -24,6 +24,11 @@ public class LoginController extends UriController implements HttpHandler {
         if (method.equals("GET")) {
             response= this.getFile("html/login.html");
 
+            switch(httpExchange.getRequestURI().toString()) {
+                case "/logOut":
+                    this.logOut(httpExchange);
+                    break;
+            }
         } else if (method.equals("POST")) {
 
             InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
@@ -35,17 +40,14 @@ public class LoginController extends UriController implements HttpHandler {
             String password = String.valueOf(inputs.get("password"));
             this.user = daoLogin.logIn(login, password);
 
-            String cookieStr = httpExchange.getRequestHeaders().getFirst("Cookie");
+            List<String> cookiesStr = httpExchange.getRequestHeaders().get("Cookie");
+            List<HttpCookie> cookies = new ArrayList<>();
             HttpCookie cookie;
-            boolean isNewSession;
-            if (cookieStr != null) {  // Cookie already exists
-                cookie = HttpCookie.parse(cookieStr).get(0);
-                isNewSession = false;
-            } else { // Create a new cookie
-                cookie = new HttpCookie("sessionId", generateSessionID());
-                isNewSession = true;
-                httpExchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
-            }
+
+            cookie = new HttpCookie("sessionId", generateSessionID());
+            httpExchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
+            cookie = new HttpCookie("userAccess", this.user.getAccess().name());
+            httpExchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
 
             if(user.getAccess().name().equals("ADMIN")) {
                 response = this.getFile("html/admin/Mentors.html");
@@ -78,6 +80,7 @@ public class LoginController extends UriController implements HttpHandler {
             e.printStackTrace();
         }
         String digest = bytesToHex(salt.digest());
+        activeSessions.add(digest);
         return digest;
     }
 
@@ -89,5 +92,60 @@ public class LoginController extends UriController implements HttpHandler {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static Boolean isLoginAs(String accessLevel, HttpExchange httpExchange) {
+        List<String> cookieList = httpExchange.getRequestHeaders().get("Cookie");
+        if (cookieList==null) {
+            return false;
+        }
+        String[] cookiesStr = httpExchange.getRequestHeaders().get("Cookie").get(0).split(";");
+        List<HttpCookie> cookies = new ArrayList<>();
+        if (cookiesStr != null) {  // Cookie already exists
+            for (String cookieStr : cookiesStr) {
+                List<HttpCookie> cookie = HttpCookie.parse(cookieStr);
+                if (cookie.get(0).getName().equals("userAccess")) {
+                    return cookie.get(0).getValue().equals(accessLevel);
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Boolean sessionValid(HttpExchange httpExchange) {
+        List<String> cookieList = httpExchange.getRequestHeaders().get("Cookie");
+        if (cookieList==null) {
+            return false;
+        }
+        return true;
+//        String[] cookiesStr = httpExchange.getRequestHeaders().get("Cookie").get(0).split(";");
+//        List<HttpCookie> cookies = new ArrayList<>();
+//        if (cookiesStr != null) {  // Cookie already exists
+//            for (String cookieStr : cookiesStr) {
+//                List<HttpCookie> cookie = HttpCookie.parse(cookieStr);
+//                if (cookie.get(0).getName().equals("sessionId")) {
+//                    return activeSessions.contains(cookie.get(0).getValue());
+//                }
+//            }
+//        }
+//        return false;
+    }
+
+    public void logOut(HttpExchange httpExchange) {
+        List<String> cookieList = httpExchange.getRequestHeaders().get("Cookie");
+        if (cookieList==null) {
+            return;
+        }
+
+        String[] cookiesStr = httpExchange.getRequestHeaders().get("Cookie").get(0).split(";");
+        List<HttpCookie> cookies = new ArrayList<>();
+        if (cookiesStr != null) {  // Cookie already exists
+            for (String cookieStr : cookiesStr) {
+                List<HttpCookie> cookie = HttpCookie.parse(cookieStr);
+                cookie.get(0).setDiscard(true);
+                httpExchange.getResponseHeaders().set("Set-Cookie", cookie.toString());
+
+            }
+        }
     }
 }

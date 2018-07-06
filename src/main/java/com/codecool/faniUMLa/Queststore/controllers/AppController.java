@@ -28,13 +28,25 @@ public class AppController extends Controller implements HttpHandler {
             System.out.println("in get");
             switch(httpExchange.getRequestURI().toString()) {
                 case "/Mentors":
-                    response= this.getFile("html/admin/Mentors.html");
+                    if (LoginController.isLoginAs("ADMIN", httpExchange) && LoginController.sessionValid(httpExchange)) {
+                        response= this.getFile("html/admin/Mentors.html");
+                    } else {
+                        response= this.getFile("html/login.html");
+                    }
                     break;
                 case "/Classes":
-                    response= this.getFile("html/admin/Classes.html");
+                    if (LoginController.isLoginAs("ADMIN", httpExchange) && LoginController.sessionValid(httpExchange)) {
+                        response= this.getFile("html/admin/Classes.html");
+                    } else {
+                        response = this.getFile("html/login.html");
+                    }
                     break;
                 case "/Levels":
-                    response= this.getFile("html/admin/Levels.html");
+                    if (LoginController.isLoginAs("ADMIN", httpExchange) && LoginController.sessionValid(httpExchange)) {
+                        response= this.getFile("html/admin/Levels.html");
+                    } else {
+                        response = this.getFile("html/login.html");
+                    }
                     break;
                 case"/Students":
                     response= this.getFile("html/mentor/Students.html");
@@ -56,6 +68,9 @@ public class AppController extends Controller implements HttpHandler {
                     break;
                 case "/Discard":
                     response= this.getFile("html/student/Discard.html");
+                    break;
+                case "/Login": case "/login": default:
+                    response= this.getFile("html/login.html");
                     break;
             }
         } else if (method.equals("POST")) {

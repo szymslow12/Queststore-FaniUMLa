@@ -45,7 +45,7 @@ function createHiddenMenu(menu) {
         var a2 = document.createElement("a");
         a2.textContent = options[i];
         if (options[i] == "Log-out") {
-            a2.setAttribute("href", "../login.html");
+            a2.setAttribute("href", "../logOut");
         } else {
             a2.setAttribute("onclick", "seeProfile();");
         }
