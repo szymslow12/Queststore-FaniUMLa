@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Classroom;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class DAOAdmin implements DAOAdminInterface {
@@ -23,7 +25,7 @@ public class DAOAdmin implements DAOAdminInterface {
         helper.addClass(className);
     }
 
-    public Map<Integer, String> getAllClasses() {
+    public List<Classroom> getAllClasses() {
         return helper.getAllClasses();
     }
 
