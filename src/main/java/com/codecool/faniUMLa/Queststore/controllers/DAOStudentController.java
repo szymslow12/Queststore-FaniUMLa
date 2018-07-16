@@ -30,7 +30,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
                 case "Coolcoins":
                     json = new JSONArray();
                     jsonObject = new JSONObject();
-                    jsonObject.put("Coolcoins", daoCodecooler.getCoolcoins(1));
+                    jsonObject.put("Coolcoins", daoCodecooler.getCoolcoins(2));
                     json.put(jsonObject);
                     response = json.toString();
                     break;
@@ -44,7 +44,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     break;
                 case "Inventory":
                     // for test and presentation is passed codecoolerID = 1
-                    Inventory inv = daoCodecooler.getBoughtArtifacts(1);
+                    Inventory inv = daoCodecooler.getBoughtArtifacts(2);
                     List<Artifact> boughtArtifacts = inv.getArtifacts();
                     json = new JSONArray();
                     for (Artifact artifact: boughtArtifacts) {
@@ -58,15 +58,16 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     }
                     response = json.toString();
                     break;
-                case "Quests":
+                case "DoneQuests":
                     // for test and presentation is passed codecoolerID = 1
-                    List<Quest> quests = daoCodecooler.getDoneQuests(1);
+                    List<Quest> quests = daoCodecooler.getDoneQuests(2);
                     json = new JSONArray();
                     for (Quest quest: quests) {
                         jsonObject = new JSONObject();
                         jsonObject.put("Name", quest.getName());
                         jsonObject.put("Description", quest.getDescription());
                         jsonObject.put("Award", quest.getAward());
+                        json.put(jsonObject);
                     }
                     response = json.toString();
                     break;
@@ -86,7 +87,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
             }
         } else if (method.equals("POST")) {
             int artifactID = getParameter(httpExchange.getRequestURI().getQuery());
-            daoCodecooler.buyArtifact(1, artifactID);
+            daoCodecooler.buyArtifact(2, artifactID);
         }
     }
 
