@@ -215,7 +215,7 @@ function createTable(array, view) {
             xhttp.send();
             break;
         case "Inventory":
-        case "Quests":
+        case "DoneQuests":
         case "Store1":
         case "Store2":
         case "Discard":
