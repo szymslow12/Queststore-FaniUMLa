@@ -98,7 +98,7 @@ public class AppController extends Controller implements HttpHandler {
                     response = daoMentorController.editStudent(httpExchange);
                     redirect(httpExchange, "/Students");
                     break;
-                case "/editQuests":
+                case "/editQuestsMentor":
                     response = daoMentorController.editQuest(httpExchange);
                     redirect(httpExchange, "/QuestsMentor");
                     break;

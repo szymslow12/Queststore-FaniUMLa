@@ -209,7 +209,7 @@ function createTable(array, view) {
             xhttp.send();
             break;
         case "Students":
-        case "Quests":
+        case "QuestsMentor":
         case "Artifacts":
             xhttp.open("GET", "/daoMentorController?method=" + view, true);
             xhttp.send();
@@ -231,7 +231,7 @@ function getSelectArray(view) {
         selectArray.push("Class");
     }
 
-    else if (view == "Quests" || view == "Artifacts") {
+    else if (view == "QuestsMentor" || view == "Artifacts") {
         selectArray.push("Category");
     }
 
@@ -243,13 +243,13 @@ function getArrayForForm(view) {
     if (view == "Students") {
         formArray.push("Class");
 
-    } else if (view == "Classes" || view == "Levels" || view == "Quests" || view == "Artifacts" || view == "Inventory") {
+    } else if (view == "Classes" || view == "Levels" || view == "QuestsMentor" || view == "Artifacts" || view == "Inventory") {
         formArray = ["Name"];
     }
     if (view == "Levels") {
         formArray.push("Level Threshold");
     }
-    if (view == "Quests") {
+    if (view == "QuestsMentor") {
         formArray.push("Category");
         formArray.push("Description");
         formArray.push("Award");

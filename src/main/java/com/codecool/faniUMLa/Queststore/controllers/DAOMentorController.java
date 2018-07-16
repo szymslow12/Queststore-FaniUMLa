@@ -118,7 +118,7 @@ public class DAOMentorController extends  UriController implements HttpHandler {
         int award = Integer.parseInt(inputs.get("Award"));
 
         daoMentor.createQuest(name, description, award, 1);
-        return getFile("html/mentor/Quests.html");
+        return getFile("html/mentor/QuestsMentor.html");
     }
 
     public String createArtifact(HttpExchange httpExchange) throws IOException{
@@ -159,7 +159,7 @@ public class DAOMentorController extends  UriController implements HttpHandler {
         Map<String, String> inputs = getInputs(httpExchange);
         daoMentor.editQuest(inputs);
 
-        return getFile("html/mentor/Quests.html");
+        return getFile("html/mentor/QuestsMentor.html");
     }
 
     public String editArtifact(HttpExchange httpExchange) throws IOException {
