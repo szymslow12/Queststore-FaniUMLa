@@ -90,7 +90,7 @@ public class DAOUserController extends UriController implements HttpHandler {
                     obj = new JSONObject();
                     for (Classroom classroom : classes) {
                         obj.put("ID", classroom.getClass_id());
-                        obj.put("Class Name", classroom.getClass_name());
+                        obj.put("Name", classroom.getClass_name());
                     }
                     response = obj.toString();
                     break;

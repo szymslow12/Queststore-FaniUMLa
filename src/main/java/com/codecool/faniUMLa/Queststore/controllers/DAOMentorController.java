@@ -45,7 +45,7 @@ public class DAOMentorController extends  UriController implements HttpHandler {
                     }
                     response = json.toString();
                     break;
-                case "Quests":
+                case "QuestsMentor":
                     ArrayList<Quest> quests = (ArrayList)daoMentor.getAllQuests();
                     json = new JSONArray();
                     for (Quest quest : quests) {

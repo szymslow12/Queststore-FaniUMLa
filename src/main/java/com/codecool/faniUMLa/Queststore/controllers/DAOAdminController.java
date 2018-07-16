@@ -101,7 +101,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String first_name = String.valueOf(inputs.get("Name"));
         String last_name = String.valueOf(inputs.get("Surname"));
         String email = String.valueOf(inputs.get("Email"));
-        String phone_number = String.valueOf(inputs.get("Phone "));
+        String phone_number = String.valueOf(inputs.get("Phone"));
         String user_login = StringUtils.generateString();
         String user_password = StringUtils.generateString();
         String classes = String.valueOf(inputs.get("Classes"));
