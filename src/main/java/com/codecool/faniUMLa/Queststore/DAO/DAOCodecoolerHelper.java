@@ -19,7 +19,7 @@ public class DAOCodecoolerHelper {
     private UserInputs userInputs;
     private View view;
     private Connection connection;
-    private final String GET_COOLCOINS = "SELECT coolcoins FROM codecoolers WHERE id_user = ?;";
+    private final String GET_COOLCOINS = "SELECT coolcoins FROM codecoolers WHERE id_codecooler = ?;";
     private final String GET_LEVEL = "SELECT id_level FROM codecoolers WHERE id_codecooler = ?;";
     private final String GET_ARTIFACTS_BY_CATEGORY = "SELECT * FROM artifacts WHERE category_id = ?";
     private final String GET_ARTIFACTS = "SELECT * FROM artifacts";
@@ -37,7 +37,7 @@ public class DAOCodecoolerHelper {
             "AND artifacts.id_artifact = artifacts_codecoolers.id_artifact;";
     private final String GET_DONE_QUESTS = "SELECT quests.id_quest, id_category, quest_name, award, description FROM quests\n" +
             "JOIN quests_codecoolers ON quests_codecoolers.id_codecooler = ?\n" +
-            "AND quests.id_quest = quests_codecoolers.id_quest;";
+            "AND quests.id_quest = quests_codecoolers.id_quest";
     private final String GET_PRICE = "SELECT price FROM artifacts WHERE id_artifact = ?";
     private final String GET_QUANTITY = "SELECT quantity FROM artifacts_codecoolers WHERE " +
             "artifacts_codecoolers.id_codecooler = ? AND artifacts_codecoolers.id_artifact = ?";
@@ -219,7 +219,7 @@ public class DAOCodecoolerHelper {
                 int category_id = rs.getInt("category_id");
                 int price = rs.getInt("price");
                 String description = rs.getString("description");
-                artifacts.add(new Artifact(id, name, new ArtifactCategory(category_id), price, description));
+                artifacts.add(new Artifact(id, name, category_id, price, description));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -409,7 +409,7 @@ public class DAOCodecoolerHelper {
                 int award = resultSet.getInt("award");
                 String name = resultSet.getString("quest_name");
                 String description = resultSet.getString("description");
-                doneQuests.add(new Quest(questID, new QuestCategory(categoryID), name, award, description));
+                doneQuests.add(new Quest(questID, categoryID, name, award, description));
             }
         } catch (SQLException err) {
             err.printStackTrace();
