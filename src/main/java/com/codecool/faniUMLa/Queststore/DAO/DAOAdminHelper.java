@@ -1,5 +1,6 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Classroom;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
@@ -8,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.List;
 
 public class DAOAdminHelper {
     private Connection connection;
@@ -57,8 +56,9 @@ public class DAOAdminHelper {
         }
     }
 
-    public Map<Integer, String> getAllClasses() {
-        Map<Integer, String> classList = new HashMap<>();
+
+    public List<Classroom> getAllClasses() {
+        List<Classroom> classes = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
         try {
@@ -67,12 +67,12 @@ public class DAOAdminHelper {
             while (rs.next()) {
                 String class_name = rs.getString("class_name");
                 Integer class_id = rs.getInt("id_class");
-                classList.put(class_id, class_name);
+                classes.add(new Classroom(class_id, class_name));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return classList;
+        return classes;
     }
 
     public ArrayList<Level> getAllLevels() {

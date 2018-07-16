@@ -2,6 +2,7 @@ package com.codecool.faniUMLa.Queststore.controllers;
 
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdmin;
 import com.codecool.faniUMLa.Queststore.DAO.DAOAdminInterface;
+import com.codecool.faniUMLa.Queststore.model.Classroom;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 import com.codecool.faniUMLa.Queststore.utils.StringUtils;
@@ -10,12 +11,9 @@ import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 import java.io.*;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class DAOAdminController extends UriController implements HttpHandler {
     DAOAdminInterface daoAdmin = new DAOAdmin(connection);
@@ -43,12 +41,12 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Classes":
-                    Map<Integer, String> classList = daoAdmin.getAllClasses();
+                    List<Classroom> classList = daoAdmin.getAllClasses();
                     json = new JSONArray();
-                    for (Integer key : classList.keySet()) {
+                    for (Classroom classroom : classList) {
                         obj = new JSONObject();
-                        obj.put("ID", key);
-                        obj.put("Class Name", classList.get(key));
+                        obj.put("ID", classroom.getClass_id());
+                        obj.put("Class Name", classroom.getClass_name());
                         json.put(obj);
                     }
                     response = json.toString();
@@ -102,7 +100,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
         String first_name = String.valueOf(inputs.get("Name"));
         String last_name = String.valueOf(inputs.get("Surname"));
         String email = String.valueOf(inputs.get("Email"));
-        String phone_number = String.valueOf(inputs.get("Phone "));
+        String phone_number = String.valueOf(inputs.get("Phone"));
         String user_login = StringUtils.generateString();
         String user_password = StringUtils.generateString();
         String classes = String.valueOf(inputs.get("Classes"));
@@ -122,8 +120,10 @@ public class DAOAdminController extends UriController implements HttpHandler {
 
     public String editMentor(HttpExchange httpExchange) throws IOException {
 
+
         Map<String, String> inputs = getInputs(httpExchange);
         int id = Integer.parseInt(inputs.get("ID"));
+
         for(String key : inputs.keySet()) {
             if (!key.equals("ID"))
             daoAdmin.editMentor(transform(key), inputs.get(key), id);

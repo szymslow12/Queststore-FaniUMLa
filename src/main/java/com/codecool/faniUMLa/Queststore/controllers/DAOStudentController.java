@@ -33,14 +33,15 @@ public class DAOStudentController extends UriController implements HttpHandler {
                     jsonObject.put("Coolcoins", daoCodecooler.getCoolcoins(2));
                     json.put(jsonObject);
                     response = json.toString();
+                    System.out.println(response + " coolcoins");
                     break;
                 case "Store2":
                     response = getArtifactsByCategory(2);
-                    System.out.println(response);
+
                     break;
                 case "Store1":
                     response = getArtifactsByCategory(1);
-                    System.out.println(response);
+
                     break;
                 case "Inventory":
                     // for test and presentation is passed codecoolerID = 1
@@ -57,6 +58,7 @@ public class DAOStudentController extends UriController implements HttpHandler {
                         json.put(jsonObject);
                     }
                     response = json.toString();
+                    System.out.println(response);
                     break;
                 case "DoneQuests":
                     // for test and presentation is passed codecoolerID = 1
