@@ -7,6 +7,6 @@ public class App {
 
         System.out.println("Queststore");
         AppController controller = new AppController();
-        controller.run();
+        //controller.run();
     }
 }

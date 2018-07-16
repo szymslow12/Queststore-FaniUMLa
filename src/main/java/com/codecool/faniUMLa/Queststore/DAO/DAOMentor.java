@@ -1,10 +1,15 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
+import com.codecool.faniUMLa.Queststore.model.Quest;
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
+import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DAOMentor implements DAOMentorInterface {
 
@@ -13,25 +18,87 @@ public class DAOMentor implements DAOMentorInterface {
 
     public DAOMentor(Connection connection) {
         this.connection = connection;
-        this.helper = new DAOMentorHelper();
+        this.helper = new DAOMentorHelper(connection);
+    }
+
+    public List<Codecooler> getAllStudents() {
+        List<Codecooler> students = new ArrayList<>();
+        try {
+            students = helper.getAllCodecoolers();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+
+    public Codecooler getCodecooler(int index) {
+        List<Codecooler> students = getAllStudents();
+        return students.get(index);
+    }
+
+    public List<Quest> getAllQuests() {
+        List<Quest> quests = new ArrayList<>();
+        try {
+            quests = helper.getAllQuests();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quests;
+    }
+
+    public Quest getQuest(int index) {
+        List<Quest> quests = getAllQuests();
+        return quests.get(index);
+    }
+
+    public List<Artifact> getAllArtifacts() {
+        List<Artifact> artifacts = new ArrayList<>();
+        try {
+            artifacts = helper.getAllArtifacts();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return artifacts;
+    }
+
+    public Artifact getArtifact(int index) {
+        List<Artifact> artifacts = getAllArtifacts();
+        return artifacts.get(index);
     }
 
 
     public void addNewCodecooler() {
         try {
-            PreparedStatement statement = null;
-            statement = connection.prepareStatement(helper.getAddCodecoolerQuery(statement, connection));
-            statement.execute();
+            helper.addCodecooler(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }
     }
 
 
+    public void createQuest(String name, String description, int award, int category) {
+        try {
+            helper.createQuest(name, description, award, category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createArtifact(String name, int category, int price, String description) {
+        try {
+            helper.createArtifact(name, category, price, description);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void addNewQuest() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getAddNewQuestQuery());
-            statement.execute();
+            helper.addQuest(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }
@@ -39,8 +106,7 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateQuest() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getUpdateQuestQuery());
-            statement.execute();
+            helper.updateRow(connection, "quests");
         } catch (SQLException err) {
             err.printStackTrace();
         }
@@ -48,8 +114,7 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void addNewArtifact() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getAddNewArtifactQuery());
-            statement.execute();
+            helper.addArtifact(connection);
         } catch (SQLException err) {
             err.printStackTrace();
         }
@@ -57,19 +122,49 @@ public class DAOMentor implements DAOMentorInterface {
 
     public void updateArtifact() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.getUpdateArtifactQuery());
-            statement.execute();
+            helper.updateRow(connection, "artifacts");
         } catch (SQLException err) {
             err.printStackTrace();
         }
     }
 
+    public void deleteStudent(int index) {
+        helper.deleteStudent(index);
+    }
+
+    public void deleteQuest(int index) {
+
+        System.out.println(index);helper.deleteQuest(index);
+    }
+
+    public void deleteArtifact(int index) {
+        helper.deleteArtifact(index);
+    }
+
+    public void editQuest(Map<String, String> inputs) {
+        helper.editQuest(inputs);
+    }
+
+    public void editArtifact(Map<String, String> inputs) {
+        helper.editArtifact(inputs);
+    }
+
+    public void editStudent(String column_name, String changedWord, Integer idUser) {
+        PreparedStatement mentorUpdate = helper.prepareQueryForUpdatedMentor(column_name, changedWord, idUser);
+        try {
+            mentorUpdate.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createStudent(List<String> studentData) {
+        helper.addUserToDatabase((ArrayList)studentData);
+        helper.updateStudents((ArrayList)studentData);}
+
     public boolean markQuestDone() {
         try {
-            Object[] queryValues = helper.markQuestDoneQueryValues();
-            PreparedStatement statement = connection.prepareStatement((String) queryValues[0]);
-            statement.execute();
-            addCoolcoinsToCodecoolerWallet(statement, (Integer) queryValues[1], (Integer) queryValues[2]);
+            helper.markQuestDone(connection);
             return true;
         } catch (SQLException err) {
             err.printStackTrace();
@@ -78,17 +173,9 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
 
-    private void addCoolcoinsToCodecoolerWallet(PreparedStatement statement, Integer questID, Integer codecoolerID)
-            throws SQLException {
-
-        statement = connection.prepareStatement(helper.addCoolcoinsToWalletQuery(connection, questID, codecoolerID));
-        statement.execute();
-    }
-
     public boolean markBoughtArtifact() {
         try {
-            PreparedStatement statement = connection.prepareStatement(helper.markBoughtArtifactQuery());
-            statement.execute();
+            helper.markBoughtArtifact(connection);
             return true;
         } catch (SQLException err) {
             err.printStackTrace();

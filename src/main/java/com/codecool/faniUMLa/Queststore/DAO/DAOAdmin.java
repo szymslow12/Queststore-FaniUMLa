@@ -1,5 +1,7 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Classroom;
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.sql.Connection;
@@ -7,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DAOAdmin implements DAOAdminInterface {
     private DAOAdminHelper helper;
@@ -19,6 +22,14 @@ public class DAOAdmin implements DAOAdminInterface {
 
     public void createClass(String className) {
         helper.addClass(className);
+    }
+
+    public List<Classroom> getAllClasses() {
+        return helper.getAllClasses();
+    }
+
+    public ArrayList<Level> getAllLevels() {
+        return helper.getAllLevels();
     }
 
     public ArrayList<Mentor> getAllMentors() {
@@ -43,15 +54,16 @@ public class DAOAdmin implements DAOAdminInterface {
         return mentorsList;
         }
 
-        public Mentor getMentor(int index) {
-            ArrayList<Mentor> mentorsList;
-            mentorsList = getAllMentors();
-            return mentorsList.get(index);
-        }
+    public Mentor getMentor(int index) {
+        ArrayList<Mentor> mentorsList;
+        mentorsList = getAllMentors();
+        return mentorsList.get(index);
+    }
 
     public void createMentor(ArrayList <String> userData) {
         helper.addUserToDataBase(userData);
         helper.updateMentors(userData);
+        helper.updateMentors_classes(userData);
     }
 
     public void editMentor(String column_name, String changedWord, Integer idUser) {
@@ -62,8 +74,24 @@ public class DAOAdmin implements DAOAdminInterface {
             e.printStackTrace();
         }
     }
-    public void createLevel(String level_name){
-        helper.addLevel(level_name);
+    public void createLevel(String levelName, Integer thresholdLevel){
+        helper.addLevel(levelName, thresholdLevel);
     }
+
+    public void deleteMentor(int index) {
+        helper.deleteMentor(index);
+    }
+
+    public void deleteClass(int index) {
+        helper.deleteClass(index);
+    }
+
+    public void deleteLevel(int index) {
+        helper.deleteLevel(index);
+    }
+
+    public void editClass(int index, String name) { helper.editClass(index, name);}
+
+    public void editLevel(int index, String name, int exp) { helper.editLevel(index, name, exp);}
 }
 

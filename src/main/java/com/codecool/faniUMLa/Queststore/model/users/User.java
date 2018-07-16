@@ -17,6 +17,13 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
     }
 
+
+    public User(int idUser, String firstName, String lastName) {
+        this.idUser = idUser;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public UserAccess getAccess() {
         return access;
     }

@@ -1,8 +1,12 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Classroom;
+import com.codecool.faniUMLa.Queststore.model.store.Level;
 import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public interface DAOAdminInterface {
     void createClass(String className);
@@ -10,5 +14,12 @@ public interface DAOAdminInterface {
     Mentor getMentor(int index);
     void createMentor(ArrayList<String> userData);
     void editMentor(String column_name, String changedWord, Integer idUser);
-    void createLevel(String level_name);
+    void createLevel(String levelName, Integer thresholdLevel);
+    List<Classroom> getAllClasses();
+    ArrayList<Level> getAllLevels();
+    void deleteMentor(int index);
+    void deleteClass(int index);
+    void deleteLevel(int index);
+    void editClass(int index, String name);
+    void editLevel(int index, String name, int exps);
 }

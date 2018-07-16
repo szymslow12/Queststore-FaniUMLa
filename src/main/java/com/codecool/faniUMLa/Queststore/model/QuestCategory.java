@@ -5,8 +5,12 @@ public class QuestCategory {
     private int categoryID;
     private String name;
 
-    public QuestCategory(int categoryID, String name) {
+    public QuestCategory(int categoryID) {
         this.categoryID = categoryID;
-        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(categoryID);
     }
 }

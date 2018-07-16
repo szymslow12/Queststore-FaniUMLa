@@ -1,11 +1,15 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.Classroom;
+import com.codecool.faniUMLa.Queststore.model.store.Level;
+import com.codecool.faniUMLa.Queststore.model.users.Mentor;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class DAOAdminHelper {
     private Connection connection;
@@ -21,7 +25,21 @@ public class DAOAdminHelper {
 
     private final String AD_USERID_TO_MENTORS = "INSERT INTO mentors (id_user) VALUES (?)";
 
-    private final String ADD_LEVEL = "INSERT INTO levels (name_level) VALUES(?) ";
+    private final String ADD_LEVEL = "INSERT INTO levels (level_name, threshold_level) VALUES(?,?) ";
+
+    private final String GET_ALL_CLASSES = "SELECT * FROM classes";
+
+    private final String GET_ALL_LEVELS = "SELECT * FROM levels";
+
+    private final String DELETE_MENTOR = "DELETE FROM users WHERE id_user = ?";
+    private final String DELETE_CLASS = "DELETE FROM classes WHERE id_class = ?";
+    private final String DELETE_LEVEL = "DELETE FROM levels WHERE id_level = ?";
+    private final String UPDATE_MENTORS_CLASSES = "INSERT INTO mentors_classes (id_mentor, id_class) " +
+            "VALUES(?,?)";
+    private final String FIND_CLASS_ID = "Select id_class FROM classes WHERE class_name = ?";
+
+    private final String UPDATE_CLASS = "UPDATE classes SET class_name= ? WHERE id_class = ?";
+    private final String UPDATE_LEVEL = "UPDATE levels SET level_name  = ?, threshold_level= ? WHERE id_level = ?";
 
     public DAOAdminHelper(Connection connection) {
         this.connection = connection;
@@ -38,6 +56,45 @@ public class DAOAdminHelper {
         }
     }
 
+
+    public List<Classroom> getAllClasses() {
+        List<Classroom> classes = new ArrayList<>();
+        ResultSet rs;
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(GET_ALL_CLASSES);
+            rs = query.executeQuery();
+            while (rs.next()) {
+                String class_name = rs.getString("class_name");
+                Integer class_id = rs.getInt("id_class");
+                classes.add(new Classroom(class_id, class_name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return classes;
+    }
+
+    public ArrayList<Level> getAllLevels() {
+        ArrayList<Level> levelList = new ArrayList<>();
+        ResultSet rs;
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(GET_ALL_LEVELS);
+            rs = query.executeQuery();
+            while (rs.next()) {
+                Integer id_level = rs.getInt("id_level");
+                String level_name = rs.getString("level_name");
+                Integer threshold_level = rs.getInt("threshold_level");
+
+                levelList.add(new Level(id_level, level_name, threshold_level));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return levelList;
+    }
+
     public void addUserToDataBase(ArrayList<String> userData) {
         PreparedStatement query = prepareUser(userData);
         try {
@@ -51,7 +108,7 @@ public class DAOAdminHelper {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(ADD_MENTOR);
-            for(int i = 0; i< userData.size(); i++) {
+            for(int i = 0; i< 6; i++) {
                 query.setString(i+1, userData.get(i));
             }
             query.setString(7, "MENTOR");
@@ -60,6 +117,43 @@ public class DAOAdminHelper {
         }
         return query;
     }
+
+
+    public void updateMentors_classes(ArrayList<String> userData) {
+        ArrayList<Integer> idClassesList = getClassesID(userData);
+        Integer mentorId = getMentorID(userData);
+        try {
+            for(int i = 0; i < idClassesList.size(); i++) {
+                PreparedStatement query = connection.prepareStatement(UPDATE_MENTORS_CLASSES);
+                query.setInt(1, mentorId);
+                query.setInt(2, idClassesList.get(i));
+                query.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Integer getMentorID(ArrayList<String> userData) {
+        int id = getUserId(userData);
+        ResultSet rs;
+
+
+        Integer id_mentor = null;
+        try {
+            PreparedStatement query = connection.prepareStatement("Select id_mentor FROM mentors WHERE ? = id_user");
+            query.setInt(1,id);
+            rs = query.executeQuery();
+            while(rs.next()) {
+                id_mentor = rs.getInt("id_mentor");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id_mentor;
+    }
+
 
     public void updateMentors(ArrayList<String> userData) {
         Integer user_id = getUserId(userData);
@@ -87,11 +181,30 @@ public class DAOAdminHelper {
         return user_id;
     }
 
+    private ArrayList<Integer> getClassesID (ArrayList<String> userData) {
+        ResultSet rs;
+        ArrayList<Integer> idClassList = new ArrayList<>();
+        PreparedStatement query = null;
+        for (int i = 6; i < userData.size(); i++) {
+            try {
+                query = connection.prepareStatement(FIND_CLASS_ID);
+                query.setString(1, userData.get(i));
+                rs = query.executeQuery();
+                while (rs.next()) {
+                    Integer id_class = rs.getInt("id_class");
+                    idClassList.add(id_class);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return idClassList;
+    }
     private PreparedStatement prepareQuerryForGetUserID(ArrayList<String>userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(FIND_ID);
-            for(int i = 0; i< userData.size(); i++) {
+            for(int i = 0; i< 6; i++) {
                 query.setString(i+1, userData.get(i));
             }
         } catch (SQLException e) {
@@ -100,6 +213,18 @@ public class DAOAdminHelper {
         return query;
     }
 
+    private PreparedStatement prepareQuerryForGetClassID(ArrayList<String>userData) {
+        PreparedStatement query = null;
+        try {
+            query = connection.prepareStatement(FIND_CLASS_ID);
+            for(int i = 6; i< userData.size(); i++) {
+                query.setString(i+1, userData.get(i));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return query;
+    }
     public PreparedStatement prepareQueryForUpdatedMentor(String column_name, String changedWord, Integer idUser) {
         PreparedStatement query = null;
         String UPDATE_COLUMN = "UPDATE users SET "+ column_name + " = " + "?" +  " WHERE id_user=" + idUser +";";
@@ -113,15 +238,76 @@ public class DAOAdminHelper {
         return query;
     }
 
-    public void addLevel(String level_name) {
+    public void editClass(int index, String name) {
+        PreparedStatement query;
+        try {
+            query = connection.prepareStatement(UPDATE_CLASS);
+            query.setString(1, name);
+            query.setInt(2, index);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editLevel(int index, String name, int exp) {
+        PreparedStatement query;
+
+        try {
+            query = connection.prepareStatement(UPDATE_LEVEL);
+            query.setString(1, name);
+            query.setInt(2, exp);
+            query.setInt(3, index);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addLevel(String level_name, Integer threshold_level) {
         PreparedStatement query;
         try {
             query = connection.prepareStatement(ADD_LEVEL);
             query.setString(1, level_name);
+            query.setInt(2, threshold_level);
             query.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There's such level already");
         }
     }
+
+    public void deleteMentor(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_MENTOR);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteClass(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_CLASS);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteLevel(int index) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_LEVEL);
+            statement.setInt(1, index);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
