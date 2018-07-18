@@ -1,11 +1,9 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
+import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-
-
-import javax.sql.DataSource;
 
 import static org.mockito.Mockito.*;
 
@@ -13,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -94,6 +94,38 @@ class DAOCodecoolerTest {
         boolean isBoughtArtifact = daoCodecooler.buyArtifact(userId, idArtifact);
         assertFalse(isBoughtArtifact);
     }
+
+    @Test
+    void testShowArtifacts() throws SQLException {
+        int categoryId = 1;
+        List<Artifact> artifactList = new ArrayList<>();
+        artifactList.add(new Artifact(1, "Artifact 1", 1, 20, "Description"));
+        artifactList.add(new Artifact(2, "Artifact 2", 1, 30, "Description"));
+
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
+        when((preparedStatement.executeQuery())).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+
+        when(resultSet.getInt("id_artifact")).thenReturn(1).thenReturn(2);
+        when(resultSet.getString("artifact_name")).thenReturn("Artifact 1").thenReturn("Artifact 2");
+        when(resultSet.getInt("category_id")).thenReturn(1);
+        when(resultSet.getInt("price")).thenReturn(20).thenReturn(30);
+        when(resultSet.getString("description")).thenReturn("Description");
+
+        List<Artifact> expectedArtifactList = daoCodecooler.showArtifacts(categoryId);
+        for (int i = 0; i < artifactList.size(); i++) {
+            assertIfArtifactTheSame(artifactList.get(i), expectedArtifactList.get(i));
+        }
+    }
+
+    private void assertIfArtifactTheSame(Artifact artifact1, Artifact artifact2 ) {
+        assertEquals(artifact1.getArtifactID(), artifact2.getArtifactID());
+        assertEquals(artifact1.getName(), artifact2.getName());
+        assertEquals(artifact1.getCategory(), artifact2.getCategory());
+        assertEquals(artifact1.getPrice(), artifact2.getPrice());
+        assertEquals(artifact1.getDescription(), artifact2.getDescription());
+    }
+
 
     private void generateMocksOfBuyArtifact(int artifactPrice, int userCoolcoins) throws SQLException {
         when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
