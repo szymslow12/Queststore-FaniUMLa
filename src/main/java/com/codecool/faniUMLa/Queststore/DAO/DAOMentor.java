@@ -4,7 +4,6 @@ import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.sql.*;
 import java.util.ArrayList;
