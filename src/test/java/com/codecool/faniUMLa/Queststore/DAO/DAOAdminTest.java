@@ -30,7 +30,7 @@ class DAOAdminTest {
     }
 
     @Test
-    void testAddClass() throws SQLException {
+    void testAddOneClass() throws SQLException {
         String className = "testClassName";
         daoAdmin = new DAOAdmin(mockConnection);
 
@@ -50,6 +50,30 @@ class DAOAdminTest {
         assertEquals(1, actualClasses.size());
         assertEquals(className, actualClasses.get(0).getClass_name());
         assertEquals(1, actualClasses.get(0).getClass_id());
+    }
+
+    @Test
+    void testAddThreeClasses() throws SQLException {
+        String className = "testClassName";
+        daoAdmin = new DAOAdmin(mockConnection);
+
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStmnt);
+        doNothing().when(mockPreparedStmnt).setString(anyInt(), anyString());
+        when(mockPreparedStmnt.executeUpdate(any())).thenReturn(1);
+
+        daoAdmin.createClass(className);
+        daoAdmin.createClass(className);
+        daoAdmin.createClass(className);
+
+        when(mockPreparedStmnt.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE,
+                Boolean.FALSE);
+        when(mockResultSet.getString("class_name")).thenReturn(className);
+        when(mockResultSet.getInt("id_class")).thenReturn(1).thenReturn(2).thenReturn(3);
+
+
+        List<Classroom> actualClasses = daoAdmin.getAllClasses();
+        assertEquals(3, actualClasses.size());
     }
 
 
