@@ -3,8 +3,9 @@ package com.codecool.faniUMLa.Queststore.DAO;
 import com.codecool.faniUMLa.Queststore.model.Classroom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,17 +17,16 @@ import static org.mockito.Mockito.*;
 
 class DAOAdminTest {
     private DAOAdmin daoAdmin;
+    @Mock
     private Connection mockConnection;
-    private DataSource mockDataSource;
+    @Mock
     private PreparedStatement mockPreparedStmnt;
+    @Mock
     private ResultSet mockResultSet;
 
     @BeforeEach
-    public void setUp() throws SQLException {
-        mockConnection = mock(Connection.class);
-        mockDataSource = mock(DataSource.class);
-        mockPreparedStmnt = mock(PreparedStatement.class);
-        mockResultSet = mock(ResultSet.class);
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
