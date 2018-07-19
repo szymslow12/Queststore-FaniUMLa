@@ -45,15 +45,13 @@ class AdminControllerTest {
     public void testGetListMentors() throws Exception {
         ArrayList<Mentor> mentors = exampleMentors();
         DAOAdminController adminController = new DAOAdminController(mockConnection, mockDaoAdmin);
+        URI uriAdminControllerForMentors = URI.create("/daoAdminController?Method=Mentors");
+        OutputStream actualOutputStream = new ByteArrayOutputStream();
 
         when(mockHttpExchange.getRequestMethod()).thenReturn("GET");
-        URI uriAdmin = URI.create("/daoAdminController?Method=Mentors");
-        when(mockHttpExchange.getRequestURI()).thenReturn(uriAdmin);
-
+        when(mockHttpExchange.getRequestURI()).thenReturn(uriAdminControllerForMentors);
         when(mockDaoAdmin.getAllMentors()).thenReturn(mentors);
-
-        OutputStream outputStream = new ByteArrayOutputStream();
-        when(mockHttpExchange.getResponseBody()).thenReturn(outputStream);
+        when(mockHttpExchange.getResponseBody()).thenReturn(actualOutputStream);
 
         adminController.handle(mockHttpExchange);
 
