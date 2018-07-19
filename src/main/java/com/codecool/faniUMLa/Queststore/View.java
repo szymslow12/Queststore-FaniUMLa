@@ -1,7 +1,6 @@
 package com.codecool.faniUMLa.Queststore;
 
 import com.codecool.faniUMLa.Queststore.model.users.UserPrivilege;
-import netscape.security.Privilege;
 
 import java.util.List;
 

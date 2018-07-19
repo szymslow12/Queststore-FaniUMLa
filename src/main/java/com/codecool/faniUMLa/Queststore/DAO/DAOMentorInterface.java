@@ -3,7 +3,6 @@ package com.codecool.faniUMLa.Queststore.DAO;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,5 @@
 package com.codecool.faniUMLa.Queststore.model.users;
 
-import netscape.security.Privilege;
 
 public class Codecooler extends User {
 
