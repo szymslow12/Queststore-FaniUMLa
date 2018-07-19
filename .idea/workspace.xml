@@ -24,7 +24,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
-      <file leaf-file-name="DAOStudentControllerTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DAOStudentControllerTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/controllers/DAOStudentControllerTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="310">
@@ -36,10 +36,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AdminControllerTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/controllers/AdminControllerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="349">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1459#1460#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DAOStudentController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/codecool/faniUMLa/Queststore/controllers/DAOStudentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
+            <state relative-caret-position="760">
               <caret line="42" column="48" selection-start-line="42" selection-start-column="48" selection-end-line="42" selection-end-column="79" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -51,7 +64,7 @@
       <file leaf-file-name="DAOCodecooler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/codecool/faniUMLa/Queststore/DAO/DAOCodecooler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
+            <state relative-caret-position="380">
               <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
               <folding>
                 <element signature="e#617#618#0" expanded="true" />
@@ -81,7 +94,7 @@
       <file leaf-file-name="DAOCodecoolerTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/DAO/DAOCodecoolerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1026">
+            <state relative-caret-position="1292">
               <caret line="68" column="43" selection-start-line="68" selection-start-column="43" selection-end-line="68" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -137,7 +150,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="18" />
     <option name="width" value="1356" />
@@ -149,9 +162,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,103 +179,14 @@
               <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
               <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="DAO" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Queststore-FaniUMLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Queststore-FaniUMLa" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Queststore" type="462c0819:PsiDirectoryNode" />
-              <item name="DAO" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -554,9 +476,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DAOStudentControllerTest_testGenerateResponseOfInventory - 2018.07.19 at 14h 48m 35s.xml">
-      <configuration name="DAOStudentControllerTest.testGenerateResponseOfInventory" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DAOStudentControllerTest - 2018.07.19 at 14h 51m 57s.xml">
       <configuration name="DAOStudentControllerTest" configurationId="JUnit" />
     </history-entry>
@@ -584,6 +503,9 @@
     <history-entry file="All_in_Queststore - 2018.07.19 at 21h 04m 33s.xml">
       <configuration name="All in Queststore" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_Queststore - 2018.07.19 at 21h 18m 22s.xml">
+      <configuration name="All in Queststore" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -606,12 +528,12 @@
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.500753" side_tool="true" weight="0.3296355" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="2" />
-      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49924698" visible="true" weight="0.35023773" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" sideWeight="0.49924698" visible="true" weight="0.35023773" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" visible="true" weight="0.3298193" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.23343374" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.23644578" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
       <window_info id="UI Designer" order="1" />
@@ -671,9 +593,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -724,9 +643,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1026">
           <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -777,9 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1026">
           <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -909,9 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -926,16 +836,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-899">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/controllers/AdminControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -966,7 +866,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/DAO/DAOCodecoolerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
+        <state relative-caret-position="1292">
           <caret line="68" column="43" selection-start-line="68" selection-start-column="43" selection-end-line="68" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -976,7 +876,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/codecool/faniUMLa/Queststore/DAO/DAOCodecooler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="380">
           <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
           <folding>
             <element signature="e#617#618#0" expanded="true" />
@@ -991,7 +891,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/codecool/faniUMLa/Queststore/controllers/DAOStudentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
+        <state relative-caret-position="760">
           <caret line="42" column="48" selection-start-line="42" selection-start-column="48" selection-end-line="42" selection-end-column="79" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1005,6 +905,17 @@
           <caret line="109" selection-start-line="109" selection-end-line="109" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/codecool/faniUMLa/Queststore/controllers/AdminControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1459#1460#0" expanded="true" />
           </folding>
         </state>
       </provider>
