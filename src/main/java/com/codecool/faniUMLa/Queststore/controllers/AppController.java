@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -19,7 +20,11 @@ public class AppController extends Controller implements HttpHandler {
     public AppController() {
         daoMentor = new DAOMentor(connection);
         daoCodecooler = new DAOCodecooler(connection);
+    }
 
+    AppController(Connection connection) {
+        super(connection);
+        this.connection = connection;
     }
 
     @Override

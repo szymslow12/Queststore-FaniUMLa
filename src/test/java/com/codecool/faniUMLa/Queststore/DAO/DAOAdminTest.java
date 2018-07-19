@@ -1,6 +1,8 @@
 package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.model.Classroom;
+import com.codecool.faniUMLa.Queststore.model.users.Mentor;
+import com.codecool.faniUMLa.Queststore.model.users.UserAccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -74,6 +76,39 @@ class DAOAdminTest {
 
         List<Classroom> actualClasses = daoAdmin.getAllClasses();
         assertEquals(3, actualClasses.size());
+    }
+
+    @Test
+    void testGetAllMentors() throws SQLException {
+        int userId = 1;
+        String firstName = "first name";
+        String lastName = "last name";
+        String email = "email";
+        String phoneNumber = "phone number";
+
+        daoAdmin = new DAOAdmin(mockConnection);
+
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStmnt);
+        when(mockPreparedStmnt.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
+
+        when(mockResultSet.getInt("id_user")).thenReturn(userId);
+        when(mockResultSet.getString("first_name")).thenReturn(firstName);
+        when(mockResultSet.getString("last_name")).thenReturn(lastName);
+        when(mockResultSet.getString("email")).thenReturn(email);
+        when(mockResultSet.getString("phone_number")).thenReturn(phoneNumber);
+
+        List<Mentor> actualMentors = daoAdmin.getAllMentors();
+        assertEquals(1, actualMentors.size());
+
+        Mentor actualFirstMentor = actualMentors.get(0);
+        assertEquals(actualFirstMentor.getIdUser(), userId);
+        assertEquals(actualFirstMentor.getFirstName(), firstName);
+        assertEquals(actualFirstMentor.getLastName(), lastName);
+        assertEquals(actualFirstMentor.getEmail(), email);
+        assertEquals(actualFirstMentor.getPhoneNumber(), phoneNumber);
+        assertEquals(actualFirstMentor.getAccess(), UserAccess.MENTOR);
+
     }
 
 
