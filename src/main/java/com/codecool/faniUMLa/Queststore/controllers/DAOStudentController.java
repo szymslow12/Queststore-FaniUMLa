@@ -22,9 +22,9 @@ public class DAOStudentController extends UriController implements HttpHandler {
         daoCodecooler =  new DAOCodecooler(connection);
     }
 
-    public DAOStudentController(Connection connection) {
-        daoCodecooler =  new DAOCodecooler(connection);
-
+    public DAOStudentController(Connection connection, DAOCodecooler daoCodecooler) {
+        super(connection);
+        this.daoCodecooler = daoCodecooler;
     }
 
     @Override
