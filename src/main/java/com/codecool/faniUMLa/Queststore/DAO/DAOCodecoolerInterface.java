@@ -10,6 +10,8 @@ public interface DAOCodecoolerInterface {
 
     int getCoolcoins(int id);
 
+    String getLevel(int id);
+
     boolean buyArtifact(int idUser, int idArtifact);
 
     List<Artifact> showArtifacts(int categoryID);
