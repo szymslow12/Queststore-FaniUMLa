@@ -2,12 +2,9 @@ package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.Quest;
-import com.codecool.faniUMLa.Queststore.model.QuestCategory;
 import com.codecool.faniUMLa.Queststore.model.UserInputs;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
-import com.codecool.faniUMLa.Queststore.model.store.ArtifactCategory;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
-import org.postgresql.core.SqlCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DAOMentorHelper {
+class DAOMentorHelper {
 
     private final String ADD_USERID_TO_STUDENTS = "INSERT INTO codecoolers (id_user, coolcoins, id_level, id_class) VALUES (?, ?, ?, ?)";
     private final String FIND_ID = "SELECT id_user FROM users WHERE user_login = ? AND " +
@@ -56,13 +53,13 @@ public class DAOMentorHelper {
 
     private Connection connection;
 
-    public DAOMentorHelper(Connection connection) {
+    DAOMentorHelper(Connection connection) {
         this.connection = connection;
         userInputs = new UserInputs();
     }
 
 
-    public void addCodecooler(Connection connection) throws SQLException {
+    void addCodecooler(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(ADD_USER);
         List<String> userData = getData(new String[]{"Enter codecooler login: ", "Enter codecooler password: ",
                 "Enter codecooler first name: ", "Enter codecooler last name: ",
@@ -94,8 +91,8 @@ public class DAOMentorHelper {
 
     private List<String> getData(String[] labels) {
         List<String> data = new ArrayList<>();
-        for (int i = 0; i < labels.length; i++) {
-            data.add(userInputs.getString(labels[i]));
+        for (String label : labels) {
+            data.add(userInputs.getString(label));
         }
         return data;
     }
@@ -105,11 +102,10 @@ public class DAOMentorHelper {
         statement.setString(1, email);
         ResultSet resultSet = statement.executeQuery();
         resultSet.next();
-        int idUser = resultSet.getInt("id_user");
-        return idUser;
+        return resultSet.getInt("id_user");
     }
 
-    public void createQuest(String name, String description, int award, int category) throws SQLException {
+    void createQuest(String name, String description, int award, int category) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(ADD_QUEST);
         statement.setString(2, name);
         statement.setString(4, description);
@@ -118,7 +114,7 @@ public class DAOMentorHelper {
         statement.executeUpdate();
     }
 
-    public void createArtifact(String name, int category, int price, String description) throws SQLException {
+    void createArtifact(String name, int category, int price, String description) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(ADD_ARTIFACT);
         statement.setString(1, name);
         statement.setInt(2, category);
@@ -127,7 +123,7 @@ public class DAOMentorHelper {
         statement.executeUpdate();
     }
 
-    public void addQuest(Connection connection) throws SQLException {
+    void addQuest(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(GET_QUEST_CATEGORY);
         showCategories(statement);
         List<String> questData = getData(new String[]{"Enter quest category ID: ", "Enter quest name: ",
@@ -163,7 +159,7 @@ public class DAOMentorHelper {
     }
 
 
-    public void addArtifact(Connection connection) throws SQLException {
+    void addArtifact(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(GET_ARTIFACT_CATGORY);
         showCategories(statement);
         List<String> artifactData = getData(new String[]{"Enter artifact categoryID: ", "Enter artifact name: ",
@@ -178,7 +174,7 @@ public class DAOMentorHelper {
     }
 
 
-    public void updateRow(Connection connection, String tableName) throws SQLException {
+    void updateRow(Connection connection, String tableName) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(getAllQuery(tableName));
         printAll(statement, tableName);
         int ID = userInputs.getInt("Enter number: ");
@@ -222,7 +218,7 @@ public class DAOMentorHelper {
     }
 
 
-    public List<Quest> getAllQuests() throws SQLException {
+    List<Quest> getAllQuests() throws SQLException {
         ResultSet resultSet = connection.prepareStatement(GET_ALL_QUESTS).executeQuery();
         List<Quest> objectList = new ArrayList<>();
         while (resultSet.next()) {
@@ -237,7 +233,7 @@ public class DAOMentorHelper {
     }
 
 
-    public List<Artifact> getAllArtifacts() throws SQLException {
+    List<Artifact> getAllArtifacts() throws SQLException {
         ResultSet resultSet = connection.prepareStatement(GET_ALL_ARTIFACTS).executeQuery();
         List<Artifact> objectList = new ArrayList<>();
         while (resultSet.next()) {
@@ -252,7 +248,7 @@ public class DAOMentorHelper {
     }
 
 
-    public List<Codecooler> getAllCodecoolers() throws SQLException {
+    List<Codecooler> getAllCodecoolers() throws SQLException {
         ResultSet resultSet = connection.prepareStatement(GET_CODECOOLERS).executeQuery();
         List<Codecooler> objectList = new ArrayList<>();
         while (resultSet.next()) {
@@ -307,14 +303,14 @@ public class DAOMentorHelper {
     }
 
 
-    public String getCodecoolersWalletsQuery() {
+    String getCodecoolersWalletsQuery() {
         return String.format("%s%s%s", "SELECT coolcoins",
                 ", users.first_name || ' ' || users.last_name AS full_name FROM ",
                 "codecoolers\nLEFT JOIN users\nON codecoolers.id_user = users.id_user");
     }
 
 
-    public void markQuestDone(Connection connection) throws SQLException {
+    void markQuestDone(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(GET_ALL_QUESTS);
         printAll(statement, "quests");
         int questID = Integer.parseInt(getData(new String[]{"Enter quest id: "}).get(0));
@@ -348,7 +344,7 @@ public class DAOMentorHelper {
     }
 
 
-    public void addUserToDatabase(List<String> studentData) {
+    void addUserToDatabase(List<String> studentData) {
 
         try {
             PreparedStatement query = prepareUser(studentData);
@@ -358,7 +354,7 @@ public class DAOMentorHelper {
         }
     }
 
-    public void updateStudents(ArrayList<String> studentData) {
+    void updateStudents(List<String> studentData) {
         Integer user_id = getUserId(studentData);
         try {
             PreparedStatement query = connection.prepareStatement(ADD_USERID_TO_STUDENTS);
@@ -372,8 +368,7 @@ public class DAOMentorHelper {
         }
     }
     private PreparedStatement prepareUser(List<String> studentData) throws SQLException{
-
-        PreparedStatement query = null;
+        PreparedStatement query;
             query = connection.prepareStatement(ADD_USER);
             for(int i = 0; i< studentData.size(); i++) {
                 query.setString(i + 1, studentData.get(i));
@@ -383,7 +378,7 @@ public class DAOMentorHelper {
         return query;
     }
 
-    private Integer getUserId(ArrayList<String> userData) {
+    private Integer getUserId(List<String> userData) {
         ResultSet rs;
         PreparedStatement query = prepareQuerryForGetUserID(userData);
         Integer user_id = null;
@@ -398,7 +393,7 @@ public class DAOMentorHelper {
         return user_id;
     }
 
-    private PreparedStatement prepareQuerryForGetUserID(ArrayList<String>userData) {
+    private PreparedStatement prepareQuerryForGetUserID(List<String>userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(FIND_ID);
@@ -411,8 +406,7 @@ public class DAOMentorHelper {
         return query;
     }
 
-    public void deleteStudent(int index) {
-
+    void deleteStudent(int index) {
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT);
             statement.setInt(1, index);
@@ -422,7 +416,7 @@ public class DAOMentorHelper {
         }
     }
 
-    public void deleteQuest(int index) {
+    void deleteQuest(int index) {
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_QUEST);
             statement.setInt(1, index);
@@ -432,7 +426,7 @@ public class DAOMentorHelper {
         }
     }
 
-    public void deleteArtifact(int index) {
+    void deleteArtifact(int index) {
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_ARTIFACT);
             statement.setInt(1, index);
@@ -442,7 +436,7 @@ public class DAOMentorHelper {
         }
     }
 
-    public void editQuest(Map<String, String> inputs) {
+    void editQuest(Map<String, String> inputs) {
         try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUEST);
             statement.setInt(1, Integer.parseInt(inputs.get("Category")));
@@ -456,7 +450,7 @@ public class DAOMentorHelper {
         }
     }
 
-    public void editArtifact(Map<String, String> inputs) {
+    void editArtifact(Map<String, String> inputs) {
         try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_ARTIFACT);
             statement.setString(1, inputs.get("Name"));
@@ -478,7 +472,7 @@ public class DAOMentorHelper {
     }
 
 
-    public void markBoughtArtifact(Connection connection) throws SQLException {
+    void markBoughtArtifact(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(GET_ALL_ARTIFACTS);
         printAll(statement, "artifacts");
         int artifactID = Integer.parseInt(getData(new String[]{"Enter artifactID: "}).get(0));
@@ -502,11 +496,9 @@ public class DAOMentorHelper {
 
 
     private String questColumnName(String answer) {
-
         if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("name")) {
 
             return "quest_name";
-
 
         } else if (answer.equalsIgnoreCase("d") || answer.equalsIgnoreCase("description")) {
 
@@ -525,7 +517,6 @@ public class DAOMentorHelper {
 
 
     private String artifactColumnName(String answer) {
-
         if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("name")) {
 
             return "artifact_name";
@@ -544,5 +535,4 @@ public class DAOMentorHelper {
         }
         return "";
     }
-
 }
