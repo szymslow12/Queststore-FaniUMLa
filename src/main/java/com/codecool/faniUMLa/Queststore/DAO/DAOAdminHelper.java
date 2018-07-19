@@ -2,7 +2,6 @@ package com.codecool.faniUMLa.Queststore.DAO;
 
 import com.codecool.faniUMLa.Queststore.model.Classroom;
 import com.codecool.faniUMLa.Queststore.model.store.Level;
-import com.codecool.faniUMLa.Queststore.model.users.Mentor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOAdminHelper {
+class DAOAdminHelper {
     private Connection connection;
 
     private final String ADD_CLASS = "INSERT INTO classes (class_name)\n" +
@@ -41,11 +40,11 @@ public class DAOAdminHelper {
     private final String UPDATE_CLASS = "UPDATE classes SET class_name= ? WHERE id_class = ?";
     private final String UPDATE_LEVEL = "UPDATE levels SET level_name  = ?, threshold_level= ? WHERE id_level = ?";
 
-    public DAOAdminHelper(Connection connection) {
+    DAOAdminHelper(Connection connection) {
         this.connection = connection;
     }
 
-    public void addClass(String className) {
+    void addClass(String className) {
         PreparedStatement query;
         try {
             query = connection.prepareStatement(ADD_CLASS);
@@ -57,7 +56,7 @@ public class DAOAdminHelper {
     }
 
 
-    public List<Classroom> getAllClasses() {
+    List<Classroom> getAllClasses() {
         List<Classroom> classes = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
@@ -75,8 +74,8 @@ public class DAOAdminHelper {
         return classes;
     }
 
-    public ArrayList<Level> getAllLevels() {
-        ArrayList<Level> levelList = new ArrayList<>();
+    List<Level> getAllLevels() {
+        List<Level> levelList = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
         try {
@@ -95,7 +94,7 @@ public class DAOAdminHelper {
         return levelList;
     }
 
-    public void addUserToDataBase(ArrayList<String> userData) {
+    void addUserToDataBase(List<String> userData) {
         PreparedStatement query = prepareUser(userData);
         try {
             query.executeUpdate();
@@ -104,7 +103,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public PreparedStatement prepareUser(ArrayList<String> userData) {
+    PreparedStatement prepareUser(List<String> userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(ADD_MENTOR);
@@ -119,14 +118,14 @@ public class DAOAdminHelper {
     }
 
 
-    public void updateMentors_classes(ArrayList<String> userData) {
-        ArrayList<Integer> idClassesList = getClassesID(userData);
+    void updateMentors_classes(List<String> userData) {
+        List<Integer> idClassesList = getClassesID(userData);
         Integer mentorId = getMentorID(userData);
         try {
-            for(int i = 0; i < idClassesList.size(); i++) {
+            for (Integer anIdClassesList : idClassesList) {
                 PreparedStatement query = connection.prepareStatement(UPDATE_MENTORS_CLASSES);
                 query.setInt(1, mentorId);
-                query.setInt(2, idClassesList.get(i));
+                query.setInt(2, anIdClassesList);
                 query.executeUpdate();
             }
         } catch (SQLException e) {
@@ -135,7 +134,7 @@ public class DAOAdminHelper {
 
     }
 
-    private Integer getMentorID(ArrayList<String> userData) {
+    private Integer getMentorID(List<String> userData) {
         int id = getUserId(userData);
         ResultSet rs;
 
@@ -155,7 +154,7 @@ public class DAOAdminHelper {
     }
 
 
-    public void updateMentors(ArrayList<String> userData) {
+    void updateMentors(List<String> userData) {
         Integer user_id = getUserId(userData);
         try {
             PreparedStatement query = connection.prepareStatement(AD_USERID_TO_MENTORS);
@@ -166,7 +165,7 @@ public class DAOAdminHelper {
         }
     }
 
-    private Integer getUserId(ArrayList<String> userData) {
+    private Integer getUserId(List<String> userData) {
         ResultSet rs;
         PreparedStatement query = prepareQuerryForGetUserID(userData);
         Integer user_id = null;
@@ -181,9 +180,9 @@ public class DAOAdminHelper {
         return user_id;
     }
 
-    private ArrayList<Integer> getClassesID (ArrayList<String> userData) {
+    private List<Integer> getClassesID (List<String> userData) {
         ResultSet rs;
-        ArrayList<Integer> idClassList = new ArrayList<>();
+        List<Integer> idClassList = new ArrayList<>();
         PreparedStatement query = null;
         for (int i = 6; i < userData.size(); i++) {
             try {
@@ -200,7 +199,7 @@ public class DAOAdminHelper {
         }
         return idClassList;
     }
-    private PreparedStatement prepareQuerryForGetUserID(ArrayList<String>userData) {
+    private PreparedStatement prepareQuerryForGetUserID(List<String>userData) {
         PreparedStatement query = null;
         try {
             query = connection.prepareStatement(FIND_ID);
@@ -225,7 +224,7 @@ public class DAOAdminHelper {
         }
         return query;
     }
-    public PreparedStatement prepareQueryForUpdatedMentor(String column_name, String changedWord, Integer idUser) {
+    PreparedStatement prepareQueryForUpdatedMentor(String column_name, String changedWord, Integer idUser) {
         PreparedStatement query = null;
         String UPDATE_COLUMN = "UPDATE users SET "+ column_name + " = " + "?" +  " WHERE id_user=" + idUser +";";
         try {
@@ -238,7 +237,7 @@ public class DAOAdminHelper {
         return query;
     }
 
-    public void editClass(int index, String name) {
+    void editClass(int index, String name) {
         PreparedStatement query;
         try {
             query = connection.prepareStatement(UPDATE_CLASS);
@@ -250,7 +249,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public void editLevel(int index, String name, int exp) {
+    void editLevel(int index, String name, int exp) {
         PreparedStatement query;
 
         try {
@@ -264,7 +263,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public void addLevel(String level_name, Integer threshold_level) {
+    void addLevel(String level_name, Integer threshold_level) {
         PreparedStatement query;
         try {
             query = connection.prepareStatement(ADD_LEVEL);
@@ -276,7 +275,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public void deleteMentor(int index) {
+    void deleteMentor(int index) {
 
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_MENTOR);
@@ -287,7 +286,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public void deleteClass(int index) {
+    void deleteClass(int index) {
 
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_CLASS);
@@ -298,7 +297,7 @@ public class DAOAdminHelper {
         }
     }
 
-    public void deleteLevel(int index) {
+    void deleteLevel(int index) {
 
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_LEVEL);

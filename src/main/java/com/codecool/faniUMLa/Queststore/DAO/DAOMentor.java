@@ -158,8 +158,8 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void createStudent(List<String> studentData) {
-        helper.addUserToDatabase((ArrayList)studentData);
-        helper.updateStudents((ArrayList)studentData);}
+        helper.addUserToDatabase(studentData);
+        helper.updateStudents(studentData);}
 
     public boolean markQuestDone() {
         try {
@@ -183,7 +183,7 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void seeCodecoolersWallet() {
-        ResultSet result = null;
+        ResultSet result;
         List<String> fullLineList = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(helper.getCodecoolersWalletsQuery());

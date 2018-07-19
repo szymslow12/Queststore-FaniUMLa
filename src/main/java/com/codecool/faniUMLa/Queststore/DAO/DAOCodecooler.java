@@ -23,11 +23,6 @@ public class DAOCodecooler implements DAOCodecoolerInterface {
     }
 
     @Override
-    public String getLevel(int id) {
-        return helper.getLvlOfExp(id);
-    }
-
-    @Override
     public boolean buyArtifact(int idUser, int idArtifact) {
         return helper.buyArtifact(idUser, idArtifact);
     }
