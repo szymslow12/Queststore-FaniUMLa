@@ -37,10 +37,12 @@ class AdminControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    private ArrayList<Mentor> exampleMentors() {
-        ArrayList<Mentor> mentors = new ArrayList<>();
-        Mentor mentor = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
-        mentors.add(mentor);
+    private List<Mentor> exampleMentors() {
+        List<Mentor> mentors = new ArrayList<>();
+        Mentor mentorEla = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
+        Mentor mentorLukas = new Mentor(2, "Lukas", "Wrona", "lukas@codecool.com", "123");
+        mentors.add(mentorEla);
+        mentors.add(mentorLukas);
         return mentors;
     }
 
