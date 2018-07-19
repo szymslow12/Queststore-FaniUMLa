@@ -39,7 +39,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
             JSONObject obj;
             switch(subSiteName) {
                 case "Mentors":
-                    ArrayList<Mentor> mentorsList = daoAdmin.getAllMentors();
+                    List<Mentor> mentorsList = daoAdmin.getAllMentors();
                     json = new JSONArray();
                     for (Mentor mentor : mentorsList) {
                         obj = new JSONObject();
@@ -62,7 +62,7 @@ public class DAOAdminController extends UriController implements HttpHandler {
                     response = json.toString();
                     break;
                 case "Levels":
-                    ArrayList<Level> levelList = daoAdmin.getAllLevels();
+                    List<Level> levelList = daoAdmin.getAllLevels();
                     json = new JSONArray();
                     for (Level level : levelList) {
                         obj = new JSONObject();
