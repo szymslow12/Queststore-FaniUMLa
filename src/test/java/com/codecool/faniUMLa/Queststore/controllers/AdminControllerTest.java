@@ -33,7 +33,7 @@ class AdminControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    private List<Mentor> examplaryMentors() {
+    private List<Mentor> exemplaryMentors() {
         List<Mentor> mentors = new ArrayList<>();
         Mentor mentorEla = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
         Mentor mentorLukas = new Mentor(2, "Lukas", "Wrona", "lukas@codecool.com", "123");
@@ -48,8 +48,8 @@ class AdminControllerTest {
     }
 
     @Test
-    void testHandle_GetExamplaryMentors() throws Exception {
-        List<Mentor> mentors = examplaryMentors();
+    void testHandle_GetExemplaryMentors() throws Exception {
+        List<Mentor> mentors = exemplaryMentors();
         OutputStream actualOutputStream = testGetMentors(mentors);
 
         assertListMentorsWithOutputStream(mentors, actualOutputStream);
