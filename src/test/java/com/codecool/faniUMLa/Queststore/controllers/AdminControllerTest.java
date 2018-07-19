@@ -15,7 +15,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class AdminControllerTest {
@@ -32,7 +33,7 @@ class AdminControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    private List<Mentor> exampleMentors() {
+    private List<Mentor> examplaryMentors() {
         List<Mentor> mentors = new ArrayList<>();
         Mentor mentorEla = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
         Mentor mentorLukas = new Mentor(2, "Lukas", "Wrona", "lukas@codecool.com", "123");
@@ -42,34 +43,48 @@ class AdminControllerTest {
     }
 
     @Test
-    void testGetListMentors() throws Exception {
-        List<Mentor> mentors = exampleMentors();
+    void testHandle_GetMentorsWhenIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> testGetMentors(null));
+    }
+
+    @Test
+    void testHandle_GetExamplaryMentors() throws Exception {
+        List<Mentor> mentors = examplaryMentors();
+        OutputStream actualOutputStream = testGetMentors(mentors);
+
+        assertListMentorsWithOutputStream(mentors, actualOutputStream);
+    }
+
+    private OutputStream testGetMentors(List<Mentor> mentors) throws Exception {
         DAOAdminController adminController = new DAOAdminController(mockConnection, mockDaoAdmin);
         URI uriAdminControllerForMentors = URI.create("/daoAdminController?Method=Mentors");
-        OutputStream actualOutputStream = new ByteArrayOutputStream();
+        OutputStream outputStream = new ByteArrayOutputStream();
 
         when(mockHttpExchange.getRequestMethod()).thenReturn("GET");
         when(mockHttpExchange.getRequestURI()).thenReturn(uriAdminControllerForMentors);
         when(mockDaoAdmin.getAllMentors()).thenReturn(mentors);
-        when(mockHttpExchange.getResponseBody()).thenReturn(actualOutputStream);
+        when(mockHttpExchange.getResponseBody()).thenReturn(outputStream);
 
         adminController.handle(mockHttpExchange);
 
-        assertOutputStreamWithListMentors(actualOutputStream, mentors);
+        return outputStream;
     }
 
-    private void assertOutputStreamWithListMentors(OutputStream outputStream, List<Mentor> mentors) {
+    private void assertListMentorsWithOutputStream(List<Mentor> mentors, OutputStream outputStream) {
         String[] mentorsAsString = outputStream.toString().split("},\\{");
         String[] mentorAsString;
+        int nameIndex = 2;
+        int lastNameIndex = 6;
+        int idIndex = 4;
 
-        assertEquals(mentorsAsString.length, mentors.size());
+        assertEquals(mentors.size(), mentorsAsString.length);
 
         for (int i = 0; i < mentorsAsString.length; i++) {
             mentorAsString = mentorsAsString[i].split("[\\[:,{\"}\\]]{1,}");
 
-            assertEquals(mentors.get(i).getFirstName(), mentorAsString[2]);
-            assertEquals(mentors.get(i).getLastName(), mentorAsString[6]);
-            assertEquals(mentors.get(i).getIdUser(), Integer.parseInt(mentorAsString[4]));
+            assertEquals(mentors.get(i).getFirstName(), mentorAsString[nameIndex]);
+            assertEquals(mentors.get(i).getLastName(), mentorAsString[lastNameIndex]);
+            assertEquals(mentors.get(i).getIdUser(), Integer.parseInt(mentorAsString[idIndex]));
         }
     }
 }
