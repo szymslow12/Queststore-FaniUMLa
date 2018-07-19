@@ -12,11 +12,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class AdminControllerTest {
@@ -26,40 +26,65 @@ class AdminControllerTest {
     private DAOAdmin mockDaoAdmin;
     @Mock
     private Connection mockConnection;
-    @Mock
-    private PreparedStatement mockPreparedStmnt;
-    @Mock
-    private ResultSet mockResultSet;
 
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    private ArrayList<Mentor> exampleMentors() {
-        ArrayList<Mentor> mentors = new ArrayList<>();
-        Mentor mentor = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
-        mentors.add(mentor);
+    private List<Mentor> exemplaryMentors() {
+        List<Mentor> mentors = new ArrayList<>();
+        Mentor mentorEla = new Mentor(1, "Ela", "Krzych", "ela@codecool.com", "123");
+        Mentor mentorLukas = new Mentor(2, "Lukas", "Wrona", "lukas@codecool.com", "123");
+        mentors.add(mentorEla);
+        mentors.add(mentorLukas);
         return mentors;
     }
 
     @Test
-    public void testGetListMentors() throws Exception {
-        ArrayList<Mentor> mentors = exampleMentors();
+    void testHandle_GetMentorsWhenIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> testGetMentors(null));
+    }
+
+    @Test
+    void testHandle_GetExemplaryMentors() throws Exception {
+        List<Mentor> mentors = exemplaryMentors();
+        OutputStream actualOutputStream = testGetMentors(mentors);
+
+        assertListMentorsWithOutputStream(mentors, actualOutputStream);
+    }
+
+    private OutputStream testGetMentors(List<Mentor> mentors) throws Exception {
         DAOAdminController adminController = new DAOAdminController(mockConnection, mockDaoAdmin);
+        URI uriAdminControllerForMentors = URI.create("/daoAdminController?Method=Mentors");
+        OutputStream outputStream = new ByteArrayOutputStream();
 
         when(mockHttpExchange.getRequestMethod()).thenReturn("GET");
-        URI uriAdmin = URI.create("/daoAdminController?Method=Mentors");
-        when(mockHttpExchange.getRequestURI()).thenReturn(uriAdmin);
-
+        when(mockHttpExchange.getRequestURI()).thenReturn(uriAdminControllerForMentors);
         when(mockDaoAdmin.getAllMentors()).thenReturn(mentors);
-
-        OutputStream outputStream = new ByteArrayOutputStream();
         when(mockHttpExchange.getResponseBody()).thenReturn(outputStream);
 
         adminController.handle(mockHttpExchange);
 
-        assertEquals(outputStream.toString(), mentors.toString());
+        return outputStream;
+    }
+
+    private void assertListMentorsWithOutputStream(List<Mentor> mentors, OutputStream outputStream) {
+        String[] mentorsAsString = outputStream.toString().split("},\\{");
+        String[] mentorAsString;
+        int nameIndex = 2;
+        int lastNameIndex = 6;
+        int idIndex = 4;
+
+        assertEquals(mentors.size(), mentorsAsString.length);
+
+        for (int i = 0; i < mentorsAsString.length; i++) {
+            mentorAsString = mentorsAsString[i].split("[\\[:,{\"}\\]]{1,}");
+
+            assertEquals(mentors.get(i).getFirstName(), mentorAsString[nameIndex]);
+            assertEquals(mentors.get(i).getLastName(), mentorAsString[lastNameIndex]);
+            assertEquals(mentors.get(i).getIdUser(), Integer.parseInt(mentorAsString[idIndex]));
+        }
     }
 }
