@@ -12,10 +12,20 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
 import java.util.List;
 
 public class DAOStudentController extends UriController implements HttpHandler {
-    DAOCodecoolerInterface daoCodecooler =  new DAOCodecooler(connection);
+    DAOCodecoolerInterface daoCodecooler;
+
+    public DAOStudentController() {
+        daoCodecooler =  new DAOCodecooler(connection);
+    }
+
+    public DAOStudentController(Connection connection, DAOCodecooler daoCodecooler) {
+        super(connection);
+        this.daoCodecooler = daoCodecooler;
+    }
 
     @Override
     public void handle(HttpExchange httpExchange) {
