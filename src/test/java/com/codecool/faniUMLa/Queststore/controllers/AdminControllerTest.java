@@ -42,8 +42,8 @@ class AdminControllerTest {
     }
 
     @Test
-    public void testGetListMentors() throws Exception {
-        ArrayList<Mentor> mentors = exampleMentors();
+    void testGetListMentors() throws Exception {
+        List<Mentor> mentors = exampleMentors();
         DAOAdminController adminController = new DAOAdminController(mockConnection, mockDaoAdmin);
         URI uriAdminControllerForMentors = URI.create("/daoAdminController?Method=Mentors");
         OutputStream actualOutputStream = new ByteArrayOutputStream();
@@ -55,6 +55,21 @@ class AdminControllerTest {
 
         adminController.handle(mockHttpExchange);
 
-        assertEquals(outputStream.toString(), mentors.toString());
+        assertOutputStreamWithListMentors(actualOutputStream, mentors);
+    }
+
+    private void assertOutputStreamWithListMentors(OutputStream outputStream, List<Mentor> mentors) {
+        String[] mentorsAsString = outputStream.toString().split("},\\{");
+        String[] mentorAsString;
+
+        assertEquals(mentorsAsString.length, mentors.size());
+
+        for (int i = 0; i < mentorsAsString.length; i++) {
+            mentorAsString = mentorsAsString[i].split("[\\[:,{\"}\\]]{1,}");
+
+            assertEquals(mentors.get(i).getFirstName(), mentorAsString[2]);
+            assertEquals(mentors.get(i).getLastName(), mentorAsString[6]);
+            assertEquals(mentors.get(i).getIdUser(), Integer.parseInt(mentorAsString[4]));
+        }
     }
 }
