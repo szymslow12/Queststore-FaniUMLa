@@ -4,7 +4,6 @@ import com.codecool.faniUMLa.Queststore.View;
 import com.codecool.faniUMLa.Queststore.model.Quest;
 import com.codecool.faniUMLa.Queststore.model.store.Artifact;
 import com.codecool.faniUMLa.Queststore.model.users.Codecooler;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -159,8 +158,8 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void createStudent(List<String> studentData) {
-        helper.addUserToDatabase((ArrayList)studentData);
-        helper.updateStudents((ArrayList)studentData);}
+        helper.addUserToDatabase(studentData);
+        helper.updateStudents(studentData);}
 
     public boolean markQuestDone() {
         try {
@@ -184,7 +183,7 @@ public class DAOMentor implements DAOMentorInterface {
     }
 
     public void seeCodecoolersWallet() {
-        ResultSet result = null;
+        ResultSet result;
         List<String> fullLineList = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(helper.getCodecoolersWalletsQuery());

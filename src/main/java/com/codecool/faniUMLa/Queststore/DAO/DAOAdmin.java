@@ -28,12 +28,12 @@ public class DAOAdmin implements DAOAdminInterface {
         return helper.getAllClasses();
     }
 
-    public ArrayList<Level> getAllLevels() {
+    public List<Level> getAllLevels() {
         return helper.getAllLevels();
     }
 
-    public ArrayList<Mentor> getAllMentors() {
-        ArrayList<Mentor> mentorsList = new ArrayList<>();
+    public List<Mentor> getAllMentors() {
+        List<Mentor> mentorsList = new ArrayList<>();
         ResultSet rs;
         PreparedStatement query;
         String ALL_MENTORS = " SELECT * FROM users WHERE user_access = 'MENTOR'";
@@ -55,12 +55,12 @@ public class DAOAdmin implements DAOAdminInterface {
         }
 
     public Mentor getMentor(int index) {
-        ArrayList<Mentor> mentorsList;
+        List<Mentor> mentorsList;
         mentorsList = getAllMentors();
         return mentorsList.get(index);
     }
 
-    public void createMentor(ArrayList <String> userData) {
+    public void createMentor(List <String> userData) {
         helper.addUserToDataBase(userData);
         helper.updateMentors(userData);
         helper.updateMentors_classes(userData);

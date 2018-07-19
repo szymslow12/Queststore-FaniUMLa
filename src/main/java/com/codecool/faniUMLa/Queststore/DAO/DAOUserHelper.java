@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DAOUserHelper {
     private Connection connection;
@@ -19,15 +20,15 @@ public class DAOUserHelper {
             "WHERE id_user =  ?";
     private final String GET_CODECOOLER = "SELECT * FROM users INNER JOIN codecoolers ON (users.id_user = codecoolers.id_user) WHERE users.id_user =  ?";
 
-    public DAOUserHelper(Connection connection) {
+    DAOUserHelper(Connection connection) {
         this.connection = connection;
     }
 
-    public User getIfExist(String login, String password) {
+    User getIfExist(String login, String password) {
         User user = null;
         ResultSet rs;
         PreparedStatement query;
-        ArrayList accessID = getUserAccessID(login, password);
+        List<String> accessID = getUserAccessID(login, password);
         int accessIndex = 0;
         int idUser = 1;
 
@@ -96,8 +97,8 @@ public class DAOUserHelper {
         return query;
     }
 
-    private ArrayList<String> getUserAccessID(String login, String password) {
-        ArrayList<String> userAccessID = new ArrayList<>();
+    private List<String> getUserAccessID(String login, String password) {
+        List<String> userAccessID = new ArrayList<>();
         ResultSet rs = null;
         try {
             rs = prepareAccessQuery(login, password).executeQuery();
