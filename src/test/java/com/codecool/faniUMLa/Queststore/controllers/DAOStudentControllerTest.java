@@ -112,7 +112,7 @@ class DAOStudentControllerTest {
     }
 
     @Test
-    void testGetArtifactsByCategoryIfListNull() {
+    void testGetArtifactsByCategoryIfArtifactListIsEmpty() {
         int categoryId = 1;
 
         List<Artifact> artifactList = new ArrayList<>();
