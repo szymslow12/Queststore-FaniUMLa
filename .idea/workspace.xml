@@ -14,7 +14,7 @@
     <SUITE FILE_PATH="coverage/Queststore_FaniUMLa$com_codecool_faniUMLa_Queststore_DAO_in_Queststore.ic" NAME="com.codecool.faniUMLa.Queststore.DAO in Queststore Coverage Results" MODIFIED="1531919839719" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.codecool.faniUMLa.Queststore.DAO.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Queststore_FaniUMLa$All_in_Queststore.ic" NAME="All in Queststore Coverage Results" MODIFIED="1532027064749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Queststore_FaniUMLa$All_in_Queststore.ic" NAME="All in Queststore Coverage Results" MODIFIED="1532027892987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Queststore_FaniUMLa$DAOCodecoolerTest.ic" NAME="DAOCodecoolerTest Coverage Results" MODIFIED="1531987443890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.codecool.faniUMLa.Queststore.DAO.*</FILTER>
     </SUITE>
@@ -137,7 +137,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="10" />
     <option name="y" value="18" />
     <option name="width" value="1356" />
@@ -304,7 +304,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DAOCodecoolerTest">
+  <component name="RunManager" selected="JUnit.All in Queststore">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -433,6 +433,16 @@
       </option>
       <patterns />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <module name="" />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -456,6 +466,7 @@
       <listeners />
     </configuration>
     <list>
+      <item itemvalue="JUnit.RunAllTest" />
       <item itemvalue="JUnit.DAOStudentControllerTest.testGetArtifactsByCategoryIfListNull" />
       <item itemvalue="JUnit.All in Queststore" />
       <item itemvalue="JUnit.DAOStudentControllerTest.testGenerateResponseOfInventory" />
@@ -464,8 +475,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DAOCodecoolerTest" />
         <item itemvalue="JUnit.All in Queststore" />
+        <item itemvalue="JUnit.DAOCodecoolerTest" />
         <item itemvalue="JUnit.DAOStudentControllerTest" />
         <item itemvalue="JUnit.DAOStudentControllerTest.testGenerateResponseOfInventory" />
         <item itemvalue="JUnit.DAOStudentControllerTest.testGetArtifactsByCategoryIfListNull" />
