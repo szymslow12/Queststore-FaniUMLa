@@ -12,12 +12,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller extends DBConnectionController {
-    public Connection connection = connect();
+    public Connection connection;
     View view = new View();
     Scanner scanner = new Scanner(System.in);
     private static User user;
     DAOUserInterface daoUser = new DAOUser(connection);
 
+    Controller(Connection connection) {
+        this.connection = connection;
+    }
+
+    Controller() {
+        this.connection = connect();
+    }
     public void signIn() {
         String login = askLogin();
         String password = askPassword();

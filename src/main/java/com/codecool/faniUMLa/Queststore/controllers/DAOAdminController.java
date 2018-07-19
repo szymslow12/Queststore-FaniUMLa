@@ -13,10 +13,20 @@ import org.json.JSONObject;
 
 
 import java.io.*;
+import java.sql.Connection;
 import java.util.*;
 
 public class DAOAdminController extends UriController implements HttpHandler {
-    DAOAdminInterface daoAdmin = new DAOAdmin(connection);
+    DAOAdminInterface daoAdmin;
+
+    DAOAdminController(Connection connection, DAOAdmin daoAdmin) {
+        super(connection);
+        this.daoAdmin = daoAdmin;
+    }
+
+    public DAOAdminController() {
+        daoAdmin = new DAOAdmin(connection);
+    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -66,22 +76,22 @@ public class DAOAdminController extends UriController implements HttpHandler {
             }
         }
 
-            httpExchange.sendResponseHeaders(200, response.length());
-            OutputStream os = httpExchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-        }
+        httpExchange.sendResponseHeaders(200, response.length());
+        OutputStream os = httpExchange.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
+    }
 
-        public String createLevel(HttpExchange httpExchange) throws IOException {
+    public String createLevel(HttpExchange httpExchange) throws IOException {
 
-            Map inputs = getInputs(httpExchange);
+        Map inputs = getInputs(httpExchange);
 
-            String levelName = String.valueOf(inputs.get("Level+Name"));
-            Integer thresholdLevel = Integer.valueOf((String)inputs.get("Level+Threshold"));
+        String levelName = String.valueOf(inputs.get("Level+Name"));
+        Integer thresholdLevel = Integer.valueOf((String)inputs.get("Level+Threshold"));
 
-            daoAdmin.createLevel(levelName, thresholdLevel);
-            return this.getFile("html/admin/Levels.html");
-        }
+        daoAdmin.createLevel(levelName, thresholdLevel);
+        return this.getFile("html/admin/Levels.html");
+    }
 
     public String createClass(HttpExchange httpExchange) throws IOException {
 

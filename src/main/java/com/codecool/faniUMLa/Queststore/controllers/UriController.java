@@ -4,11 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class UriController extends AppController {
+    UriController(Connection connection) {
+        super(connection);
+        this.connection = connection;
+    }
+
+    UriController() {
+    }
+
     public String getSubSite(String query) {
         String[] entry = query.split("[?=]");
         return entry[1];
