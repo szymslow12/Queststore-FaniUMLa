@@ -12,9 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -26,14 +25,10 @@ class AdminControllerTest {
     private DAOAdmin mockDaoAdmin;
     @Mock
     private Connection mockConnection;
-    @Mock
-    private PreparedStatement mockPreparedStmnt;
-    @Mock
-    private ResultSet mockResultSet;
 
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
